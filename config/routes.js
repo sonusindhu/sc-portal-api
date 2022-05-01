@@ -36,4 +36,7 @@ module.exports.routes = {
 
   "POST /api/v1/auth/send-password": { action: "auth/sendpassword" },
   "POST /api/v1/auth/update-password": { action: "auth/updatepassword" },
+
+  // Company Routes
+  "POST /api/v1/app/company/create": { action: "company/create" },
 };
