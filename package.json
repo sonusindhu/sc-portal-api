@@ -6,9 +6,11 @@
   "keywords": [],
   "dependencies": {
     "@sailshq/lodash": "^3.10.3",
+    "@touch4it/sails-hook-validator": "^2.4.0",
     "bcrypt": "^5.0.1",
     "jsonwebtoken": "^8.5.1",
     "sails": "^1.5.2",
+    "sails-hook-organics": "^2.2.0",
     "sails-hook-orm": "^4.0.0",
     "sails-hook-sockets": "^2.0.0",
     "sails-mysql": "^2.0.0"
