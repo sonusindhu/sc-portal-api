@@ -86,15 +86,17 @@ module.exports = {
     mainContact: {
       model: "contact",
     },
+    createdBy: {
+      model: "user",
+    },
+    updatedBy: {
+      model: "user",
+    },
+
+    // relation
     contacts: {
       collection: "contact",
       via: "companyId",
-    },
-    createdBy: {
-      type: "number",
-    },
-    updatedBy: {
-      type: "number",
     },
   },
 };

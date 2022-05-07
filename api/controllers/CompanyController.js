@@ -11,9 +11,22 @@ module.exports = {
   listView: async (req, res) => {
     const payload = req.body;
 
-    const companies = await Company.find()
+    let companies = await Company.find()
       .limit(payload.take)
-      .skip(payload.skip);
+      .skip(payload.skip)
+      .populate("createdBy")
+      .populate("updatedBy");
+
+    if (companies && companies.length) {
+      companies = companies.map((company) => {
+        return {
+          ...company,
+          createdBy: company.createdBy?.fullName || "",
+          updatedBy: company.updatedBy?.fullName || "",
+        };
+      });
+    }
+
     const total = await Company.count();
     return res.send({
       status: false,
