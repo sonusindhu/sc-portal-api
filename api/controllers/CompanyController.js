@@ -10,8 +10,8 @@ const CompanyService = require("../services/CompanyService");
 module.exports = {
   listView: async (req, res) => {
     const payload = req.body;
-
-    const sort = payload.sort.length ? payload.sort : [{ id: "asc" }];
+    console.log(payload);
+    const sort = payload.sort.length > 0 ? payload.sort : [{ id: "asc" }];
 
     let companies = await Company.find()
       .sort(sort)
