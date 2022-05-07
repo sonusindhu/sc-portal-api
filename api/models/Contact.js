@@ -7,7 +7,7 @@
 
 module.exports = {
   tableName: "contacts",
-  migrate: "safe",
+  migrate: "alter",
   attributes: {
     firstName: {
       type: "string",
@@ -26,21 +26,17 @@ module.exports = {
     email: {
       type: "string",
       required: true,
-      unique: true,
+      // unique: true,
       isEmail: true,
       maxLength: 250,
     },
     companyId: {
       model: "company",
+      required: true,
     },
     status: {
       type: "string",
       maxLength: 10,
-      allowNull: true,
-    },
-    role: {
-      type: "string",
-      maxLength: 50,
       allowNull: true,
     },
     department: {
@@ -98,11 +94,15 @@ module.exports = {
       maxLength: 15,
       allowNull: true,
     },
+    isDeleted: {
+      type: "boolean",
+      defaultsTo: false,
+    },
     createdBy: {
-      type: "number",
+      model: "user",
     },
     updatedBy: {
-      type: "number",
+      model: "user",
     },
   },
 };

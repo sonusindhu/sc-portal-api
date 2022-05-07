@@ -92,6 +92,10 @@ module.exports = {
     updatedBy: {
       model: "user",
     },
+    isDeleted: {
+      type: "boolean",
+      defaultsTo: false,
+    },
 
     // relation
     contacts: {

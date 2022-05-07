@@ -26,6 +26,7 @@ module.exports = {
           ...company,
           createdBy: company.createdBy?.fullName || "",
           updatedBy: company.updatedBy?.fullName || "",
+          updatedAt: company.updatedBy?.id ? company.updatedAt : null,
         };
       });
     }
