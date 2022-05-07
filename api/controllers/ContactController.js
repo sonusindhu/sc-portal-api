@@ -58,7 +58,7 @@ module.exports = {
       });
     }
 
-    Contact.create(payload).exec(function (err, response) {
+    Contact.create(payload).exec(async (err) => {
       if (err) {
         let message = "Form doesn't valid";
         if (err.code == "E_UNIQUE") {
@@ -66,10 +66,11 @@ module.exports = {
         }
         return res.send({ status: false, message, err });
       }
+      const contact = await Contact.findOne({ email: payload.email });
       return res.send({
         status: false,
         message: "Contact has been successfully created.",
-        result: response,
+        result: contact,
       });
     });
   },

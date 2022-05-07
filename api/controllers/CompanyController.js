@@ -65,7 +65,7 @@ module.exports = {
       });
     }
 
-    Company.create(payload).exec(function (err, response) {
+    Company.create(payload).exec(async (err) => {
       if (err) {
         let message = "Form doesn't valid";
         if (err.code == "E_UNIQUE") {
@@ -73,10 +73,12 @@ module.exports = {
         }
         return res.send({ status: false, message, err });
       }
+
+      const company = await Company.findOne({ email: payload.email });
       return res.send({
         status: false,
         message: "Company has been successfully created.",
-        result: response,
+        result: company,
       });
     });
   },
