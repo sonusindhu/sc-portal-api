@@ -8,7 +8,20 @@
 const CompanyService = require("../services/CompanyService");
 
 module.exports = {
-  listView: async (req, res) => {},
+  listView: async (req, res) => {
+    const payload = req.body;
+
+    const companies = await Company.find()
+      .limit(payload.take)
+      .skip(payload.skip);
+    const total = await Company.count();
+    return res.send({
+      status: false,
+      message: `Company list fetched successfully.`,
+      result: companies,
+      total,
+    });
+  },
 
   create: async (req, res) => {
     const data = req.body;
@@ -46,7 +59,7 @@ module.exports = {
       return res.send({
         status: false,
         message: "Company has been successfully created.",
-        data: response,
+        result: response,
       });
     });
   },
@@ -106,7 +119,7 @@ module.exports = {
         return res.send({
           status: false,
           message: "Company has been updated successfully.",
-          data: response,
+          result: response,
         });
       });
   },
@@ -126,7 +139,7 @@ module.exports = {
     return res.send({
       status: true,
       message: "Company has been fetched successfully.",
-      data: company,
+      result: company,
     });
   },
 

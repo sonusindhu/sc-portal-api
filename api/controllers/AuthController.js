@@ -51,7 +51,7 @@ module.exports = {
       User.comparePassword(data.password, user.password)
         .then(() => {
           res.send({
-            data: {
+            result: {
               token: AuthService.generateAuthToken({ id: user.id }),
               fullName: user.fullName,
             },
