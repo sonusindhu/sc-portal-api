@@ -11,7 +11,10 @@ module.exports = {
   listView: async (req, res) => {
     const payload = req.body;
 
+    const sort = payload.sort.length ? payload.sort : [{ id: "asc" }];
+
     let companies = await Company.find()
+      .sort(sort)
       .limit(payload.take)
       .skip(payload.skip)
       .populate("createdBy")
