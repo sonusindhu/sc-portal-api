@@ -5,48 +5,130 @@
  * @help        :: See https://sailsjs.com/docs/concepts/actions
  */
 
+const CompanyService = require("../services/CompanyService");
+
 module.exports = {
   listView: async (req, res) => {},
 
   create: async (req, res) => {
-    const userId = req.token.id;
     const data = req.body;
-    const payload = {
-      name: data.name,
-      email: data.email,
-      type: data.type,
-      status: data.status,
-      phone: data.phone,
-      extension: data.extension,
-      address1: data.address1,
-      address2: data.address2,
-      city: data.city,
-      state: data.state,
-      zipcode: data.zipcode,
-      country: data.country,
-      employeesCount: data.employeesCount,
-      revenue: data.revenue,
-      createdBy: userId,
-    };
+    const payload = CompanyService.mapCompanyPayload(data);
+    payload.createdBy = req.token.id;
 
-    Company.create(payload).exec(function (err, user) {
+    // Look up the user with this reset token.
+    const companyByName = await Company.findOne({ name: data.name });
+    // If no such user exists, or their token is expired, bail.
+    if (companyByName) {
+      return res.send({
+        status: false,
+        message: `Company name is already taken.`,
+      });
+    }
+
+    // Look up the user with this reset token.
+    const companyByEmail = await Company.findOne({ email: data.email });
+    // If no such user exists, or their token is expired, bail.
+    if (companyByEmail) {
+      return res.send({
+        status: false,
+        message: `Company email is already taken.`,
+      });
+    }
+
+    Company.create(payload).exec(function (err, response) {
       if (err) {
-        let message = "Form is not valid";
+        let message = "Form doesn't valid";
         if (err.code == "E_UNIQUE") {
           message = "Email is already exists";
         }
-        res.send({ status: false, message, err });
+        return res.send({ status: false, message, err });
       }
       return res.send({
         status: false,
-        message: "Company is successfully created.",
+        message: "Company has been successfully created.",
+        data: response,
       });
     });
   },
 
-  update: async () => {},
+  update: async (req, res) => {
+    const data = req.body;
+    const payload = CompanyService.mapCompanyPayload(data);
+    payload.updatedBy = req.token.id;
 
-  findById: async () => {},
+    // Look up the user with this reset token.
+    const company = await Company.findOne({ id: data.id });
+
+    // If no such user exists, or their token is expired, bail.
+    if (!company) {
+      return res.send({
+        status: false,
+        message: `Company doesn't exist or deleted.`,
+      });
+    }
+
+    // Look up the user with this reset token.
+    const companyByName = await Company.findOne({
+      id: { "!=": data.id },
+      name: data.name,
+    });
+    // If no such user exists, or their token is expired, bail.
+    if (companyByName) {
+      return res.send({
+        status: false,
+        message: `Company name is already taken.`,
+      });
+    }
+
+    // Look up the user with this reset token.
+    const companyByEmail = await Company.findOne({
+      id: { "!=": data.id },
+      email: data.email,
+    });
+    // If no such user exists, or their token is expired, bail.
+    if (companyByEmail) {
+      return res.send({
+        status: false,
+        message: `Company email is already taken.`,
+      });
+    }
+
+    Company.updateOne({ id: data.id })
+      .set(payload)
+      .exec(function (err, response) {
+        if (err) {
+          let message = "Form is not valid";
+          if (err.code == "E_UNIQUE") {
+            message = "Email is already exists";
+          }
+          return res.send({ status: false, message, err });
+        }
+        return res.send({
+          status: false,
+          message: "Company has been updated successfully.",
+          data: response,
+        });
+      });
+  },
+
+  findById: async (req, res) => {
+    // Look up the user with this reset token.
+    const company = await Company.findOne({ id: req.param("id") });
+
+    // If no such user exists, or their token is expired, bail.
+    if (!company) {
+      return res.send({
+        status: false,
+        message: `Company doesn't exist or deleted.`,
+      });
+    }
+
+    return res.send({
+      status: true,
+      message: "Company has been fetched successfully.",
+      data: company,
+    });
+  },
 
   delete: async () => {},
 };

@@ -5,6 +5,8 @@
  * @docs        :: https://sailsjs.com/docs/concepts/models-and-orm/models
  */
 
+const AuthService = require("../services/AuthService");
+
 module.exports = {
   tableName: "companies",
   migrate: "safe",
@@ -12,14 +14,14 @@ module.exports = {
   attributes: {
     name: {
       type: "string",
-      unique: true,
+      // unique: true,
       required: true,
       maxLength: 200,
     },
     email: {
       type: "string",
       required: true,
-      unique: true,
+      // unique: true,
       isEmail: true,
       maxLength: 250,
     },

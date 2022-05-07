@@ -4,12 +4,11 @@ const AuthService = require("../services/AuthService");
 
 module.exports = (req, res, next) => {
   let token;
-
-  console.log(req.headers);
   if (req.headers && req.headers.token) {
     token = req.headers.token;
-    if (token.length <= 0)
+    if (token.length <= 0) {
       return res.json(401, { err: "Format is Authorization: Bearer [token]" });
+    }
   } else if (req.param("token")) {
     token = req.param("token");
     // We delete the token from param to not mess with blueprints

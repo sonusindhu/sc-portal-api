@@ -39,4 +39,6 @@ module.exports.routes = {
 
   // Company Routes
   "POST /api/v1/app/company/create": { action: "company/create" },
+  "POST /api/v1/app/company/update": { action: "company/update" },
+  "GET /api/v1/app/company/find/:id": { action: "company/findById" },
 };
