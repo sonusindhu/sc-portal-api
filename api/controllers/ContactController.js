@@ -68,7 +68,7 @@ module.exports = {
       }
       const contact = await Contact.findOne({ email: payload.email });
       return res.send({
-        status: false,
+        status: true,
         message: "Contact has been successfully created.",
         result: contact,
       });
@@ -115,7 +115,7 @@ module.exports = {
           return res.send({ status: false, message, err });
         }
         return res.send({
-          status: false,
+          status: true,
           message: "Contact has been updated successfully.",
           result: response,
         });

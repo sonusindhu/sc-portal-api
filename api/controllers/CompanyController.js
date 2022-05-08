@@ -76,7 +76,7 @@ module.exports = {
 
       const company = await Company.findOne({ email: payload.email });
       return res.send({
-        status: false,
+        status: true,
         message: "Company has been successfully created.",
         result: company,
       });
@@ -136,7 +136,7 @@ module.exports = {
           return res.send({ status: false, message, err });
         }
         return res.send({
-          status: false,
+          status: true,
           message: "Company has been updated successfully.",
           result: response,
         });
