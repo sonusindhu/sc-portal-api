@@ -8,9 +8,17 @@
 const CompanyService = require("../services/CompanyService");
 
 module.exports = {
+  listOfNames: async (req, res) => {
+    let companies = await Company.find().select(["id", "name"]);
+    return res.send({
+      status: true,
+      message: `Company list fetched successfully.`,
+      result: companies,
+    });
+  },
+
   listView: async (req, res) => {
     const payload = req.body;
-    console.log(payload);
     const sort = payload.sort.length > 0 ? payload.sort : [{ id: "asc" }];
 
     let companies = await Company.find()
@@ -33,7 +41,7 @@ module.exports = {
 
     const total = await Company.count();
     return res.send({
-      status: false,
+      status: true,
       message: `Company list fetched successfully.`,
       result: companies,
       total,
