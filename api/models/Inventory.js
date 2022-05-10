@@ -12,6 +12,10 @@ module.exports = {
   migrate: "alter",
 
   attributes: {
+    packageId: {
+      type: "string",
+      maxLength: 50,
+    },
     trackingNumber: {
       type: "string",
       required: true,

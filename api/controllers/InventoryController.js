@@ -57,6 +57,22 @@ module.exports = {
       });
     }
 
+    const lastInventory = await Inventory.find()
+      .sort([{ id: "desc" }])
+      .limit(1)
+      .select(["id"]);
+
+    let oldId = 1;
+    if (lastInventory && lastInventory.length > 0) {
+      oldId = lastInventory[0].id + 1;
+    }
+
+    const dt = new Date();
+    const uniqueId =
+      dt.getFullYear() + "" + (dt.getMonth() + 1) + "" + dt.getDate();
+
+    payload.packageId = `PID${uniqueId}${oldId}`;
+
     Inventory.create(payload).exec(async (err) => {
       if (err) {
         let message = "Form doesn't valid";
