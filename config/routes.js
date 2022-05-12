@@ -43,6 +43,8 @@ module.exports.routes = {
   "GET /api/v1/app/company/find/:id": { action: "company/findById" },
   "POST /api/v1/app/company/list": { action: "company/listView" },
   "GET /api/v1/app/company/listOfNames": { action: "company/listOfNames" },
+  "DELETE /api/v1/app/company/delete/:id": { action: "company/delete" },
+  "POST /api/v1/app/company/deleteRange": { action: "company/deleteRange" },
 
   // Contact Routes
   "POST /api/v1/app/contact/create": { action: "contact/create" },
