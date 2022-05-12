@@ -170,5 +170,29 @@ module.exports = {
     });
   },
 
-  delete: async () => {},
+  delete: async (req, res) => {
+    Company.destroyOne({ id: req.param("id") }).exec(function (err) {
+      return res.send({
+        status: true,
+        message: "Company has been delete successfully.",
+      });
+    });
+  },
+
+  deleteRange: async (req, res) => {
+    if (req.body && req.body.ids && req.body.ids.length) {
+      const ids = req.body.ids;
+      Company.destroy(ids).exec(() => {
+        return res.send({
+          status: true,
+          message: "Company has been delete successfully.",
+        });
+      });
+    }
+
+    return res.send({
+      status: true,
+      message: "Company has been delete successfully.",
+    });
+  },
 };
