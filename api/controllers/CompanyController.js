@@ -185,14 +185,14 @@ module.exports = {
       Company.destroy(ids).exec(() => {
         return res.send({
           status: true,
-          message: "Company has been delete successfully.",
+          message: "Company(ies) have been delete successfully.",
         });
       });
     }
 
     return res.send({
       status: true,
-      message: "Company has been delete successfully.",
+      message: "Company(ies) have been delete successfully.",
     });
   },
 };
