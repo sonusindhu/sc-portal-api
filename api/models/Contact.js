@@ -7,7 +7,7 @@
 
 module.exports = {
   tableName: "contacts",
-  migrate: "alter",
+  migrate: "safe",
   attributes: {
     firstName: {
       type: "string",

@@ -9,7 +9,7 @@ const AuthService = require("../services/AuthService");
 
 module.exports = {
   tableName: "inventories",
-  migrate: "alter",
+  migrate: "safe",
 
   attributes: {
     packageId: {
