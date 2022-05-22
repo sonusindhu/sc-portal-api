@@ -141,5 +141,29 @@ module.exports = {
     });
   },
 
-  delete: async () => {},
+  delete: async (req, res) => {
+    Contact.stroyOne({ id: req.param("id") }).exec(function (err) {
+      return res.send({
+        status: true,
+        message: "Contact has been delete successfully.",
+      });
+    });
+  },
+
+  deleteRange: async (req, res) => {
+    if (req.body && req.body.ids && req.body.ids.length) {
+      const ids = req.body.ids;
+      Contact.stroy(ids).exec(() => {
+        return res.send({
+          status: true,
+          message: "Contact(s) have been delete successfully.",
+        });
+      });
+    }
+
+    return res.send({
+      status: true,
+      message: "Contact(s) have been delete successfully.",
+    });
+  },
 };
