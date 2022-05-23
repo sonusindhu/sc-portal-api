@@ -11,14 +11,26 @@ module.exports = {
   listView: async (req, res) => {
     const payload = req.body;
     const sort = payload.sort.length > 0 ? payload.sort : [{ id: "asc" }];
-
-    let inventories = await Inventory.find()
-      .populate("company")
-      .populate("createdBy")
-      .populate("updatedBy")
-      .sort(sort)
-      .skip(payload.skip)
-      .limit(payload.take);
+    let inventories;
+    if (filterQuery) {
+      inventories = await Inventory.find({
+        where: filterQuery,
+      })
+        .populate("company")
+        .populate("createdBy")
+        .populate("updatedBy")
+        .sort(sort)
+        .skip(payload.skip)
+        .limit(payload.take);
+    } else {
+      inventories = await Inventory.find()
+        .populate("company")
+        .populate("createdBy")
+        .populate("updatedBy")
+        .sort(sort)
+        .skip(payload.skip)
+        .limit(payload.take);
+    }
 
     if (inventories && inventories.length) {
       inventories = inventories.map((inventory) => {
