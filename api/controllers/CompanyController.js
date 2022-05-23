@@ -32,7 +32,6 @@ module.exports = {
 
     let companies;
     if (filterQuery) {
-      console.log(filterQuery);
       companies = await Company.find({
         where: filterQuery,
       })
