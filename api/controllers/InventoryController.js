@@ -11,6 +11,15 @@ module.exports = {
   listView: async (req, res) => {
     const payload = req.body;
     const sort = payload.sort.length > 0 ? payload.sort : [{ id: "asc" }];
+
+    let filterQuery;
+    if (filter?.filters?.length) {
+      filterQuery = GridService.createQueryFromFilter(
+        filter.filters,
+        filter.logic
+      );
+    }
+
     let inventories;
     if (filterQuery) {
       inventories = await Inventory.find({
