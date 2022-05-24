@@ -10,57 +10,45 @@ const InventoryService = require("../services/InventoryService");
 module.exports = {
   listView: async (req, res) => {
     const payload = req.body;
-    const sort = payload.sort.length > 0 ? payload.sort : [{ id: "asc" }];
-
-    const filter = payload.filter;
-    let filterQuery;
-    if (filter?.filters?.length) {
-      filterQuery = GridService.createQueryFromFilter(
-        filter.filters,
-        filter.logic
-      );
-    }
-
-    let inventories;
-    if (filterQuery) {
-      inventories = await Inventory.find({
-        where: filterQuery,
-      })
-        .populate("company")
-        .populate("createdBy")
-        .populate("updatedBy")
-        .sort(sort)
-        .skip(payload.skip)
-        .limit(payload.take);
-    } else {
-      inventories = await Inventory.find()
-        .populate("company")
-        .populate("createdBy")
-        .populate("updatedBy")
-        .sort(sort)
-        .skip(payload.skip)
-        .limit(payload.take);
-    }
-
-    if (inventories && inventories.length) {
-      inventories = inventories.map((inventory) => {
-        return {
-          ...inventory,
-          companyId: inventory.company?.id || null,
-          company: inventory.company?.name || "",
-          createdBy: inventory.createdBy?.fullName || "",
-          updatedBy: inventory.updatedBy?.fullName || "",
-          updatedAt: inventory.updatedBy?.id ? inventory.updatedAt : null,
-        };
+    const sortMap = payload.sort.join(",");
+    const sort = sortMap || `createdAt desc`;
+    const filterQuery = GridService.mapListFilterSql(payload.filter);
+    const query = `SELECT * FROM view_inventory_list ${filterQuery} ORDER BY ${sort} LIMIT ${payload.skip}, ${payload.take}`;
+    const data = await sails.sendNativeQuery(query).intercept((err) => {
+      return res.send({
+        status: false,
+        message: err?.raw?.error?.sqlMessage || err.code,
       });
-    }
+    });
+    // let inventories = await Inventory.find({
+    //   ...filterQuery,
+    //   isDeleted: false,
+    // })
+    //   .populate("company")
+    //   .populate("createdBy")
+    //   .populate("updatedBy")
+    //   .sort(sort)
+    //   .skip(payload.skip)
+    //   .limit(payload.take);
+    // if (inventories && inventories.length) {
+    // inventories = inventories.map((inventory) => {
+    //   return {
+    //     ...inventory,
+    //     companyId: inventory.company?.id || null,
+    //     company: inventory.company?.name || "",
+    //     createdBy: inventory.createdBy?.fullName || "",
+    //     updatedBy: inventory.updatedBy?.fullName || "",
+    //     updatedAt: inventory.updatedBy?.id ? inventory.updatedAt : null,
+    //   };
+    // });
+    // }
 
-    const total = await Inventory.count();
+    // const total = await Inventory.count();
     return res.send({
       status: true,
       message: `Inventory list fetched successfully.`,
-      result: inventories,
-      total,
+      result: data?.rows || [],
+      total: data?.rows?.length,
     });
   },
 
