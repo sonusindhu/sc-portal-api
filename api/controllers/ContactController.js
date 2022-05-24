@@ -10,16 +10,35 @@ const ContactService = require("../services/ContactService");
 module.exports = {
   listView: async (req, res) => {
     const payload = req.body;
-    console.log(payload);
     const sort = payload.sort.length > 0 ? payload.sort : [{ id: "asc" }];
-
-    let contacts = await Contact.find()
-      .sort(sort)
-      .limit(payload.take)
-      .skip(payload.skip)
-      .populate("companyId")
-      .populate("createdBy")
-      .populate("updatedBy");
+    const filter = payload.filter;
+    let filterQuery;
+    if (filter?.filters?.length) {
+      filterQuery = GridService.createQueryFromFilter(
+        filter.filters,
+        filter.logic
+      );
+    }
+    let contacts;
+    if (filterQuery) {
+      contacts = await Contact.find({
+        where: filterQuery,
+      })
+        .sort(sort)
+        .limit(payload.take)
+        .skip(payload.skip)
+        .populate("companyId")
+        .populate("createdBy")
+        .populate("updatedBy");
+    } else {
+      contacts = await Contact.find()
+        .sort(sort)
+        .limit(payload.take)
+        .skip(payload.skip)
+        .populate("companyId")
+        .populate("createdBy")
+        .populate("updatedBy");
+    }
 
     if (contacts && contacts.length) {
       contacts = contacts.map((contact) => {
@@ -141,5 +160,29 @@ module.exports = {
     });
   },
 
-  delete: async () => {},
+  delete: async (req, res) => {
+    Contact.stroyOne({ id: req.param("id") }).exec(function (err) {
+      return res.send({
+        status: true,
+        message: "Contact has been delete successfully.",
+      });
+    });
+  },
+
+  deleteRange: async (req, res) => {
+    if (req.body && req.body.ids && req.body.ids.length) {
+      const ids = req.body.ids;
+      Contact.stroy(ids).exec(() => {
+        return res.send({
+          status: true,
+          message: "Contact(s) have been delete successfully.",
+        });
+      });
+    }
+
+    return res.send({
+      status: true,
+      message: "Contact(s) have been delete successfully.",
+    });
+  },
 };

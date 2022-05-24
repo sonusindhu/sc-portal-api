@@ -51,10 +51,14 @@ module.exports.routes = {
   "POST /api/v1/app/contact/update": { action: "contact/update" },
   "GET /api/v1/app/contact/find/:id": { action: "contact/findById" },
   "POST /api/v1/app/contact/list": { action: "contact/listView" },
+  "DELETE /api/v1/app/contact/delete/:id": { action: "contact/delete" },
+  "POST /api/v1/app/contact/deleteRange": { action: "contact/deleteRange" },
 
   // Contact Routes
   "POST /api/v1/app/inventory/create": { action: "inventory/create" },
   "POST /api/v1/app/inventory/update": { action: "inventory/update" },
   "GET /api/v1/app/inventory/find/:id": { action: "inventory/findById" },
   "POST /api/v1/app/inventory/list": { action: "inventory/listView" },
+  "DELETE /api/v1/app/inventory/delete/:id": { action: "inventory/delete" },
+  "POST /api/v1/app/inventory/deleteRange": { action: "inventory/deleteRange" },
 };

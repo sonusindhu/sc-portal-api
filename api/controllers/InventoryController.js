@@ -11,14 +11,26 @@ module.exports = {
   listView: async (req, res) => {
     const payload = req.body;
     const sort = payload.sort.length > 0 ? payload.sort : [{ id: "asc" }];
-
-    let inventories = await Inventory.find()
-      .populate("company")
-      .populate("createdBy")
-      .populate("updatedBy")
-      .sort(sort)
-      .skip(payload.skip)
-      .limit(payload.take);
+    let inventories;
+    if (filterQuery) {
+      inventories = await Inventory.find({
+        where: filterQuery,
+      })
+        .populate("company")
+        .populate("createdBy")
+        .populate("updatedBy")
+        .sort(sort)
+        .skip(payload.skip)
+        .limit(payload.take);
+    } else {
+      inventories = await Inventory.find()
+        .populate("company")
+        .populate("createdBy")
+        .populate("updatedBy")
+        .sort(sort)
+        .skip(payload.skip)
+        .limit(payload.take);
+    }
 
     if (inventories && inventories.length) {
       inventories = inventories.map((inventory) => {
@@ -156,5 +168,29 @@ module.exports = {
     });
   },
 
-  delete: async () => {},
+  delete: async (req, res) => {
+    Inventory.stroyOne({ id: req.param("id") }).exec(function (err) {
+      return res.send({
+        status: true,
+        message: "Inventory has been delete successfully.",
+      });
+    });
+  },
+
+  deleteRange: async (req, res) => {
+    if (req.body && req.body.ids && req.body.ids.length) {
+      const ids = req.body.ids;
+      Inventory.stroy(ids).exec(() => {
+        return res.send({
+          status: true,
+          message: "Inventory(ies) have been delete successfully.",
+        });
+      });
+    }
+
+    return res.send({
+      status: true,
+      message: "Inventory(ies) have been delete successfully.",
+    });
+  },
 };

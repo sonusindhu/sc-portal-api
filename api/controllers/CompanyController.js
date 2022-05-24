@@ -6,6 +6,7 @@
  */
 
 const CompanyService = require("../services/CompanyService");
+const GridService = require("../services/GridService");
 
 module.exports = {
   listOfNames: async (req, res) => {
@@ -20,13 +21,33 @@ module.exports = {
   listView: async (req, res) => {
     const payload = req.body;
     const sort = payload.sort.length > 0 ? payload.sort : [{ id: "asc" }];
+    const filter = payload.filter;
+    let filterQuery;
+    if (filter?.filters?.length) {
+      filterQuery = GridService.createQueryFromFilter(
+        filter.filters,
+        filter.logic
+      );
+    }
 
-    let companies = await Company.find()
-      .sort(sort)
-      .limit(payload.take)
-      .skip(payload.skip)
-      .populate("createdBy")
-      .populate("updatedBy");
+    let companies;
+    if (filterQuery) {
+      companies = await Company.find({
+        where: filterQuery,
+      })
+        .sort(sort)
+        .limit(payload.take)
+        .skip(payload.skip)
+        .populate("createdBy")
+        .populate("updatedBy");
+    } else {
+      companies = await Company.find()
+        .sort(sort)
+        .limit(payload.take)
+        .skip(payload.skip)
+        .populate("createdBy")
+        .populate("updatedBy");
+    }
 
     if (companies && companies.length) {
       companies = companies.map((company) => {
