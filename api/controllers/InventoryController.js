@@ -12,6 +12,7 @@ module.exports = {
     const payload = req.body;
     const sort = payload.sort.length > 0 ? payload.sort : [{ id: "asc" }];
 
+    const filter = payload.filter;
     let filterQuery;
     if (filter?.filters?.length) {
       filterQuery = GridService.createQueryFromFilter(
