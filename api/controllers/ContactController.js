@@ -10,55 +10,73 @@ const ContactService = require("../services/ContactService");
 module.exports = {
   listView: async (req, res) => {
     const payload = req.body;
-    const sort = payload.sort.length > 0 ? payload.sort : [{ id: "asc" }];
-    const filter = payload.filter;
-    let filterQuery;
-    if (filter?.filters?.length) {
-      filterQuery = GridService.createQueryFromFilter(
-        filter.filters,
-        filter.logic
-      );
-    }
-    let contacts;
-    if (filterQuery) {
-      contacts = await Contact.find({
-        where: filterQuery,
-      })
-        .sort(sort)
-        .limit(payload.take)
-        .skip(payload.skip)
-        .populate("companyId")
-        .populate("createdBy")
-        .populate("updatedBy");
-    } else {
-      contacts = await Contact.find()
-        .sort(sort)
-        .limit(payload.take)
-        .skip(payload.skip)
-        .populate("companyId")
-        .populate("createdBy")
-        .populate("updatedBy");
-    }
 
-    if (contacts && contacts.length) {
-      contacts = contacts.map((contact) => {
-        return {
-          ...contact,
-          companyName: contact.companyId?.name,
-          companyId: contact.companyId?.id,
-          createdBy: contact.createdBy?.fullName || "",
-          updatedBy: contact.updatedBy?.fullName || "",
-          updatedAt: contact.updatedBy?.id ? contact.updatedAt : null,
-        };
+    // const sort = payload.sort.length > 0 ? payload.sort : [{ id: "asc" }];
+    // const filter = payload.filter;
+    // let filterQuery;
+    // if (filter?.filters?.length) {
+    //   filterQuery = GridService.createQueryFromFilter(
+    //     filter.filters,
+    //     filter.logic
+    //   );
+    // }
+    // let contacts;
+    // if (filterQuery) {
+    //   contacts = await Contact.find({
+    //     where: filterQuery,
+    //   })
+    //     .sort(sort)
+    //     .limit(payload.take)
+    //     .skip(payload.skip)
+    //     .populate("companyId")
+    //     .populate("createdBy")
+    //     .populate("updatedBy");
+    // } else {
+    //   contacts = await Contact.find()
+    //     .sort(sort)
+    //     .limit(payload.take)
+    //     .skip(payload.skip)
+    //     .populate("companyId")
+    //     .populate("createdBy")
+    //     .populate("updatedBy");
+    // }
+
+    // if (contacts && contacts.length) {
+    //   contacts = contacts.map((contact) => {
+    //     return {
+    //       ...contact,
+    //       companyName: contact.companyId?.name,
+    //       companyId: contact.companyId?.id,
+    //       createdBy: contact.createdBy?.fullName || "",
+    //       updatedBy: contact.updatedBy?.fullName || "",
+    //       updatedAt: contact.updatedBy?.id ? contact.updatedAt : null,
+    //     };
+    //   });
+    // }
+
+    // const total = await Contact.count();
+    // return res.send({
+    //   status: false,
+    //   message: `Contact list fetched successfully.`,
+    //   result: contacts,
+    //   total,
+    // });
+
+    const sortMap = payload.sort.join(",");
+    const sort = sortMap || `createdAt desc`;
+    const filterQuery = GridService.mapListFilterSql(payload.filter);
+    const query = `SELECT * FROM view_contact_list ${filterQuery} ORDER BY ${sort} LIMIT ${payload.skip}, ${payload.take}`;
+    const data = await sails.sendNativeQuery(query).intercept((err) => {
+      return res.send({
+        status: false,
+        message: err?.raw?.error?.sqlMessage || err.code,
       });
-    }
-
-    const total = await Contact.count();
+    });
     return res.send({
-      status: false,
+      status: true,
       message: `Contact list fetched successfully.`,
-      result: contacts,
-      total,
+      result: data?.rows || [],
+      total: data?.rows?.length,
     });
   },
 
