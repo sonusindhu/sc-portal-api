@@ -6,6 +6,7 @@
  */
 
 const InventoryService = require("../services/InventoryService");
+const GridService = require("../services/GridService");
 
 module.exports = {
   listView: async (req, res) => {
