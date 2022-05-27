@@ -180,10 +180,10 @@ module.exports = {
   },
 
   delete: async (req, res) => {
-    Contact.stroyOne({ id: req.param("id") }).exec(function (err) {
+    Contact.destroyOne({ id: req.param("id") }).exec(function (err) {
       return res.send({
         status: true,
-        message: "Contact has been delete successfully.",
+        message: "Contact has been deleted successfully.",
       });
     });
   },
@@ -191,17 +191,17 @@ module.exports = {
   deleteRange: async (req, res) => {
     if (req.body && req.body.ids && req.body.ids.length) {
       const ids = req.body.ids;
-      Contact.stroy(ids).exec(() => {
+      Contact.destroy(ids).exec(() => {
         return res.send({
           status: true,
-          message: "Contact(s) have been delete successfully.",
+          message: "Contact(s) have been deleted successfully.",
         });
       });
     }
 
     return res.send({
       status: true,
-      message: "Contact(s) have been delete successfully.",
+      message: "Contact(s) have been deleted successfully.",
     });
   },
 };
