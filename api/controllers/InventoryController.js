@@ -168,10 +168,10 @@ module.exports = {
   },
 
   delete: async (req, res) => {
-    Inventory.stroyOne({ id: req.param("id") }).exec(function (err) {
+    Inventory.findOne({ id: req.param("id") }).exec(function (err) {
       return res.send({
         status: true,
-        message: "Inventory has been delete successfully.",
+        message: "Inventory has been deleted successfully.",
       });
     });
   },
@@ -179,17 +179,17 @@ module.exports = {
   deleteRange: async (req, res) => {
     if (req.body && req.body.ids && req.body.ids.length) {
       const ids = req.body.ids;
-      Inventory.stroy(ids).exec(() => {
+      Inventory.find(ids).exec(() => {
         return res.send({
           status: true,
-          message: "Inventory(ies) have been delete successfully.",
+          message: "Inventory(ies) have been deleted successfully.",
         });
       });
     }
 
     return res.send({
       status: true,
-      message: "Inventory(ies) have been delete successfully.",
+      message: "Inventory(ies) have been deleted successfully.",
     });
   },
 };

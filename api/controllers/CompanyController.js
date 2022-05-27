@@ -213,7 +213,7 @@ module.exports = {
     Company.destroyOne({ id: req.param("id") }).exec(function (err) {
       return res.send({
         status: true,
-        message: "Company has been delete successfully.",
+        message: "Company has been deleted successfully.",
       });
     });
   },
@@ -224,14 +224,14 @@ module.exports = {
       Company.destroy(ids).exec(() => {
         return res.send({
           status: true,
-          message: "Company(ies) have been delete successfully.",
+          message: "Company(ies) have been deleted successfully.",
         });
       });
     }
 
     return res.send({
       status: true,
-      message: "Company(ies) have been delete successfully.",
+      message: "Company(ies) have been deleted successfully.",
     });
   },
 };
