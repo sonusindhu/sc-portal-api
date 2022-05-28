@@ -80,6 +80,7 @@ module.exports = {
     isDeleted: {
       type: "boolean",
       defaultsTo: false,
+      allowNull: true,
     },
   },
 };
