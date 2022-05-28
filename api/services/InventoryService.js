@@ -4,7 +4,7 @@ module.exports = {
   mapInventoryPayload: (company) => {
     return {
       trackingNumber: company.trackingNumber,
-      company: company.company,
+      company: company.companyId,
       type: company.type,
       deviceType: company.deviceType,
       status: company.status,
