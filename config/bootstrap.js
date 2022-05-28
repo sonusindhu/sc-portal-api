@@ -9,8 +9,7 @@
  * https://sailsjs.com/config/bootstrap
  */
 
-module.exports.bootstrap = async function() {
-
+module.exports.bootstrap = async function () {
   // By convention, this is a good place to set up fake data during development.
   //
   // For example:
@@ -21,10 +20,53 @@ module.exports.bootstrap = async function() {
   // }
   //
   // await User.createEach([
-  //   { emailAddress: 'ry@example.com', fullName: 'Ryan Dahl', },
-  //   { emailAddress: 'rachael@example.com', fullName: 'Rachael Shaw', },
-  //   // etc.
+  //   {
+  //     email: "sonupnf@gmail.com",
+  //     fullName: "Sonu Sindhu",
+  //     firstName: "Sonu",
+  //     lastName: "Sindhu",
+  //     password: "sonu@123",
+  //   },
+  //   {
+  //     email: "info@sonusindhu.com",
+  //     fullName: "Sonu Sindhu",
+  //     firstName: "Sonu",
+  //     lastName: "Test",
+  //     password: "sonu@123",
+  //   },
   // ]);
-  // ```
-
+  // await Company.createEach([
+  //   {
+  //     name: "Infosys",
+  //     email: "info@infosys.com",
+  //     type: "customer",
+  //     status: "active",
+  //     revenue: 24500,
+  //     employeesCount: 201,
+  //   },
+  // ]);
+  // await Contact.createEach([
+  //   {
+  //     email: "sonupnf@gmail.com",
+  //     fullName: "Sonu Sindhu",
+  //     firstName: "Sonu",
+  //     lastName: "Sindhu",
+  //     companyId: 1,
+  //     status: "active",
+  //     jobTitle: "Lead",
+  //   },
+  // ]);
+  // await Inventory.createEach([
+  //   {
+  //     trackingNumber: "TRK11000011-1",
+  //     type: "parcel",
+  //     deviceType: "parcel",
+  //     status: "active",
+  //     company: 1,
+  //     length: 10,
+  //     width: 15,
+  //     height: 15,
+  //     weight: 105,
+  //   },
+  // ]);
 };
