@@ -8,5 +8,9 @@
   },
   "hooks": {
     "grunt": false
+  },
+  "paths": {
+    "tmp": "assets",
+    "public": "assets"
   }
 }

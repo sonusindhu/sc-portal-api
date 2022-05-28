@@ -13,6 +13,7 @@
     "sails-hook-organics": "^2.2.0",
     "sails-hook-orm": "^4.0.0",
     "sails-hook-sockets": "^2.0.0",
+    "sails-hook-swagger-generator": "^3.3.0",
     "sails-mysql": "^2.0.0"
   },
   "devDependencies": {
