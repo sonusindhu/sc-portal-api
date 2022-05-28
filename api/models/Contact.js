@@ -97,6 +97,7 @@ module.exports = {
     isDeleted: {
       type: "boolean",
       defaultsTo: false,
+      allowNull: true,
     },
     createdBy: {
       model: "user",
