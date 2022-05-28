@@ -61,4 +61,12 @@ module.exports.routes = {
   "POST /api/v1/app/inventory/list": { action: "inventory/listView" },
   "DELETE /api/v1/app/inventory/delete/:id": { action: "inventory/delete" },
   "POST /api/v1/app/inventory/deleteRange": { action: "inventory/deleteRange" },
+
+  // Quote Routes
+  "POST /api/v1/app/quote/create": { action: "quote/create" },
+  "POST /api/v1/app/quote/update": { action: "quote/update" },
+  "GET /api/v1/app/quote/find/:id": { action: "quote/findById" },
+  "POST /api/v1/app/quote/list": { action: "quote/listView" },
+  "DELETE /api/v1/app/quote/delete/:id": { action: "quote/delete" },
+  "POST /api/v1/app/quote/deleteRange": { action: "quote/deleteRange" },
 };
