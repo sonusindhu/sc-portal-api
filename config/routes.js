@@ -69,4 +69,8 @@ module.exports.routes = {
   "POST /api/v1/app/quote/list": { action: "quote/listView" },
   "DELETE /api/v1/app/quote/delete/:id": { action: "quote/delete" },
   "POST /api/v1/app/quote/deleteRange": { action: "quote/deleteRange" },
+  "GET /api/v1/app/quote/getCompanies": { action: "quote/getCompanies" },
+  "GET /api/v1/app/quote/getContactsByCompany/:id": {
+    action: "quote/getContactsByCompany",
+  },
 };

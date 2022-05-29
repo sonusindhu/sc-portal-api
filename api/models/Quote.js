@@ -10,11 +10,15 @@ module.exports = {
   migrate: "alter",
 
   attributes: {
+    quoteNumber: {
+      type: "string",
+      maxLength: 50,
+    },
     name: {
       type: "string",
       maxLength: 50,
     },
-    services: {
+    service: {
       type: "string",
       maxLength: 50,
     },
