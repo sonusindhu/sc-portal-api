@@ -480,11 +480,15 @@
             "type": "number",
             "format": "double"
           },
+          "quoteNumber": {
+            "type": "string",
+            "maxLength": 50
+          },
           "name": {
             "type": "string",
             "maxLength": 50
           },
-          "services": {
+          "service": {
             "type": "string",
             "maxLength": 50
           },
@@ -1514,6 +1518,26 @@
         }
       }
     },
+    "/api/v1/app/quote/getCompanies": {
+      "get": {
+        "summary": "/api/v1/app/quote/getCompanies",
+        "tags": [
+          "Quote"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The requested resource"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
     "/api/v1/app/company/find/{_id}": {
       "get": {
         "summary": "/api/v1/app/company/find/{_id}",
@@ -1727,6 +1751,36 @@
     "/api/v1/app/quote/delete/{_id}": {
       "delete": {
         "summary": "/api/v1/app/quote/delete/{_id}",
+        "tags": [
+          "Quote"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "_id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Route pattern variable `_id`"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The requested resource"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/v1/app/quote/getContactsByCompany/{_id}": {
+      "get": {
+        "summary": "/api/v1/app/quote/getContactsByCompany/{_id}",
         "tags": [
           "Quote"
         ],
@@ -3990,7 +4044,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "id,createdAt,updatedAt,name,services,transportMode,status,totalCost,totalProfit,expiryDate,company,contact,createdBy,updatedBy,isDeleted"
+              "example": "id,createdAt,updatedAt,quoteNumber,name,service,transportMode,status,totalCost,totalProfit,expiryDate,company,contact,createdBy,updatedBy,isDeleted"
             },
             "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
           },
@@ -4000,7 +4054,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "id,createdAt,updatedAt,name,services,transportMode,status,totalCost,totalProfit,expiryDate,company,contact,createdBy,updatedBy,isDeleted"
+              "example": "id,createdAt,updatedAt,quoteNumber,name,service,transportMode,status,totalCost,totalProfit,expiryDate,company,contact,createdBy,updatedBy,isDeleted"
             },
             "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
           },
@@ -4059,7 +4113,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "id,createdAt,updatedAt,name,services,transportMode,status,totalCost,totalProfit,expiryDate,company,contact,createdBy,updatedBy,isDeleted"
+              "example": "id,createdAt,updatedAt,quoteNumber,name,service,transportMode,status,totalCost,totalProfit,expiryDate,company,contact,createdBy,updatedBy,isDeleted"
             },
             "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
           },
@@ -4069,7 +4123,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "id,createdAt,updatedAt,name,services,transportMode,status,totalCost,totalProfit,expiryDate,company,contact,createdBy,updatedBy,isDeleted"
+              "example": "id,createdAt,updatedAt,quoteNumber,name,service,transportMode,status,totalCost,totalProfit,expiryDate,company,contact,createdBy,updatedBy,isDeleted"
             },
             "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
           },
@@ -4145,6 +4199,14 @@
           },
           {
             "in": "query",
+            "name": "quoteNumber",
+            "schema": {
+              "type": "string",
+              "maxLength": 50
+            }
+          },
+          {
+            "in": "query",
             "name": "name",
             "schema": {
               "type": "string",
@@ -4153,7 +4215,7 @@
           },
           {
             "in": "query",
-            "name": "services",
+            "name": "service",
             "schema": {
               "type": "string",
               "maxLength": 50
@@ -4331,6 +4393,14 @@
           },
           {
             "in": "query",
+            "name": "quoteNumber",
+            "schema": {
+              "type": "string",
+              "maxLength": 50
+            }
+          },
+          {
+            "in": "query",
             "name": "name",
             "schema": {
               "type": "string",
@@ -4339,7 +4409,7 @@
           },
           {
             "in": "query",
-            "name": "services",
+            "name": "service",
             "schema": {
               "type": "string",
               "maxLength": 50
@@ -6299,7 +6369,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "id,createdAt,updatedAt,name,services,transportMode,status,totalCost,totalProfit,expiryDate,company,contact,createdBy,updatedBy,isDeleted"
+              "example": "id,createdAt,updatedAt,quoteNumber,name,service,transportMode,status,totalCost,totalProfit,expiryDate,company,contact,createdBy,updatedBy,isDeleted"
             },
             "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
           },
@@ -6309,7 +6379,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "id,createdAt,updatedAt,name,services,transportMode,status,totalCost,totalProfit,expiryDate,company,contact,createdBy,updatedBy,isDeleted"
+              "example": "id,createdAt,updatedAt,quoteNumber,name,service,transportMode,status,totalCost,totalProfit,expiryDate,company,contact,createdBy,updatedBy,isDeleted"
             },
             "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
           },
@@ -6412,7 +6482,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "id,createdAt,updatedAt,name,services,transportMode,status,totalCost,totalProfit,expiryDate,company,contact,createdBy,updatedBy,isDeleted"
+              "example": "id,createdAt,updatedAt,quoteNumber,name,service,transportMode,status,totalCost,totalProfit,expiryDate,company,contact,createdBy,updatedBy,isDeleted"
             },
             "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
           },
@@ -6422,7 +6492,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "id,createdAt,updatedAt,name,services,transportMode,status,totalCost,totalProfit,expiryDate,company,contact,createdBy,updatedBy,isDeleted"
+              "example": "id,createdAt,updatedAt,quoteNumber,name,service,transportMode,status,totalCost,totalProfit,expiryDate,company,contact,createdBy,updatedBy,isDeleted"
             },
             "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
           },
@@ -6587,7 +6657,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "id,createdAt,updatedAt,name,services,transportMode,status,totalCost,totalProfit,expiryDate,company,contact,createdBy,updatedBy,isDeleted"
+              "example": "id,createdAt,updatedAt,quoteNumber,name,service,transportMode,status,totalCost,totalProfit,expiryDate,company,contact,createdBy,updatedBy,isDeleted"
             },
             "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
           },
@@ -6597,7 +6667,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "id,createdAt,updatedAt,name,services,transportMode,status,totalCost,totalProfit,expiryDate,company,contact,createdBy,updatedBy,isDeleted"
+              "example": "id,createdAt,updatedAt,quoteNumber,name,service,transportMode,status,totalCost,totalProfit,expiryDate,company,contact,createdBy,updatedBy,isDeleted"
             },
             "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
           }

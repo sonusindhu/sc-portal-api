@@ -9,12 +9,24 @@ const QuoteService = require("../services/QuoteService");
 const GridService = require("../services/GridService");
 
 module.exports = {
-  listOfNames: async (req, res) => {
-    let companies = await Quote.find().select(["id", "name"]);
+  getCompanies: async (req, res) => {
+    let companies = await Company.find().select(["id", "name"]);
     return res.send({
       status: true,
-      message: `Quote list fetched successfully.`,
+      message: `Companies fetched successfully.`,
       result: companies,
+    });
+  },
+
+  getContactsByCompany: async (req, res) => {
+    let contacts = await Contact.find({ companyId: req.param("id") }).select([
+      "id",
+      "fullName",
+    ]);
+    return res.send({
+      status: true,
+      message: `Contacts fetched successfully.`,
+      result: contacts,
     });
   },
 
@@ -40,50 +52,35 @@ module.exports = {
 
   create: async (req, res) => {
     const data = req.body;
-    const payload = QuoteService.mapQuotePayload(data);
+    const payload = QuoteService.mapPayload(data);
     payload.createdBy = req.token.id;
 
-    // Look up the user with this reset token.
-    const quoteByName = await Quote.findOne({ name: data.name });
-    // If no such user exists, or their token is expired, bail.
-    if (quoteByName) {
-      return res.send({
-        status: false,
-        message: `Quote name is already taken.`,
-      });
+    const lastQuote = await Quote.find({ isDeleted: false })
+      .sort([{ id: "desc" }])
+      .limit(1)
+      .select(["id"]);
+
+    let oldId = 1;
+    if (lastQuote && lastQuote.length > 0) {
+      oldId = lastQuote[0].id + 1;
     }
+    const dt = new Date();
+    const uniqueId =
+      dt.getFullYear() + "" + (dt.getMonth() + 1) + "" + dt.getDate();
 
-    // Look up the user with this reset token.
-    const quoteByEmail = await Quote.findOne({ email: data.email });
-    // If no such user exists, or their token is expired, bail.
-    if (quoteByEmail) {
-      return res.send({
-        status: false,
-        message: `Quote email is already taken.`,
-      });
-    }
+    payload.quoteNumber = `Q${uniqueId}${oldId}`;
 
-    Quote.create(payload).exec(async (err) => {
-      if (err) {
-        let message = "Form doesn't valid";
-        if (err.code == "E_UNIQUE") {
-          message = "Email is already exists";
-        }
-        return res.send({ status: false, message, err });
-      }
-
-      const quote = await Quote.findOne({ email: payload.email });
-      return res.send({
-        status: true,
-        message: "Quote has been successfully created.",
-        result: quote,
-      });
+    const quote = await Quote.create(payload).fetch();
+    return res.send({
+      status: true,
+      message: "Quote has been successfully created.",
+      result: quote,
     });
   },
 
   update: async (req, res) => {
     const data = req.body;
-    const payload = QuoteService.mapQuotePayload(data);
+    const payload = QuoteService.mapPayload(data);
     payload.updatedBy = req.token.id;
 
     // Look up the user with this reset token.
