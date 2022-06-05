@@ -18,19 +18,15 @@ module.exports = {
     },
     weight: {
       type: "number",
-      maxLength: 6,
     },
     cargoCalue: {
       type: "number",
-      maxLength: 12,
     },
     temperature: {
       type: "number",
-      maxLength: 3,
     },
     pieces: {
       type: "number",
-      maxLength: 5,
     },
     isHazmat: {
       type: "boolean",
