@@ -25,12 +25,28 @@
   },
   "tags": [
     {
+      "name": "CargoDetail",
+      "description": "Sails blueprint actions for the **CargoDetail** model"
+    },
+    {
+      "name": "CargoType",
+      "description": "Sails blueprint actions for the **CargoType** model"
+    },
+    {
+      "name": "Commodity",
+      "description": "Sails blueprint actions for the **Commodity** model"
+    },
+    {
       "name": "Company",
       "description": "Sails blueprint actions for the **Company** model"
     },
     {
       "name": "Contact",
       "description": "Sails blueprint actions for the **Contact** model"
+    },
+    {
+      "name": "Equipment",
+      "description": "Sails blueprint actions for the **Equipment** model"
     },
     {
       "name": "Inventory",
@@ -50,6 +66,189 @@
   ],
   "components": {
     "schemas": {
+      "cargodetail": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/cargodetail-without-required-constraint"
+          }
+        ]
+      },
+      "cargodetail-without-required-constraint": {
+        "type": "object",
+        "description": "Sails ORM Model **CargoDetail**",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "uniqueItems": true,
+            "description": "Note Sails special attributes: autoIncrement"
+          },
+          "createdAt": {
+            "type": "number",
+            "format": "double"
+          },
+          "updatedAt": {
+            "type": "number",
+            "format": "double"
+          },
+          "equipmentId": {
+            "description": "JSON dictionary representing the **equipment** instance or FK when creating / updating / not populated",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/equipment"
+              }
+            ]
+          },
+          "commodityId": {
+            "description": "JSON dictionary representing the **commodity** instance or FK when creating / updating / not populated",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/commodity"
+              }
+            ]
+          },
+          "weight": {
+            "type": "number",
+            "format": "double"
+          },
+          "cargoCalue": {
+            "type": "number",
+            "format": "double"
+          },
+          "temperature": {
+            "type": "number",
+            "format": "double"
+          },
+          "pieces": {
+            "type": "number",
+            "format": "double"
+          },
+          "isHazmat": {
+            "type": "boolean",
+            "nullable": true,
+            "default": false
+          },
+          "hazmatName": {
+            "type": "string",
+            "nullable": true
+          },
+          "hazmatClass": {
+            "type": "string",
+            "nullable": true
+          },
+          "hazmatUN": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "string",
+            "nullable": true,
+            "maxLength": 10
+          },
+          "cargoTypeId": {
+            "description": "JSON dictionary representing the **cargotype** instance or FK when creating / updating / not populated",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/cargotype"
+              }
+            ]
+          },
+          "quoteId": {
+            "description": "JSON dictionary representing the **quote** instance or FK when creating / updating / not populated",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/quote"
+              }
+            ]
+          },
+          "createdBy": {
+            "description": "JSON dictionary representing the **user** instance or FK when creating / updating / not populated",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/user"
+              }
+            ]
+          },
+          "updatedBy": {
+            "description": "JSON dictionary representing the **user** instance or FK when creating / updating / not populated",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/user"
+              }
+            ]
+          },
+          "isDeleted": {
+            "type": "boolean",
+            "nullable": true,
+            "default": false
+          }
+        }
+      },
+      "cargotype": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/cargotype-without-required-constraint"
+          }
+        ]
+      },
+      "cargotype-without-required-constraint": {
+        "type": "object",
+        "description": "Sails ORM Model **CargoType**",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "uniqueItems": true,
+            "description": "Note Sails special attributes: autoIncrement"
+          },
+          "createdAt": {
+            "type": "number",
+            "format": "double"
+          },
+          "updatedAt": {
+            "type": "number",
+            "format": "double"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 30
+          }
+        }
+      },
+      "commodity": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/commodity-without-required-constraint"
+          }
+        ]
+      },
+      "commodity-without-required-constraint": {
+        "type": "object",
+        "description": "Sails ORM Model **Commodity**",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "uniqueItems": true,
+            "description": "Note Sails special attributes: autoIncrement"
+          },
+          "createdAt": {
+            "type": "number",
+            "format": "double"
+          },
+          "updatedAt": {
+            "type": "number",
+            "format": "double"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 30
+          }
+        }
+      },
       "company": {
         "type": "object",
         "allOf": [
@@ -328,6 +527,38 @@
                 "$ref": "#/components/schemas/user"
               }
             ]
+          }
+        }
+      },
+      "equipment": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/equipment-without-required-constraint"
+          }
+        ]
+      },
+      "equipment-without-required-constraint": {
+        "type": "object",
+        "description": "Sails ORM Model **Equipment**",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "uniqueItems": true,
+            "description": "Note Sails special attributes: autoIncrement"
+          },
+          "createdAt": {
+            "type": "number",
+            "format": "double"
+          },
+          "updatedAt": {
+            "type": "number",
+            "format": "double"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 30
           }
         }
       },
@@ -681,6 +912,54 @@
           "description": "Note Sails special attributes: autoIncrement"
         },
         "description": "The desired **Quote** record's primary key value"
+      },
+      "ModelPKParam-cargodetail": {
+        "in": "path",
+        "name": "_id",
+        "required": true,
+        "schema": {
+          "type": "integer",
+          "format": "int64",
+          "uniqueItems": true,
+          "description": "Note Sails special attributes: autoIncrement"
+        },
+        "description": "The desired **CargoDetail** record's primary key value"
+      },
+      "ModelPKParam-cargotype": {
+        "in": "path",
+        "name": "_id",
+        "required": true,
+        "schema": {
+          "type": "integer",
+          "format": "int64",
+          "uniqueItems": true,
+          "description": "Note Sails special attributes: autoIncrement"
+        },
+        "description": "The desired **CargoType** record's primary key value"
+      },
+      "ModelPKParam-commodity": {
+        "in": "path",
+        "name": "_id",
+        "required": true,
+        "schema": {
+          "type": "integer",
+          "format": "int64",
+          "uniqueItems": true,
+          "description": "Note Sails special attributes: autoIncrement"
+        },
+        "description": "The desired **Commodity** record's primary key value"
+      },
+      "ModelPKParam-equipment": {
+        "in": "path",
+        "name": "_id",
+        "required": true,
+        "schema": {
+          "type": "integer",
+          "format": "int64",
+          "uniqueItems": true,
+          "description": "Note Sails special attributes: autoIncrement"
+        },
+        "description": "The desired **Equipment** record's primary key value"
       },
       "ModelPKParam-user": {
         "in": "path",
@@ -1801,6 +2080,1256 @@
           },
           "404": {
             "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/cargodetail/find": {
+      "get": {
+        "summary": "List CargoDetail (find where) *",
+        "description": "Find a list of **CargoDetail** records that match the specified criteria.\n\n(\\*) Note that this is a [Sails blueprint shortcut route](https://sailsjs.com/documentation/concepts/blueprints/blueprint-routes#?shortcut-blueprint-routes) (recommended for **development-mode only**)",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/find-where",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/find-where"
+        },
+        "tags": [
+          "CargoDetail"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/AttributeFilterParam"
+          },
+          {
+            "$ref": "#/components/parameters/WhereQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/LimitQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/SkipQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/SortQueryParam"
+          },
+          {
+            "in": "query",
+            "name": "select",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "id,createdAt,updatedAt,equipmentId,commodityId,weight,cargoCalue,temperature,pieces,isHazmat,hazmatName,hazmatClass,hazmatUN,status,cargoTypeId,quoteId,createdBy,updatedBy,isDeleted"
+            },
+            "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
+          },
+          {
+            "in": "query",
+            "name": "omit",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "id,createdAt,updatedAt,equipmentId,commodityId,weight,cargoCalue,temperature,pieces,isHazmat,hazmatName,hazmatClass,hazmatUN,status,cargoTypeId,quoteId,createdBy,updatedBy,isDeleted"
+            },
+            "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
+          },
+          {
+            "in": "query",
+            "name": "populate",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "false,equipmentId,commodityId,cargoTypeId,quoteId,createdBy,updatedBy"
+            },
+            "description": "If specified, overide the default automatic population process. Accepts a comma-separated list of attribute names for which to populate record values, or specify `false` to have no attributes populated."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with a paged list of **CargoDetail** records that match the specified criteria",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/cargodetail"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/cargodetail/find/{_id}": {
+      "get": {
+        "summary": "Get CargoDetail (find one) *",
+        "description": "Look up the **CargoDetail** record with the specified ID.\n\n(\\*) Note that this is a [Sails blueprint shortcut route](https://sailsjs.com/documentation/concepts/blueprints/blueprint-routes#?shortcut-blueprint-routes) (recommended for **development-mode only**)",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/find-one",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/find-one"
+        },
+        "tags": [
+          "CargoDetail"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ModelPKParam-cargodetail"
+          },
+          {
+            "in": "query",
+            "name": "select",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "id,createdAt,updatedAt,equipmentId,commodityId,weight,cargoCalue,temperature,pieces,isHazmat,hazmatName,hazmatClass,hazmatUN,status,cargoTypeId,quoteId,createdBy,updatedBy,isDeleted"
+            },
+            "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
+          },
+          {
+            "in": "query",
+            "name": "omit",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "id,createdAt,updatedAt,equipmentId,commodityId,weight,cargoCalue,temperature,pieces,isHazmat,hazmatName,hazmatClass,hazmatUN,status,cargoTypeId,quoteId,createdBy,updatedBy,isDeleted"
+            },
+            "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
+          },
+          {
+            "in": "query",
+            "name": "populate",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "false,equipmentId,commodityId,cargoTypeId,quoteId,createdBy,updatedBy"
+            },
+            "description": "If specified, overide the default automatic population process. Accepts a comma-separated list of attribute names for which to populate record values, or specify `false` to have no attributes populated."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with a single **CargoDetail** record as a JSON dictionary",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/cargodetail"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Response denoting **CargoDetail** record with specified ID **NOT** found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/cargodetail/create": {
+      "get": {
+        "summary": "Create CargoDetail *",
+        "description": "Create a new **CargoDetail** record.\n\n(\\*) Note that this is a [Sails blueprint shortcut route](https://sailsjs.com/documentation/concepts/blueprints/blueprint-routes#?shortcut-blueprint-routes) (recommended for **development-mode only**)",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/create",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/create"
+        },
+        "tags": [
+          "CargoDetail"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "id",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "uniqueItems": true,
+              "description": "Note Sails special attributes: autoIncrement"
+            },
+            "description": "Note Sails special attributes: autoIncrement"
+          },
+          {
+            "in": "query",
+            "name": "createdAt",
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "in": "query",
+            "name": "updatedAt",
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "in": "query",
+            "name": "equipmentId",
+            "schema": {
+              "description": "JSON dictionary representing the **equipment** instance or FK when creating / updating / not populated",
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/equipment"
+                }
+              ]
+            },
+            "description": "JSON dictionary representing the **equipment** instance or FK when creating / updating / not populated"
+          },
+          {
+            "in": "query",
+            "name": "commodityId",
+            "schema": {
+              "description": "JSON dictionary representing the **commodity** instance or FK when creating / updating / not populated",
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/commodity"
+                }
+              ]
+            },
+            "description": "JSON dictionary representing the **commodity** instance or FK when creating / updating / not populated"
+          },
+          {
+            "in": "query",
+            "name": "weight",
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "in": "query",
+            "name": "cargoCalue",
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "in": "query",
+            "name": "temperature",
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "in": "query",
+            "name": "pieces",
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "in": "query",
+            "name": "isHazmat",
+            "schema": {
+              "type": "boolean",
+              "nullable": true,
+              "default": false
+            }
+          },
+          {
+            "in": "query",
+            "name": "hazmatName",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "in": "query",
+            "name": "hazmatClass",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "in": "query",
+            "name": "hazmatUN",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "in": "query",
+            "name": "status",
+            "schema": {
+              "type": "string",
+              "nullable": true,
+              "maxLength": 10
+            }
+          },
+          {
+            "in": "query",
+            "name": "cargoTypeId",
+            "schema": {
+              "description": "JSON dictionary representing the **cargotype** instance or FK when creating / updating / not populated",
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/cargotype"
+                }
+              ]
+            },
+            "description": "JSON dictionary representing the **cargotype** instance or FK when creating / updating / not populated"
+          },
+          {
+            "in": "query",
+            "name": "quoteId",
+            "schema": {
+              "description": "JSON dictionary representing the **quote** instance or FK when creating / updating / not populated",
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/quote"
+                }
+              ]
+            },
+            "description": "JSON dictionary representing the **quote** instance or FK when creating / updating / not populated"
+          },
+          {
+            "in": "query",
+            "name": "createdBy",
+            "schema": {
+              "description": "JSON dictionary representing the **user** instance or FK when creating / updating / not populated",
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/user"
+                }
+              ]
+            },
+            "description": "JSON dictionary representing the **user** instance or FK when creating / updating / not populated"
+          },
+          {
+            "in": "query",
+            "name": "updatedBy",
+            "schema": {
+              "description": "JSON dictionary representing the **user** instance or FK when creating / updating / not populated",
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/user"
+                }
+              ]
+            },
+            "description": "JSON dictionary representing the **user** instance or FK when creating / updating / not populated"
+          },
+          {
+            "in": "query",
+            "name": "isDeleted",
+            "schema": {
+              "type": "boolean",
+              "nullable": true,
+              "default": false
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with a JSON dictionary representing the newly created **CargoDetail** instance",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/cargodetail"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation errors; details in JSON response"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/cargodetail/update/{_id}": {
+      "get": {
+        "summary": "Update CargoDetail *",
+        "description": "Update an existing **CargoDetail** record.\n\n(\\*) Note that this is a [Sails blueprint shortcut route](https://sailsjs.com/documentation/concepts/blueprints/blueprint-routes#?shortcut-blueprint-routes) (recommended for **development-mode only**)",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/update",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/update"
+        },
+        "tags": [
+          "CargoDetail"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ModelPKParam-cargodetail"
+          },
+          {
+            "in": "query",
+            "name": "id",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "uniqueItems": true,
+              "description": "Note Sails special attributes: autoIncrement"
+            },
+            "description": "Note Sails special attributes: autoIncrement"
+          },
+          {
+            "in": "query",
+            "name": "createdAt",
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "in": "query",
+            "name": "updatedAt",
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "in": "query",
+            "name": "equipmentId",
+            "schema": {
+              "description": "JSON dictionary representing the **equipment** instance or FK when creating / updating / not populated",
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/equipment"
+                }
+              ]
+            },
+            "description": "JSON dictionary representing the **equipment** instance or FK when creating / updating / not populated"
+          },
+          {
+            "in": "query",
+            "name": "commodityId",
+            "schema": {
+              "description": "JSON dictionary representing the **commodity** instance or FK when creating / updating / not populated",
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/commodity"
+                }
+              ]
+            },
+            "description": "JSON dictionary representing the **commodity** instance or FK when creating / updating / not populated"
+          },
+          {
+            "in": "query",
+            "name": "weight",
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "in": "query",
+            "name": "cargoCalue",
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "in": "query",
+            "name": "temperature",
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "in": "query",
+            "name": "pieces",
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "in": "query",
+            "name": "isHazmat",
+            "schema": {
+              "type": "boolean",
+              "nullable": true,
+              "default": false
+            }
+          },
+          {
+            "in": "query",
+            "name": "hazmatName",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "in": "query",
+            "name": "hazmatClass",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "in": "query",
+            "name": "hazmatUN",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "in": "query",
+            "name": "status",
+            "schema": {
+              "type": "string",
+              "nullable": true,
+              "maxLength": 10
+            }
+          },
+          {
+            "in": "query",
+            "name": "cargoTypeId",
+            "schema": {
+              "description": "JSON dictionary representing the **cargotype** instance or FK when creating / updating / not populated",
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/cargotype"
+                }
+              ]
+            },
+            "description": "JSON dictionary representing the **cargotype** instance or FK when creating / updating / not populated"
+          },
+          {
+            "in": "query",
+            "name": "quoteId",
+            "schema": {
+              "description": "JSON dictionary representing the **quote** instance or FK when creating / updating / not populated",
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/quote"
+                }
+              ]
+            },
+            "description": "JSON dictionary representing the **quote** instance or FK when creating / updating / not populated"
+          },
+          {
+            "in": "query",
+            "name": "createdBy",
+            "schema": {
+              "description": "JSON dictionary representing the **user** instance or FK when creating / updating / not populated",
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/user"
+                }
+              ]
+            },
+            "description": "JSON dictionary representing the **user** instance or FK when creating / updating / not populated"
+          },
+          {
+            "in": "query",
+            "name": "updatedBy",
+            "schema": {
+              "description": "JSON dictionary representing the **user** instance or FK when creating / updating / not populated",
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/user"
+                }
+              ]
+            },
+            "description": "JSON dictionary representing the **user** instance or FK when creating / updating / not populated"
+          },
+          {
+            "in": "query",
+            "name": "isDeleted",
+            "schema": {
+              "type": "boolean",
+              "nullable": true,
+              "default": false
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with the newly updated **CargoDetail** record as a JSON dictionary",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/cargodetail"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation errors; details in JSON response"
+          },
+          "404": {
+            "description": "Cannot update, **CargoDetail** record with specified ID **NOT** found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/cargodetail/destroy/{_id}": {
+      "get": {
+        "summary": "Delete CargoDetail (destroy) *",
+        "description": "Delete the **CargoDetail** record with the specified ID.\n\n(\\*) Note that this is a [Sails blueprint shortcut route](https://sailsjs.com/documentation/concepts/blueprints/blueprint-routes#?shortcut-blueprint-routes) (recommended for **development-mode only**)",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/destroy",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/destroy"
+        },
+        "tags": [
+          "CargoDetail"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ModelPKParam-cargodetail"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with a JSON dictionary representing the destroyed **CargoDetail** instance",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/cargodetail"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Cannot destroy, **CargoDetail** record with specified ID **NOT** found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/cargotype/find": {
+      "get": {
+        "summary": "List CargoType (find where) *",
+        "description": "Find a list of **CargoType** records that match the specified criteria.\n\n(\\*) Note that this is a [Sails blueprint shortcut route](https://sailsjs.com/documentation/concepts/blueprints/blueprint-routes#?shortcut-blueprint-routes) (recommended for **development-mode only**)",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/find-where",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/find-where"
+        },
+        "tags": [
+          "CargoType"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/AttributeFilterParam"
+          },
+          {
+            "$ref": "#/components/parameters/WhereQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/LimitQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/SkipQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/SortQueryParam"
+          },
+          {
+            "in": "query",
+            "name": "select",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "id,createdAt,updatedAt,name"
+            },
+            "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
+          },
+          {
+            "in": "query",
+            "name": "omit",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "id,createdAt,updatedAt,name"
+            },
+            "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with a paged list of **CargoType** records that match the specified criteria",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/cargotype"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/cargotype/find/{_id}": {
+      "get": {
+        "summary": "Get CargoType (find one) *",
+        "description": "Look up the **CargoType** record with the specified ID.\n\n(\\*) Note that this is a [Sails blueprint shortcut route](https://sailsjs.com/documentation/concepts/blueprints/blueprint-routes#?shortcut-blueprint-routes) (recommended for **development-mode only**)",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/find-one",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/find-one"
+        },
+        "tags": [
+          "CargoType"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ModelPKParam-cargotype"
+          },
+          {
+            "in": "query",
+            "name": "select",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "id,createdAt,updatedAt,name"
+            },
+            "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
+          },
+          {
+            "in": "query",
+            "name": "omit",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "id,createdAt,updatedAt,name"
+            },
+            "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with a single **CargoType** record as a JSON dictionary",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/cargotype"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Response denoting **CargoType** record with specified ID **NOT** found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/cargotype/create": {
+      "get": {
+        "summary": "Create CargoType *",
+        "description": "Create a new **CargoType** record.\n\n(\\*) Note that this is a [Sails blueprint shortcut route](https://sailsjs.com/documentation/concepts/blueprints/blueprint-routes#?shortcut-blueprint-routes) (recommended for **development-mode only**)",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/create",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/create"
+        },
+        "tags": [
+          "CargoType"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "id",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "uniqueItems": true,
+              "description": "Note Sails special attributes: autoIncrement"
+            },
+            "description": "Note Sails special attributes: autoIncrement"
+          },
+          {
+            "in": "query",
+            "name": "createdAt",
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "in": "query",
+            "name": "updatedAt",
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "in": "query",
+            "name": "name",
+            "schema": {
+              "type": "string",
+              "maxLength": 30
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with a JSON dictionary representing the newly created **CargoType** instance",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/cargotype"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation errors; details in JSON response"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/cargotype/update/{_id}": {
+      "get": {
+        "summary": "Update CargoType *",
+        "description": "Update an existing **CargoType** record.\n\n(\\*) Note that this is a [Sails blueprint shortcut route](https://sailsjs.com/documentation/concepts/blueprints/blueprint-routes#?shortcut-blueprint-routes) (recommended for **development-mode only**)",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/update",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/update"
+        },
+        "tags": [
+          "CargoType"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ModelPKParam-cargotype"
+          },
+          {
+            "in": "query",
+            "name": "id",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "uniqueItems": true,
+              "description": "Note Sails special attributes: autoIncrement"
+            },
+            "description": "Note Sails special attributes: autoIncrement"
+          },
+          {
+            "in": "query",
+            "name": "createdAt",
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "in": "query",
+            "name": "updatedAt",
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "in": "query",
+            "name": "name",
+            "schema": {
+              "type": "string",
+              "maxLength": 30
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with the newly updated **CargoType** record as a JSON dictionary",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/cargotype"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation errors; details in JSON response"
+          },
+          "404": {
+            "description": "Cannot update, **CargoType** record with specified ID **NOT** found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/cargotype/destroy/{_id}": {
+      "get": {
+        "summary": "Delete CargoType (destroy) *",
+        "description": "Delete the **CargoType** record with the specified ID.\n\n(\\*) Note that this is a [Sails blueprint shortcut route](https://sailsjs.com/documentation/concepts/blueprints/blueprint-routes#?shortcut-blueprint-routes) (recommended for **development-mode only**)",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/destroy",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/destroy"
+        },
+        "tags": [
+          "CargoType"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ModelPKParam-cargotype"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with a JSON dictionary representing the destroyed **CargoType** instance",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/cargotype"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Cannot destroy, **CargoType** record with specified ID **NOT** found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/commodity/find": {
+      "get": {
+        "summary": "List Commodity (find where) *",
+        "description": "Find a list of **Commodity** records that match the specified criteria.\n\n(\\*) Note that this is a [Sails blueprint shortcut route](https://sailsjs.com/documentation/concepts/blueprints/blueprint-routes#?shortcut-blueprint-routes) (recommended for **development-mode only**)",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/find-where",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/find-where"
+        },
+        "tags": [
+          "Commodity"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/AttributeFilterParam"
+          },
+          {
+            "$ref": "#/components/parameters/WhereQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/LimitQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/SkipQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/SortQueryParam"
+          },
+          {
+            "in": "query",
+            "name": "select",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "id,createdAt,updatedAt,name"
+            },
+            "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
+          },
+          {
+            "in": "query",
+            "name": "omit",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "id,createdAt,updatedAt,name"
+            },
+            "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with a paged list of **Commodity** records that match the specified criteria",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/commodity"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/commodity/find/{_id}": {
+      "get": {
+        "summary": "Get Commodity (find one) *",
+        "description": "Look up the **Commodity** record with the specified ID.\n\n(\\*) Note that this is a [Sails blueprint shortcut route](https://sailsjs.com/documentation/concepts/blueprints/blueprint-routes#?shortcut-blueprint-routes) (recommended for **development-mode only**)",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/find-one",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/find-one"
+        },
+        "tags": [
+          "Commodity"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ModelPKParam-commodity"
+          },
+          {
+            "in": "query",
+            "name": "select",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "id,createdAt,updatedAt,name"
+            },
+            "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
+          },
+          {
+            "in": "query",
+            "name": "omit",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "id,createdAt,updatedAt,name"
+            },
+            "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with a single **Commodity** record as a JSON dictionary",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/commodity"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Response denoting **Commodity** record with specified ID **NOT** found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/commodity/create": {
+      "get": {
+        "summary": "Create Commodity *",
+        "description": "Create a new **Commodity** record.\n\n(\\*) Note that this is a [Sails blueprint shortcut route](https://sailsjs.com/documentation/concepts/blueprints/blueprint-routes#?shortcut-blueprint-routes) (recommended for **development-mode only**)",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/create",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/create"
+        },
+        "tags": [
+          "Commodity"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "id",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "uniqueItems": true,
+              "description": "Note Sails special attributes: autoIncrement"
+            },
+            "description": "Note Sails special attributes: autoIncrement"
+          },
+          {
+            "in": "query",
+            "name": "createdAt",
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "in": "query",
+            "name": "updatedAt",
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "in": "query",
+            "name": "name",
+            "schema": {
+              "type": "string",
+              "maxLength": 30
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with a JSON dictionary representing the newly created **Commodity** instance",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/commodity"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation errors; details in JSON response"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/commodity/update/{_id}": {
+      "get": {
+        "summary": "Update Commodity *",
+        "description": "Update an existing **Commodity** record.\n\n(\\*) Note that this is a [Sails blueprint shortcut route](https://sailsjs.com/documentation/concepts/blueprints/blueprint-routes#?shortcut-blueprint-routes) (recommended for **development-mode only**)",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/update",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/update"
+        },
+        "tags": [
+          "Commodity"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ModelPKParam-commodity"
+          },
+          {
+            "in": "query",
+            "name": "id",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "uniqueItems": true,
+              "description": "Note Sails special attributes: autoIncrement"
+            },
+            "description": "Note Sails special attributes: autoIncrement"
+          },
+          {
+            "in": "query",
+            "name": "createdAt",
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "in": "query",
+            "name": "updatedAt",
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "in": "query",
+            "name": "name",
+            "schema": {
+              "type": "string",
+              "maxLength": 30
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with the newly updated **Commodity** record as a JSON dictionary",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/commodity"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation errors; details in JSON response"
+          },
+          "404": {
+            "description": "Cannot update, **Commodity** record with specified ID **NOT** found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/commodity/destroy/{_id}": {
+      "get": {
+        "summary": "Delete Commodity (destroy) *",
+        "description": "Delete the **Commodity** record with the specified ID.\n\n(\\*) Note that this is a [Sails blueprint shortcut route](https://sailsjs.com/documentation/concepts/blueprints/blueprint-routes#?shortcut-blueprint-routes) (recommended for **development-mode only**)",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/destroy",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/destroy"
+        },
+        "tags": [
+          "Commodity"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ModelPKParam-commodity"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with a JSON dictionary representing the destroyed **Commodity** instance",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/commodity"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Cannot destroy, **Commodity** record with specified ID **NOT** found"
           },
           "500": {
             "description": "Internal server error"
@@ -3369,6 +4898,314 @@
           },
           "404": {
             "description": "Cannot destroy, **Contact** record with specified ID **NOT** found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/equipment/find": {
+      "get": {
+        "summary": "List Equipment (find where) *",
+        "description": "Find a list of **Equipment** records that match the specified criteria.\n\n(\\*) Note that this is a [Sails blueprint shortcut route](https://sailsjs.com/documentation/concepts/blueprints/blueprint-routes#?shortcut-blueprint-routes) (recommended for **development-mode only**)",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/find-where",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/find-where"
+        },
+        "tags": [
+          "Equipment"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/AttributeFilterParam"
+          },
+          {
+            "$ref": "#/components/parameters/WhereQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/LimitQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/SkipQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/SortQueryParam"
+          },
+          {
+            "in": "query",
+            "name": "select",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "id,createdAt,updatedAt,name"
+            },
+            "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
+          },
+          {
+            "in": "query",
+            "name": "omit",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "id,createdAt,updatedAt,name"
+            },
+            "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with a paged list of **Equipment** records that match the specified criteria",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/equipment"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/equipment/find/{_id}": {
+      "get": {
+        "summary": "Get Equipment (find one) *",
+        "description": "Look up the **Equipment** record with the specified ID.\n\n(\\*) Note that this is a [Sails blueprint shortcut route](https://sailsjs.com/documentation/concepts/blueprints/blueprint-routes#?shortcut-blueprint-routes) (recommended for **development-mode only**)",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/find-one",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/find-one"
+        },
+        "tags": [
+          "Equipment"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ModelPKParam-equipment"
+          },
+          {
+            "in": "query",
+            "name": "select",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "id,createdAt,updatedAt,name"
+            },
+            "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
+          },
+          {
+            "in": "query",
+            "name": "omit",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "id,createdAt,updatedAt,name"
+            },
+            "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with a single **Equipment** record as a JSON dictionary",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/equipment"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Response denoting **Equipment** record with specified ID **NOT** found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/equipment/create": {
+      "get": {
+        "summary": "Create Equipment *",
+        "description": "Create a new **Equipment** record.\n\n(\\*) Note that this is a [Sails blueprint shortcut route](https://sailsjs.com/documentation/concepts/blueprints/blueprint-routes#?shortcut-blueprint-routes) (recommended for **development-mode only**)",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/create",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/create"
+        },
+        "tags": [
+          "Equipment"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "id",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "uniqueItems": true,
+              "description": "Note Sails special attributes: autoIncrement"
+            },
+            "description": "Note Sails special attributes: autoIncrement"
+          },
+          {
+            "in": "query",
+            "name": "createdAt",
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "in": "query",
+            "name": "updatedAt",
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "in": "query",
+            "name": "name",
+            "schema": {
+              "type": "string",
+              "maxLength": 30
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with a JSON dictionary representing the newly created **Equipment** instance",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/equipment"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation errors; details in JSON response"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/equipment/update/{_id}": {
+      "get": {
+        "summary": "Update Equipment *",
+        "description": "Update an existing **Equipment** record.\n\n(\\*) Note that this is a [Sails blueprint shortcut route](https://sailsjs.com/documentation/concepts/blueprints/blueprint-routes#?shortcut-blueprint-routes) (recommended for **development-mode only**)",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/update",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/update"
+        },
+        "tags": [
+          "Equipment"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ModelPKParam-equipment"
+          },
+          {
+            "in": "query",
+            "name": "id",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "uniqueItems": true,
+              "description": "Note Sails special attributes: autoIncrement"
+            },
+            "description": "Note Sails special attributes: autoIncrement"
+          },
+          {
+            "in": "query",
+            "name": "createdAt",
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "in": "query",
+            "name": "updatedAt",
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "in": "query",
+            "name": "name",
+            "schema": {
+              "type": "string",
+              "maxLength": 30
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with the newly updated **Equipment** record as a JSON dictionary",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/equipment"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation errors; details in JSON response"
+          },
+          "404": {
+            "description": "Cannot update, **Equipment** record with specified ID **NOT** found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/equipment/destroy/{_id}": {
+      "get": {
+        "summary": "Delete Equipment (destroy) *",
+        "description": "Delete the **Equipment** record with the specified ID.\n\n(\\*) Note that this is a [Sails blueprint shortcut route](https://sailsjs.com/documentation/concepts/blueprints/blueprint-routes#?shortcut-blueprint-routes) (recommended for **development-mode only**)",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/destroy",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/destroy"
+        },
+        "tags": [
+          "Equipment"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ModelPKParam-equipment"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with a JSON dictionary representing the destroyed **Equipment** instance",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/equipment"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Cannot destroy, **Equipment** record with specified ID **NOT** found"
           },
           "500": {
             "description": "Internal server error"
@@ -5047,6 +6884,889 @@
         }
       }
     },
+    "/cargodetail": {
+      "get": {
+        "summary": "List CargoDetail (find where)",
+        "description": "Find a list of **CargoDetail** records that match the specified criteria.",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/find-where",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/find-where"
+        },
+        "tags": [
+          "CargoDetail"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/AttributeFilterParam"
+          },
+          {
+            "$ref": "#/components/parameters/WhereQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/LimitQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/SkipQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/SortQueryParam"
+          },
+          {
+            "in": "query",
+            "name": "select",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "id,createdAt,updatedAt,equipmentId,commodityId,weight,cargoCalue,temperature,pieces,isHazmat,hazmatName,hazmatClass,hazmatUN,status,cargoTypeId,quoteId,createdBy,updatedBy,isDeleted"
+            },
+            "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
+          },
+          {
+            "in": "query",
+            "name": "omit",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "id,createdAt,updatedAt,equipmentId,commodityId,weight,cargoCalue,temperature,pieces,isHazmat,hazmatName,hazmatClass,hazmatUN,status,cargoTypeId,quoteId,createdBy,updatedBy,isDeleted"
+            },
+            "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
+          },
+          {
+            "in": "query",
+            "name": "populate",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "false,equipmentId,commodityId,cargoTypeId,quoteId,createdBy,updatedBy"
+            },
+            "description": "If specified, overide the default automatic population process. Accepts a comma-separated list of attribute names for which to populate record values, or specify `false` to have no attributes populated."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with a paged list of **CargoDetail** records that match the specified criteria",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/cargodetail"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create CargoDetail",
+        "description": "Create a new **CargoDetail** record.",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/create",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/create"
+        },
+        "tags": [
+          "CargoDetail"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Responds with a JSON dictionary representing the newly created **CargoDetail** instance",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/cargodetail"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation errors; details in JSON response"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "requestBody": {
+          "description": "JSON dictionary representing the CargoDetail instance to create.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/cargodetail"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cargodetail/{_id}": {
+      "get": {
+        "summary": "Get CargoDetail (find one)",
+        "description": "Look up the **CargoDetail** record with the specified ID.",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/find-one",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/find-one"
+        },
+        "tags": [
+          "CargoDetail"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ModelPKParam-cargodetail"
+          },
+          {
+            "in": "query",
+            "name": "select",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "id,createdAt,updatedAt,equipmentId,commodityId,weight,cargoCalue,temperature,pieces,isHazmat,hazmatName,hazmatClass,hazmatUN,status,cargoTypeId,quoteId,createdBy,updatedBy,isDeleted"
+            },
+            "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
+          },
+          {
+            "in": "query",
+            "name": "omit",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "id,createdAt,updatedAt,equipmentId,commodityId,weight,cargoCalue,temperature,pieces,isHazmat,hazmatName,hazmatClass,hazmatUN,status,cargoTypeId,quoteId,createdBy,updatedBy,isDeleted"
+            },
+            "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
+          },
+          {
+            "in": "query",
+            "name": "populate",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "false,equipmentId,commodityId,cargoTypeId,quoteId,createdBy,updatedBy"
+            },
+            "description": "If specified, overide the default automatic population process. Accepts a comma-separated list of attribute names for which to populate record values, or specify `false` to have no attributes populated."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with a single **CargoDetail** record as a JSON dictionary",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/cargodetail"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Response denoting **CargoDetail** record with specified ID **NOT** found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update CargoDetail",
+        "description": "Update an existing **CargoDetail** record.",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/update",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/update"
+        },
+        "tags": [
+          "CargoDetail"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ModelPKParam-cargodetail"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with the newly updated **CargoDetail** record as a JSON dictionary",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/cargodetail"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation errors; details in JSON response"
+          },
+          "404": {
+            "description": "Cannot update, **CargoDetail** record with specified ID **NOT** found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "requestBody": {
+          "description": "JSON dictionary representing the CargoDetail instance to update.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/cargodetail-without-required-constraint"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete CargoDetail (destroy)",
+        "description": "Delete the **CargoDetail** record with the specified ID.",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/destroy",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/destroy"
+        },
+        "tags": [
+          "CargoDetail"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ModelPKParam-cargodetail"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with a JSON dictionary representing the destroyed **CargoDetail** instance",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/cargodetail"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Cannot destroy, **CargoDetail** record with specified ID **NOT** found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/cargodetail/{_id}/{association}": {
+      "get": {
+        "summary": "Populate association for CargoDetail",
+        "description": "Populate and return foreign record(s) for the given association of this **CargoDetail** record.",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/populate-where",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/populate-where"
+        },
+        "tags": [
+          "CargoDetail"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ModelPKParam-cargodetail"
+          },
+          {
+            "in": "path",
+            "name": "association",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "equipmentId",
+                "commodityId",
+                "cargoTypeId",
+                "quoteId",
+                "createdBy",
+                "updatedBy"
+              ]
+            },
+            "description": "The name of the association"
+          },
+          {
+            "$ref": "#/components/parameters/WhereQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/LimitQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/SkipQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/SortQueryParam"
+          },
+          {
+            "in": "query",
+            "name": "select",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "id,createdAt,updatedAt,equipmentId,commodityId,weight,cargoCalue,temperature,pieces,isHazmat,hazmatName,hazmatClass,hazmatUN,status,cargoTypeId,quoteId,createdBy,updatedBy,isDeleted"
+            },
+            "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
+          },
+          {
+            "in": "query",
+            "name": "omit",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "id,createdAt,updatedAt,equipmentId,commodityId,weight,cargoCalue,temperature,pieces,isHazmat,hazmatName,hazmatClass,hazmatUN,status,cargoTypeId,quoteId,createdBy,updatedBy,isDeleted"
+            },
+            "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with the list of associated records as JSON dictionaries",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "oneOf": [
+                      {
+                        "$ref": "#/components/schemas/equipment"
+                      },
+                      {
+                        "$ref": "#/components/schemas/commodity"
+                      },
+                      {
+                        "$ref": "#/components/schemas/cargotype"
+                      },
+                      {
+                        "$ref": "#/components/schemas/quote"
+                      },
+                      {
+                        "$ref": "#/components/schemas/user"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Cannot populate, **CargoDetail** record with specified ID **NOT** found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/cargotype": {
+      "get": {
+        "summary": "List CargoType (find where)",
+        "description": "Find a list of **CargoType** records that match the specified criteria.",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/find-where",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/find-where"
+        },
+        "tags": [
+          "CargoType"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/AttributeFilterParam"
+          },
+          {
+            "$ref": "#/components/parameters/WhereQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/LimitQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/SkipQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/SortQueryParam"
+          },
+          {
+            "in": "query",
+            "name": "select",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "id,createdAt,updatedAt,name"
+            },
+            "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
+          },
+          {
+            "in": "query",
+            "name": "omit",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "id,createdAt,updatedAt,name"
+            },
+            "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with a paged list of **CargoType** records that match the specified criteria",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/cargotype"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create CargoType",
+        "description": "Create a new **CargoType** record.",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/create",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/create"
+        },
+        "tags": [
+          "CargoType"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Responds with a JSON dictionary representing the newly created **CargoType** instance",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/cargotype"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation errors; details in JSON response"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "requestBody": {
+          "description": "JSON dictionary representing the CargoType instance to create.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/cargotype"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cargotype/{_id}": {
+      "get": {
+        "summary": "Get CargoType (find one)",
+        "description": "Look up the **CargoType** record with the specified ID.",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/find-one",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/find-one"
+        },
+        "tags": [
+          "CargoType"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ModelPKParam-cargotype"
+          },
+          {
+            "in": "query",
+            "name": "select",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "id,createdAt,updatedAt,name"
+            },
+            "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
+          },
+          {
+            "in": "query",
+            "name": "omit",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "id,createdAt,updatedAt,name"
+            },
+            "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with a single **CargoType** record as a JSON dictionary",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/cargotype"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Response denoting **CargoType** record with specified ID **NOT** found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update CargoType",
+        "description": "Update an existing **CargoType** record.",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/update",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/update"
+        },
+        "tags": [
+          "CargoType"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ModelPKParam-cargotype"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with the newly updated **CargoType** record as a JSON dictionary",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/cargotype"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation errors; details in JSON response"
+          },
+          "404": {
+            "description": "Cannot update, **CargoType** record with specified ID **NOT** found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "requestBody": {
+          "description": "JSON dictionary representing the CargoType instance to update.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/cargotype-without-required-constraint"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete CargoType (destroy)",
+        "description": "Delete the **CargoType** record with the specified ID.",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/destroy",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/destroy"
+        },
+        "tags": [
+          "CargoType"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ModelPKParam-cargotype"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with a JSON dictionary representing the destroyed **CargoType** instance",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/cargotype"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Cannot destroy, **CargoType** record with specified ID **NOT** found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/commodity": {
+      "get": {
+        "summary": "List Commodity (find where)",
+        "description": "Find a list of **Commodity** records that match the specified criteria.",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/find-where",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/find-where"
+        },
+        "tags": [
+          "Commodity"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/AttributeFilterParam"
+          },
+          {
+            "$ref": "#/components/parameters/WhereQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/LimitQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/SkipQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/SortQueryParam"
+          },
+          {
+            "in": "query",
+            "name": "select",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "id,createdAt,updatedAt,name"
+            },
+            "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
+          },
+          {
+            "in": "query",
+            "name": "omit",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "id,createdAt,updatedAt,name"
+            },
+            "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with a paged list of **Commodity** records that match the specified criteria",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/commodity"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create Commodity",
+        "description": "Create a new **Commodity** record.",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/create",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/create"
+        },
+        "tags": [
+          "Commodity"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Responds with a JSON dictionary representing the newly created **Commodity** instance",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/commodity"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation errors; details in JSON response"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "requestBody": {
+          "description": "JSON dictionary representing the Commodity instance to create.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/commodity"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/commodity/{_id}": {
+      "get": {
+        "summary": "Get Commodity (find one)",
+        "description": "Look up the **Commodity** record with the specified ID.",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/find-one",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/find-one"
+        },
+        "tags": [
+          "Commodity"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ModelPKParam-commodity"
+          },
+          {
+            "in": "query",
+            "name": "select",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "id,createdAt,updatedAt,name"
+            },
+            "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
+          },
+          {
+            "in": "query",
+            "name": "omit",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "id,createdAt,updatedAt,name"
+            },
+            "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with a single **Commodity** record as a JSON dictionary",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/commodity"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Response denoting **Commodity** record with specified ID **NOT** found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update Commodity",
+        "description": "Update an existing **Commodity** record.",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/update",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/update"
+        },
+        "tags": [
+          "Commodity"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ModelPKParam-commodity"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with the newly updated **Commodity** record as a JSON dictionary",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/commodity"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation errors; details in JSON response"
+          },
+          "404": {
+            "description": "Cannot update, **Commodity** record with specified ID **NOT** found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "requestBody": {
+          "description": "JSON dictionary representing the Commodity instance to update.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/commodity-without-required-constraint"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete Commodity (destroy)",
+        "description": "Delete the **Commodity** record with the specified ID.",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/destroy",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/destroy"
+        },
+        "tags": [
+          "Commodity"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ModelPKParam-commodity"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with a JSON dictionary representing the destroyed **Commodity** instance",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/commodity"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Cannot destroy, **Commodity** record with specified ID **NOT** found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
     "/company": {
       "get": {
         "summary": "List Company (find where)",
@@ -5964,6 +8684,259 @@
           },
           "404": {
             "description": "Cannot populate, **Contact** record with specified ID **NOT** found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/equipment": {
+      "get": {
+        "summary": "List Equipment (find where)",
+        "description": "Find a list of **Equipment** records that match the specified criteria.",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/find-where",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/find-where"
+        },
+        "tags": [
+          "Equipment"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/AttributeFilterParam"
+          },
+          {
+            "$ref": "#/components/parameters/WhereQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/LimitQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/SkipQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/SortQueryParam"
+          },
+          {
+            "in": "query",
+            "name": "select",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "id,createdAt,updatedAt,name"
+            },
+            "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
+          },
+          {
+            "in": "query",
+            "name": "omit",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "id,createdAt,updatedAt,name"
+            },
+            "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with a paged list of **Equipment** records that match the specified criteria",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/equipment"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create Equipment",
+        "description": "Create a new **Equipment** record.",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/create",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/create"
+        },
+        "tags": [
+          "Equipment"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Responds with a JSON dictionary representing the newly created **Equipment** instance",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/equipment"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation errors; details in JSON response"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "requestBody": {
+          "description": "JSON dictionary representing the Equipment instance to create.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/equipment"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/equipment/{_id}": {
+      "get": {
+        "summary": "Get Equipment (find one)",
+        "description": "Look up the **Equipment** record with the specified ID.",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/find-one",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/find-one"
+        },
+        "tags": [
+          "Equipment"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ModelPKParam-equipment"
+          },
+          {
+            "in": "query",
+            "name": "select",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "id,createdAt,updatedAt,name"
+            },
+            "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
+          },
+          {
+            "in": "query",
+            "name": "omit",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "id,createdAt,updatedAt,name"
+            },
+            "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with a single **Equipment** record as a JSON dictionary",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/equipment"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Response denoting **Equipment** record with specified ID **NOT** found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update Equipment",
+        "description": "Update an existing **Equipment** record.",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/update",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/update"
+        },
+        "tags": [
+          "Equipment"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ModelPKParam-equipment"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with the newly updated **Equipment** record as a JSON dictionary",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/equipment"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation errors; details in JSON response"
+          },
+          "404": {
+            "description": "Cannot update, **Equipment** record with specified ID **NOT** found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "requestBody": {
+          "description": "JSON dictionary representing the Equipment instance to update.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/equipment-without-required-constraint"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete Equipment (destroy)",
+        "description": "Delete the **Equipment** record with the specified ID.",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/destroy",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/destroy"
+        },
+        "tags": [
+          "Equipment"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ModelPKParam-equipment"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with a JSON dictionary representing the destroyed **Equipment** instance",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/equipment"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Cannot destroy, **Equipment** record with specified ID **NOT** found"
           },
           "500": {
             "description": "Internal server error"
