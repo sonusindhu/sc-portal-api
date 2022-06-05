@@ -19,13 +19,16 @@ module.exports = {
     weight: {
       type: "number",
     },
-    cargoCalue: {
+    cargoValue: {
       type: "number",
     },
     temperature: {
       type: "number",
     },
     pieces: {
+      type: "number",
+    },
+    totalMiles: {
       type: "number",
     },
     isHazmat: {
