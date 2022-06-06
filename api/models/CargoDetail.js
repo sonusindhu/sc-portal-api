@@ -19,13 +19,16 @@ module.exports = {
     weight: {
       type: "number",
     },
-    cargoCalue: {
+    cargoValue: {
       type: "number",
     },
     temperature: {
       type: "number",
     },
     pieces: {
+      type: "number",
+    },
+    totalMiles: {
       type: "number",
     },
     isHazmat: {
@@ -48,6 +51,11 @@ module.exports = {
     status: {
       type: "string",
       maxLength: 10,
+      allowNull: true,
+    },
+    status: {
+      type: "comments",
+      maxLength: 250,
       allowNull: true,
     },
     cargoTypeId: {
