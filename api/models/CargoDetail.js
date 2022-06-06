@@ -53,6 +53,11 @@ module.exports = {
       maxLength: 10,
       allowNull: true,
     },
+    status: {
+      type: "comments",
+      maxLength: 250,
+      allowNull: true,
+    },
     cargoTypeId: {
       model: "cargoType",
     },
