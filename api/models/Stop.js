@@ -30,7 +30,7 @@ module.exports = {
       type: "string",
       maxLength: 20,
     },
-    Miles: {
+    miles: {
       type: "number",
     },
     quoteId: {

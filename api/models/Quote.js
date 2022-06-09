@@ -43,6 +43,10 @@ module.exports = {
       type: "ref",
       columnType: "timestamp",
     },
+    totalMiles: {
+      type: "number",
+      allowNull: true,
+    },
     // relation
     company: {
       model: "company",
