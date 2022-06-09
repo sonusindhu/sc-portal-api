@@ -25,6 +25,10 @@
   },
   "tags": [
     {
+      "name": "Accessorial",
+      "description": "Sails blueprint actions for the **Accessorial** model"
+    },
+    {
       "name": "CargoDetail",
       "description": "Sails blueprint actions for the **CargoDetail** model"
     },
@@ -70,6 +74,67 @@
   ],
   "components": {
     "schemas": {
+      "accessorial": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/accessorial-without-required-constraint"
+          }
+        ]
+      },
+      "accessorial-without-required-constraint": {
+        "type": "object",
+        "description": "Sails ORM Model **Accessorial**",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "uniqueItems": true,
+            "description": "Note Sails special attributes: autoIncrement"
+          },
+          "createdAt": {
+            "type": "number",
+            "format": "double"
+          },
+          "updatedAt": {
+            "type": "number",
+            "format": "double"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 30
+          },
+          "quantity": {
+            "type": "number",
+            "format": "double"
+          },
+          "rate": {
+            "type": "number",
+            "format": "double"
+          },
+          "totalRate": {
+            "type": "number",
+            "format": "double"
+          },
+          "isIncludeInCharges": {
+            "type": "boolean",
+            "nullable": true,
+            "default": false
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 250
+          },
+          "quoteId": {
+            "description": "JSON dictionary representing the **quote** instance or FK when creating / updating / not populated",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/quote"
+              }
+            ]
+          }
+        }
+      },
       "cargodetail": {
         "type": "object",
         "allOf": [
@@ -128,10 +193,6 @@
             "type": "number",
             "format": "double"
           },
-          "totalMiles": {
-            "type": "number",
-            "format": "double"
-          },
           "isHazmat": {
             "type": "boolean",
             "nullable": true,
@@ -153,6 +214,11 @@
             "type": "string",
             "nullable": true,
             "maxLength": 10
+          },
+          "comments": {
+            "type": "string",
+            "nullable": true,
+            "maxLength": 250
           },
           "cargoTypeId": {
             "description": "JSON dictionary representing the **cargotype** instance or FK when creating / updating / not populated",
@@ -754,6 +820,11 @@
             "type": "string",
             "format": "date-time"
           },
+          "totalMiles": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
           "company": {
             "description": "JSON dictionary representing the **company** instance or FK when creating / updating / not populated",
             "oneOf": [
@@ -839,7 +910,7 @@
             "type": "string",
             "maxLength": 20
           },
-          "Miles": {
+          "miles": {
             "type": "number",
             "format": "double"
           },
@@ -980,6 +1051,18 @@
           "description": "Note Sails special attributes: autoIncrement"
         },
         "description": "The desired **Quote** record's primary key value"
+      },
+      "ModelPKParam-accessorial": {
+        "in": "path",
+        "name": "_id",
+        "required": true,
+        "schema": {
+          "type": "integer",
+          "format": "int64",
+          "uniqueItems": true,
+          "description": "Note Sails special attributes: autoIncrement"
+        },
+        "description": "The desired **Accessorial** record's primary key value"
       },
       "ModelPKParam-cargodetail": {
         "in": "path",
@@ -2167,6 +2250,442 @@
         }
       }
     },
+    "/accessorial/find": {
+      "get": {
+        "summary": "List Accessorial (find where) *",
+        "description": "Find a list of **Accessorial** records that match the specified criteria.\n\n(\\*) Note that this is a [Sails blueprint shortcut route](https://sailsjs.com/documentation/concepts/blueprints/blueprint-routes#?shortcut-blueprint-routes) (recommended for **development-mode only**)",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/find-where",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/find-where"
+        },
+        "tags": [
+          "Accessorial"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/AttributeFilterParam"
+          },
+          {
+            "$ref": "#/components/parameters/WhereQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/LimitQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/SkipQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/SortQueryParam"
+          },
+          {
+            "in": "query",
+            "name": "select",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "id,createdAt,updatedAt,name,quantity,rate,totalRate,isIncludeInCharges,description,quoteId"
+            },
+            "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
+          },
+          {
+            "in": "query",
+            "name": "omit",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "id,createdAt,updatedAt,name,quantity,rate,totalRate,isIncludeInCharges,description,quoteId"
+            },
+            "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
+          },
+          {
+            "in": "query",
+            "name": "populate",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "false,quoteId"
+            },
+            "description": "If specified, overide the default automatic population process. Accepts a comma-separated list of attribute names for which to populate record values, or specify `false` to have no attributes populated."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with a paged list of **Accessorial** records that match the specified criteria",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/accessorial"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/accessorial/find/{_id}": {
+      "get": {
+        "summary": "Get Accessorial (find one) *",
+        "description": "Look up the **Accessorial** record with the specified ID.\n\n(\\*) Note that this is a [Sails blueprint shortcut route](https://sailsjs.com/documentation/concepts/blueprints/blueprint-routes#?shortcut-blueprint-routes) (recommended for **development-mode only**)",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/find-one",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/find-one"
+        },
+        "tags": [
+          "Accessorial"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ModelPKParam-accessorial"
+          },
+          {
+            "in": "query",
+            "name": "select",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "id,createdAt,updatedAt,name,quantity,rate,totalRate,isIncludeInCharges,description,quoteId"
+            },
+            "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
+          },
+          {
+            "in": "query",
+            "name": "omit",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "id,createdAt,updatedAt,name,quantity,rate,totalRate,isIncludeInCharges,description,quoteId"
+            },
+            "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
+          },
+          {
+            "in": "query",
+            "name": "populate",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "false,quoteId"
+            },
+            "description": "If specified, overide the default automatic population process. Accepts a comma-separated list of attribute names for which to populate record values, or specify `false` to have no attributes populated."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with a single **Accessorial** record as a JSON dictionary",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/accessorial"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Response denoting **Accessorial** record with specified ID **NOT** found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/accessorial/create": {
+      "get": {
+        "summary": "Create Accessorial *",
+        "description": "Create a new **Accessorial** record.\n\n(\\*) Note that this is a [Sails blueprint shortcut route](https://sailsjs.com/documentation/concepts/blueprints/blueprint-routes#?shortcut-blueprint-routes) (recommended for **development-mode only**)",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/create",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/create"
+        },
+        "tags": [
+          "Accessorial"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "id",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "uniqueItems": true,
+              "description": "Note Sails special attributes: autoIncrement"
+            },
+            "description": "Note Sails special attributes: autoIncrement"
+          },
+          {
+            "in": "query",
+            "name": "createdAt",
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "in": "query",
+            "name": "updatedAt",
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "in": "query",
+            "name": "name",
+            "schema": {
+              "type": "string",
+              "maxLength": 30
+            }
+          },
+          {
+            "in": "query",
+            "name": "quantity",
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "in": "query",
+            "name": "rate",
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "in": "query",
+            "name": "totalRate",
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "in": "query",
+            "name": "isIncludeInCharges",
+            "schema": {
+              "type": "boolean",
+              "nullable": true,
+              "default": false
+            }
+          },
+          {
+            "in": "query",
+            "name": "description",
+            "schema": {
+              "type": "string",
+              "maxLength": 250
+            }
+          },
+          {
+            "in": "query",
+            "name": "quoteId",
+            "schema": {
+              "description": "JSON dictionary representing the **quote** instance or FK when creating / updating / not populated",
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/quote"
+                }
+              ]
+            },
+            "description": "JSON dictionary representing the **quote** instance or FK when creating / updating / not populated"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with a JSON dictionary representing the newly created **Accessorial** instance",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/accessorial"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation errors; details in JSON response"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/accessorial/update/{_id}": {
+      "get": {
+        "summary": "Update Accessorial *",
+        "description": "Update an existing **Accessorial** record.\n\n(\\*) Note that this is a [Sails blueprint shortcut route](https://sailsjs.com/documentation/concepts/blueprints/blueprint-routes#?shortcut-blueprint-routes) (recommended for **development-mode only**)",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/update",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/update"
+        },
+        "tags": [
+          "Accessorial"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ModelPKParam-accessorial"
+          },
+          {
+            "in": "query",
+            "name": "id",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "uniqueItems": true,
+              "description": "Note Sails special attributes: autoIncrement"
+            },
+            "description": "Note Sails special attributes: autoIncrement"
+          },
+          {
+            "in": "query",
+            "name": "createdAt",
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "in": "query",
+            "name": "updatedAt",
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "in": "query",
+            "name": "name",
+            "schema": {
+              "type": "string",
+              "maxLength": 30
+            }
+          },
+          {
+            "in": "query",
+            "name": "quantity",
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "in": "query",
+            "name": "rate",
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "in": "query",
+            "name": "totalRate",
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "in": "query",
+            "name": "isIncludeInCharges",
+            "schema": {
+              "type": "boolean",
+              "nullable": true,
+              "default": false
+            }
+          },
+          {
+            "in": "query",
+            "name": "description",
+            "schema": {
+              "type": "string",
+              "maxLength": 250
+            }
+          },
+          {
+            "in": "query",
+            "name": "quoteId",
+            "schema": {
+              "description": "JSON dictionary representing the **quote** instance or FK when creating / updating / not populated",
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/quote"
+                }
+              ]
+            },
+            "description": "JSON dictionary representing the **quote** instance or FK when creating / updating / not populated"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with the newly updated **Accessorial** record as a JSON dictionary",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/accessorial"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation errors; details in JSON response"
+          },
+          "404": {
+            "description": "Cannot update, **Accessorial** record with specified ID **NOT** found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/accessorial/destroy/{_id}": {
+      "get": {
+        "summary": "Delete Accessorial (destroy) *",
+        "description": "Delete the **Accessorial** record with the specified ID.\n\n(\\*) Note that this is a [Sails blueprint shortcut route](https://sailsjs.com/documentation/concepts/blueprints/blueprint-routes#?shortcut-blueprint-routes) (recommended for **development-mode only**)",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/destroy",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/destroy"
+        },
+        "tags": [
+          "Accessorial"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ModelPKParam-accessorial"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with a JSON dictionary representing the destroyed **Accessorial** instance",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/accessorial"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Cannot destroy, **Accessorial** record with specified ID **NOT** found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
     "/cargodetail/find": {
       "get": {
         "summary": "List CargoDetail (find where) *",
@@ -2200,7 +2719,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "id,createdAt,updatedAt,equipmentId,commodityId,weight,cargoValue,temperature,pieces,totalMiles,isHazmat,hazmatName,hazmatClass,hazmatUN,status,cargoTypeId,quoteId,createdBy,updatedBy,isDeleted"
+              "example": "id,createdAt,updatedAt,equipmentId,commodityId,weight,cargoValue,temperature,pieces,isHazmat,hazmatName,hazmatClass,hazmatUN,status,comments,cargoTypeId,quoteId,createdBy,updatedBy,isDeleted"
             },
             "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
           },
@@ -2210,7 +2729,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "id,createdAt,updatedAt,equipmentId,commodityId,weight,cargoValue,temperature,pieces,totalMiles,isHazmat,hazmatName,hazmatClass,hazmatUN,status,cargoTypeId,quoteId,createdBy,updatedBy,isDeleted"
+              "example": "id,createdAt,updatedAt,equipmentId,commodityId,weight,cargoValue,temperature,pieces,isHazmat,hazmatName,hazmatClass,hazmatUN,status,comments,cargoTypeId,quoteId,createdBy,updatedBy,isDeleted"
             },
             "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
           },
@@ -2269,7 +2788,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "id,createdAt,updatedAt,equipmentId,commodityId,weight,cargoValue,temperature,pieces,totalMiles,isHazmat,hazmatName,hazmatClass,hazmatUN,status,cargoTypeId,quoteId,createdBy,updatedBy,isDeleted"
+              "example": "id,createdAt,updatedAt,equipmentId,commodityId,weight,cargoValue,temperature,pieces,isHazmat,hazmatName,hazmatClass,hazmatUN,status,comments,cargoTypeId,quoteId,createdBy,updatedBy,isDeleted"
             },
             "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
           },
@@ -2279,7 +2798,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "id,createdAt,updatedAt,equipmentId,commodityId,weight,cargoValue,temperature,pieces,totalMiles,isHazmat,hazmatName,hazmatClass,hazmatUN,status,cargoTypeId,quoteId,createdBy,updatedBy,isDeleted"
+              "example": "id,createdAt,updatedAt,equipmentId,commodityId,weight,cargoValue,temperature,pieces,isHazmat,hazmatName,hazmatClass,hazmatUN,status,comments,cargoTypeId,quoteId,createdBy,updatedBy,isDeleted"
             },
             "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
           },
@@ -2413,14 +2932,6 @@
           },
           {
             "in": "query",
-            "name": "totalMiles",
-            "schema": {
-              "type": "number",
-              "format": "double"
-            }
-          },
-          {
-            "in": "query",
             "name": "isHazmat",
             "schema": {
               "type": "boolean",
@@ -2459,6 +2970,15 @@
               "type": "string",
               "nullable": true,
               "maxLength": 10
+            }
+          },
+          {
+            "in": "query",
+            "name": "comments",
+            "schema": {
+              "type": "string",
+              "nullable": true,
+              "maxLength": 250
             }
           },
           {
@@ -2648,14 +3168,6 @@
           },
           {
             "in": "query",
-            "name": "totalMiles",
-            "schema": {
-              "type": "number",
-              "format": "double"
-            }
-          },
-          {
-            "in": "query",
             "name": "isHazmat",
             "schema": {
               "type": "boolean",
@@ -2694,6 +3206,15 @@
               "type": "string",
               "nullable": true,
               "maxLength": 10
+            }
+          },
+          {
+            "in": "query",
+            "name": "comments",
+            "schema": {
+              "type": "string",
+              "nullable": true,
+              "maxLength": 250
             }
           },
           {
@@ -5977,7 +6498,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "id,createdAt,updatedAt,quoteNumber,name,service,transportMode,status,totalCost,totalProfit,expiryDate,company,contact,createdBy,updatedBy,isDeleted"
+              "example": "id,createdAt,updatedAt,quoteNumber,name,service,transportMode,status,totalCost,totalProfit,expiryDate,totalMiles,company,contact,createdBy,updatedBy,isDeleted"
             },
             "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
           },
@@ -5987,7 +6508,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "id,createdAt,updatedAt,quoteNumber,name,service,transportMode,status,totalCost,totalProfit,expiryDate,company,contact,createdBy,updatedBy,isDeleted"
+              "example": "id,createdAt,updatedAt,quoteNumber,name,service,transportMode,status,totalCost,totalProfit,expiryDate,totalMiles,company,contact,createdBy,updatedBy,isDeleted"
             },
             "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
           },
@@ -6046,7 +6567,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "id,createdAt,updatedAt,quoteNumber,name,service,transportMode,status,totalCost,totalProfit,expiryDate,company,contact,createdBy,updatedBy,isDeleted"
+              "example": "id,createdAt,updatedAt,quoteNumber,name,service,transportMode,status,totalCost,totalProfit,expiryDate,totalMiles,company,contact,createdBy,updatedBy,isDeleted"
             },
             "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
           },
@@ -6056,7 +6577,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "id,createdAt,updatedAt,quoteNumber,name,service,transportMode,status,totalCost,totalProfit,expiryDate,company,contact,createdBy,updatedBy,isDeleted"
+              "example": "id,createdAt,updatedAt,quoteNumber,name,service,transportMode,status,totalCost,totalProfit,expiryDate,totalMiles,company,contact,createdBy,updatedBy,isDeleted"
             },
             "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
           },
@@ -6195,6 +6716,15 @@
             "schema": {
               "type": "string",
               "format": "date-time"
+            }
+          },
+          {
+            "in": "query",
+            "name": "totalMiles",
+            "schema": {
+              "type": "number",
+              "format": "double",
+              "nullable": true
             }
           },
           {
@@ -6393,6 +6923,15 @@
           },
           {
             "in": "query",
+            "name": "totalMiles",
+            "schema": {
+              "type": "number",
+              "format": "double",
+              "nullable": true
+            }
+          },
+          {
+            "in": "query",
             "name": "company",
             "schema": {
               "description": "JSON dictionary representing the **company** instance or FK when creating / updating / not populated",
@@ -6545,7 +7084,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "id,createdAt,updatedAt,type,city,zipcode,state,country,Miles,quoteId"
+              "example": "id,createdAt,updatedAt,type,city,zipcode,state,country,miles,quoteId"
             },
             "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
           },
@@ -6555,7 +7094,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "id,createdAt,updatedAt,type,city,zipcode,state,country,Miles,quoteId"
+              "example": "id,createdAt,updatedAt,type,city,zipcode,state,country,miles,quoteId"
             },
             "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
           },
@@ -6614,7 +7153,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "id,createdAt,updatedAt,type,city,zipcode,state,country,Miles,quoteId"
+              "example": "id,createdAt,updatedAt,type,city,zipcode,state,country,miles,quoteId"
             },
             "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
           },
@@ -6624,7 +7163,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "id,createdAt,updatedAt,type,city,zipcode,state,country,Miles,quoteId"
+              "example": "id,createdAt,updatedAt,type,city,zipcode,state,country,miles,quoteId"
             },
             "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
           },
@@ -6740,7 +7279,7 @@
           },
           {
             "in": "query",
-            "name": "Miles",
+            "name": "miles",
             "schema": {
               "type": "number",
               "format": "double"
@@ -6867,7 +7406,7 @@
           },
           {
             "in": "query",
-            "name": "Miles",
+            "name": "miles",
             "schema": {
               "type": "number",
               "format": "double"
@@ -7414,6 +7953,366 @@
         }
       }
     },
+    "/accessorial": {
+      "get": {
+        "summary": "List Accessorial (find where)",
+        "description": "Find a list of **Accessorial** records that match the specified criteria.",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/find-where",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/find-where"
+        },
+        "tags": [
+          "Accessorial"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/AttributeFilterParam"
+          },
+          {
+            "$ref": "#/components/parameters/WhereQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/LimitQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/SkipQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/SortQueryParam"
+          },
+          {
+            "in": "query",
+            "name": "select",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "id,createdAt,updatedAt,name,quantity,rate,totalRate,isIncludeInCharges,description,quoteId"
+            },
+            "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
+          },
+          {
+            "in": "query",
+            "name": "omit",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "id,createdAt,updatedAt,name,quantity,rate,totalRate,isIncludeInCharges,description,quoteId"
+            },
+            "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
+          },
+          {
+            "in": "query",
+            "name": "populate",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "false,quoteId"
+            },
+            "description": "If specified, overide the default automatic population process. Accepts a comma-separated list of attribute names for which to populate record values, or specify `false` to have no attributes populated."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with a paged list of **Accessorial** records that match the specified criteria",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/accessorial"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create Accessorial",
+        "description": "Create a new **Accessorial** record.",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/create",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/create"
+        },
+        "tags": [
+          "Accessorial"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Responds with a JSON dictionary representing the newly created **Accessorial** instance",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/accessorial"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation errors; details in JSON response"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "requestBody": {
+          "description": "JSON dictionary representing the Accessorial instance to create.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/accessorial"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/accessorial/{_id}": {
+      "get": {
+        "summary": "Get Accessorial (find one)",
+        "description": "Look up the **Accessorial** record with the specified ID.",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/find-one",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/find-one"
+        },
+        "tags": [
+          "Accessorial"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ModelPKParam-accessorial"
+          },
+          {
+            "in": "query",
+            "name": "select",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "id,createdAt,updatedAt,name,quantity,rate,totalRate,isIncludeInCharges,description,quoteId"
+            },
+            "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
+          },
+          {
+            "in": "query",
+            "name": "omit",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "id,createdAt,updatedAt,name,quantity,rate,totalRate,isIncludeInCharges,description,quoteId"
+            },
+            "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
+          },
+          {
+            "in": "query",
+            "name": "populate",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "false,quoteId"
+            },
+            "description": "If specified, overide the default automatic population process. Accepts a comma-separated list of attribute names for which to populate record values, or specify `false` to have no attributes populated."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with a single **Accessorial** record as a JSON dictionary",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/accessorial"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Response denoting **Accessorial** record with specified ID **NOT** found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update Accessorial",
+        "description": "Update an existing **Accessorial** record.",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/update",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/update"
+        },
+        "tags": [
+          "Accessorial"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ModelPKParam-accessorial"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with the newly updated **Accessorial** record as a JSON dictionary",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/accessorial"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation errors; details in JSON response"
+          },
+          "404": {
+            "description": "Cannot update, **Accessorial** record with specified ID **NOT** found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "requestBody": {
+          "description": "JSON dictionary representing the Accessorial instance to update.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/accessorial-without-required-constraint"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete Accessorial (destroy)",
+        "description": "Delete the **Accessorial** record with the specified ID.",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/destroy",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/destroy"
+        },
+        "tags": [
+          "Accessorial"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ModelPKParam-accessorial"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with a JSON dictionary representing the destroyed **Accessorial** instance",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/accessorial"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Cannot destroy, **Accessorial** record with specified ID **NOT** found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/accessorial/{_id}/{association}": {
+      "get": {
+        "summary": "Populate association for Accessorial",
+        "description": "Populate and return foreign record(s) for the given association of this **Accessorial** record.",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/populate-where",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/populate-where"
+        },
+        "tags": [
+          "Accessorial"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ModelPKParam-accessorial"
+          },
+          {
+            "in": "path",
+            "name": "association",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "quoteId"
+              ]
+            },
+            "description": "The name of the association"
+          },
+          {
+            "$ref": "#/components/parameters/WhereQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/LimitQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/SkipQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/SortQueryParam"
+          },
+          {
+            "in": "query",
+            "name": "select",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "id,createdAt,updatedAt,name,quantity,rate,totalRate,isIncludeInCharges,description,quoteId"
+            },
+            "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
+          },
+          {
+            "in": "query",
+            "name": "omit",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "id,createdAt,updatedAt,name,quantity,rate,totalRate,isIncludeInCharges,description,quoteId"
+            },
+            "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with the list of associated records as JSON dictionaries",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "oneOf": [
+                      {
+                        "$ref": "#/components/schemas/quote"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Cannot populate, **Accessorial** record with specified ID **NOT** found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
     "/cargodetail": {
       "get": {
         "summary": "List CargoDetail (find where)",
@@ -7447,7 +8346,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "id,createdAt,updatedAt,equipmentId,commodityId,weight,cargoValue,temperature,pieces,totalMiles,isHazmat,hazmatName,hazmatClass,hazmatUN,status,cargoTypeId,quoteId,createdBy,updatedBy,isDeleted"
+              "example": "id,createdAt,updatedAt,equipmentId,commodityId,weight,cargoValue,temperature,pieces,isHazmat,hazmatName,hazmatClass,hazmatUN,status,comments,cargoTypeId,quoteId,createdBy,updatedBy,isDeleted"
             },
             "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
           },
@@ -7457,7 +8356,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "id,createdAt,updatedAt,equipmentId,commodityId,weight,cargoValue,temperature,pieces,totalMiles,isHazmat,hazmatName,hazmatClass,hazmatUN,status,cargoTypeId,quoteId,createdBy,updatedBy,isDeleted"
+              "example": "id,createdAt,updatedAt,equipmentId,commodityId,weight,cargoValue,temperature,pieces,isHazmat,hazmatName,hazmatClass,hazmatUN,status,comments,cargoTypeId,quoteId,createdBy,updatedBy,isDeleted"
             },
             "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
           },
@@ -7560,7 +8459,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "id,createdAt,updatedAt,equipmentId,commodityId,weight,cargoValue,temperature,pieces,totalMiles,isHazmat,hazmatName,hazmatClass,hazmatUN,status,cargoTypeId,quoteId,createdBy,updatedBy,isDeleted"
+              "example": "id,createdAt,updatedAt,equipmentId,commodityId,weight,cargoValue,temperature,pieces,isHazmat,hazmatName,hazmatClass,hazmatUN,status,comments,cargoTypeId,quoteId,createdBy,updatedBy,isDeleted"
             },
             "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
           },
@@ -7570,7 +8469,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "id,createdAt,updatedAt,equipmentId,commodityId,weight,cargoValue,temperature,pieces,totalMiles,isHazmat,hazmatName,hazmatClass,hazmatUN,status,cargoTypeId,quoteId,createdBy,updatedBy,isDeleted"
+              "example": "id,createdAt,updatedAt,equipmentId,commodityId,weight,cargoValue,temperature,pieces,isHazmat,hazmatName,hazmatClass,hazmatUN,status,comments,cargoTypeId,quoteId,createdBy,updatedBy,isDeleted"
             },
             "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
           },
@@ -7737,7 +8636,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "id,createdAt,updatedAt,equipmentId,commodityId,weight,cargoValue,temperature,pieces,totalMiles,isHazmat,hazmatName,hazmatClass,hazmatUN,status,cargoTypeId,quoteId,createdBy,updatedBy,isDeleted"
+              "example": "id,createdAt,updatedAt,equipmentId,commodityId,weight,cargoValue,temperature,pieces,isHazmat,hazmatName,hazmatClass,hazmatUN,status,comments,cargoTypeId,quoteId,createdBy,updatedBy,isDeleted"
             },
             "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
           },
@@ -7747,7 +8646,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "id,createdAt,updatedAt,equipmentId,commodityId,weight,cargoValue,temperature,pieces,totalMiles,isHazmat,hazmatName,hazmatClass,hazmatUN,status,cargoTypeId,quoteId,createdBy,updatedBy,isDeleted"
+              "example": "id,createdAt,updatedAt,equipmentId,commodityId,weight,cargoValue,temperature,pieces,isHazmat,hazmatName,hazmatClass,hazmatUN,status,comments,cargoTypeId,quoteId,createdBy,updatedBy,isDeleted"
             },
             "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
           }
@@ -9872,7 +10771,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "id,createdAt,updatedAt,quoteNumber,name,service,transportMode,status,totalCost,totalProfit,expiryDate,company,contact,createdBy,updatedBy,isDeleted"
+              "example": "id,createdAt,updatedAt,quoteNumber,name,service,transportMode,status,totalCost,totalProfit,expiryDate,totalMiles,company,contact,createdBy,updatedBy,isDeleted"
             },
             "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
           },
@@ -9882,7 +10781,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "id,createdAt,updatedAt,quoteNumber,name,service,transportMode,status,totalCost,totalProfit,expiryDate,company,contact,createdBy,updatedBy,isDeleted"
+              "example": "id,createdAt,updatedAt,quoteNumber,name,service,transportMode,status,totalCost,totalProfit,expiryDate,totalMiles,company,contact,createdBy,updatedBy,isDeleted"
             },
             "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
           },
@@ -9985,7 +10884,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "id,createdAt,updatedAt,quoteNumber,name,service,transportMode,status,totalCost,totalProfit,expiryDate,company,contact,createdBy,updatedBy,isDeleted"
+              "example": "id,createdAt,updatedAt,quoteNumber,name,service,transportMode,status,totalCost,totalProfit,expiryDate,totalMiles,company,contact,createdBy,updatedBy,isDeleted"
             },
             "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
           },
@@ -9995,7 +10894,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "id,createdAt,updatedAt,quoteNumber,name,service,transportMode,status,totalCost,totalProfit,expiryDate,company,contact,createdBy,updatedBy,isDeleted"
+              "example": "id,createdAt,updatedAt,quoteNumber,name,service,transportMode,status,totalCost,totalProfit,expiryDate,totalMiles,company,contact,createdBy,updatedBy,isDeleted"
             },
             "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
           },
@@ -10160,7 +11059,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "id,createdAt,updatedAt,quoteNumber,name,service,transportMode,status,totalCost,totalProfit,expiryDate,company,contact,createdBy,updatedBy,isDeleted"
+              "example": "id,createdAt,updatedAt,quoteNumber,name,service,transportMode,status,totalCost,totalProfit,expiryDate,totalMiles,company,contact,createdBy,updatedBy,isDeleted"
             },
             "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
           },
@@ -10170,7 +11069,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "id,createdAt,updatedAt,quoteNumber,name,service,transportMode,status,totalCost,totalProfit,expiryDate,company,contact,createdBy,updatedBy,isDeleted"
+              "example": "id,createdAt,updatedAt,quoteNumber,name,service,transportMode,status,totalCost,totalProfit,expiryDate,totalMiles,company,contact,createdBy,updatedBy,isDeleted"
             },
             "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
           }
@@ -10241,7 +11140,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "id,createdAt,updatedAt,type,city,zipcode,state,country,Miles,quoteId"
+              "example": "id,createdAt,updatedAt,type,city,zipcode,state,country,miles,quoteId"
             },
             "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
           },
@@ -10251,7 +11150,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "id,createdAt,updatedAt,type,city,zipcode,state,country,Miles,quoteId"
+              "example": "id,createdAt,updatedAt,type,city,zipcode,state,country,miles,quoteId"
             },
             "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
           },
@@ -10354,7 +11253,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "id,createdAt,updatedAt,type,city,zipcode,state,country,Miles,quoteId"
+              "example": "id,createdAt,updatedAt,type,city,zipcode,state,country,miles,quoteId"
             },
             "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
           },
@@ -10364,7 +11263,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "id,createdAt,updatedAt,type,city,zipcode,state,country,Miles,quoteId"
+              "example": "id,createdAt,updatedAt,type,city,zipcode,state,country,miles,quoteId"
             },
             "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
           },
@@ -10526,7 +11425,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "id,createdAt,updatedAt,type,city,zipcode,state,country,Miles,quoteId"
+              "example": "id,createdAt,updatedAt,type,city,zipcode,state,country,miles,quoteId"
             },
             "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
           },
@@ -10536,7 +11435,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "id,createdAt,updatedAt,type,city,zipcode,state,country,Miles,quoteId"
+              "example": "id,createdAt,updatedAt,type,city,zipcode,state,country,miles,quoteId"
             },
             "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
           }

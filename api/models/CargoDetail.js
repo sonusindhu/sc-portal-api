@@ -28,9 +28,6 @@ module.exports = {
     pieces: {
       type: "number",
     },
-    totalMiles: {
-      type: "number",
-    },
     isHazmat: {
       type: "boolean",
       allowNull: true,
@@ -53,8 +50,8 @@ module.exports = {
       maxLength: 10,
       allowNull: true,
     },
-    status: {
-      type: "comments",
+    comments: {
+      type: "string",
       maxLength: 250,
       allowNull: true,
     },
