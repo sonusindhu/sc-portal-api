@@ -5,7 +5,7 @@ module.exports = {
     return {
       name: quote.name,
       service: quote.service,
-      transportMode: quote.transportMode.join(","),
+      transportMode: quote.transportMode,
       expiryDate: quote.expiryDate,
       company: quote.companyId,
       contact: quote.contactId,
