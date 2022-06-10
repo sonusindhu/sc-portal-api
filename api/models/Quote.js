@@ -47,6 +47,14 @@ module.exports = {
       type: "number",
       allowNull: true,
     },
+    stops: {
+      collection: "stop",
+      via: "quoteId",
+    },
+    accessorials: {
+      collection: "accessorial",
+      via: "quoteId",
+    },
     // relation
     company: {
       model: "company",

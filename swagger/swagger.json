@@ -825,6 +825,20 @@
             "format": "double",
             "nullable": true
           },
+          "stops": {
+            "description": "Array of **stop**'s or array of FK's when creating / updating / not populated",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/stop"
+            }
+          },
+          "accessorials": {
+            "description": "Array of **accessorial**'s or array of FK's when creating / updating / not populated",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/accessorial"
+            }
+          },
           "company": {
             "description": "JSON dictionary representing the **company** instance or FK when creating / updating / not populated",
             "oneOf": [
@@ -2163,6 +2177,36 @@
     "/api/v1/app/quote/find/{_id}": {
       "get": {
         "summary": "/api/v1/app/quote/find/{_id}",
+        "tags": [
+          "Quote"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "_id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Route pattern variable `_id`"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The requested resource"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/v1/app/quote/getQuoteDetails/{_id}": {
+      "get": {
+        "summary": "/api/v1/app/quote/getQuoteDetails/{_id}",
         "tags": [
           "Quote"
         ],
@@ -6498,7 +6542,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "id,createdAt,updatedAt,quoteNumber,name,service,transportMode,status,totalCost,totalProfit,expiryDate,totalMiles,company,contact,createdBy,updatedBy,isDeleted"
+              "example": "id,createdAt,updatedAt,quoteNumber,name,service,transportMode,status,totalCost,totalProfit,expiryDate,totalMiles,stops,accessorials,company,contact,createdBy,updatedBy,isDeleted"
             },
             "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
           },
@@ -6508,7 +6552,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "id,createdAt,updatedAt,quoteNumber,name,service,transportMode,status,totalCost,totalProfit,expiryDate,totalMiles,company,contact,createdBy,updatedBy,isDeleted"
+              "example": "id,createdAt,updatedAt,quoteNumber,name,service,transportMode,status,totalCost,totalProfit,expiryDate,totalMiles,stops,accessorials,company,contact,createdBy,updatedBy,isDeleted"
             },
             "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
           },
@@ -6518,7 +6562,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "false,company,contact,createdBy,updatedBy"
+              "example": "false,stops,accessorials,company,contact,createdBy,updatedBy"
             },
             "description": "If specified, overide the default automatic population process. Accepts a comma-separated list of attribute names for which to populate record values, or specify `false` to have no attributes populated."
           }
@@ -6567,7 +6611,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "id,createdAt,updatedAt,quoteNumber,name,service,transportMode,status,totalCost,totalProfit,expiryDate,totalMiles,company,contact,createdBy,updatedBy,isDeleted"
+              "example": "id,createdAt,updatedAt,quoteNumber,name,service,transportMode,status,totalCost,totalProfit,expiryDate,totalMiles,stops,accessorials,company,contact,createdBy,updatedBy,isDeleted"
             },
             "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
           },
@@ -6577,7 +6621,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "id,createdAt,updatedAt,quoteNumber,name,service,transportMode,status,totalCost,totalProfit,expiryDate,totalMiles,company,contact,createdBy,updatedBy,isDeleted"
+              "example": "id,createdAt,updatedAt,quoteNumber,name,service,transportMode,status,totalCost,totalProfit,expiryDate,totalMiles,stops,accessorials,company,contact,createdBy,updatedBy,isDeleted"
             },
             "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
           },
@@ -6587,7 +6631,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "false,company,contact,createdBy,updatedBy"
+              "example": "false,stops,accessorials,company,contact,createdBy,updatedBy"
             },
             "description": "If specified, overide the default automatic population process. Accepts a comma-separated list of attribute names for which to populate record values, or specify `false` to have no attributes populated."
           }
@@ -6726,6 +6770,30 @@
               "format": "double",
               "nullable": true
             }
+          },
+          {
+            "in": "query",
+            "name": "stops",
+            "schema": {
+              "description": "Array of **stop**'s or array of FK's when creating / updating / not populated",
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/stop"
+              }
+            },
+            "description": "Array of **stop**'s or array of FK's when creating / updating / not populated"
+          },
+          {
+            "in": "query",
+            "name": "accessorials",
+            "schema": {
+              "description": "Array of **accessorial**'s or array of FK's when creating / updating / not populated",
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/accessorial"
+              }
+            },
+            "description": "Array of **accessorial**'s or array of FK's when creating / updating / not populated"
           },
           {
             "in": "query",
@@ -6932,6 +7000,30 @@
           },
           {
             "in": "query",
+            "name": "stops",
+            "schema": {
+              "description": "Array of **stop**'s or array of FK's when creating / updating / not populated",
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/stop"
+              }
+            },
+            "description": "Array of **stop**'s or array of FK's when creating / updating / not populated"
+          },
+          {
+            "in": "query",
+            "name": "accessorials",
+            "schema": {
+              "description": "Array of **accessorial**'s or array of FK's when creating / updating / not populated",
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/accessorial"
+              }
+            },
+            "description": "Array of **accessorial**'s or array of FK's when creating / updating / not populated"
+          },
+          {
+            "in": "query",
             "name": "company",
             "schema": {
               "description": "JSON dictionary representing the **company** instance or FK when creating / updating / not populated",
@@ -7044,6 +7136,225 @@
           },
           "404": {
             "description": "Cannot destroy, **Quote** record with specified ID **NOT** found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/quote/{_id}/{association}/add/{childid}": {
+      "get": {
+        "summary": "Add to for Quote *",
+        "description": "Add a foreign record to one of this **Quote** record's collections.\n\n(\\*) Note that this is a [Sails blueprint shortcut route](https://sailsjs.com/documentation/concepts/blueprints/blueprint-routes#?shortcut-blueprint-routes) (recommended for **development-mode only**)",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/add-to",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/add-to"
+        },
+        "tags": [
+          "Quote"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ModelPKParam-quote"
+          },
+          {
+            "in": "path",
+            "name": "association",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "stops",
+                "accessorials"
+              ]
+            },
+            "description": "The name of the association"
+          },
+          {
+            "in": "path",
+            "name": "childid",
+            "required": true,
+            "schema": {
+              "oneOf": [
+                {
+                  "type": "number",
+                  "format": "double",
+                  "description": "**Quote** record's foreign key values to use as the replacement for this collection (**stops** association)",
+                  "uniqueItems": true
+                },
+                {
+                  "type": "number",
+                  "format": "double",
+                  "description": "**Quote** record's foreign key values to use as the replacement for this collection (**accessorials** association)",
+                  "uniqueItems": true
+                }
+              ]
+            },
+            "description": "The desired target association record's foreign key value"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with the newly updated **Quote** record as a JSON dictionary",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/quote"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Cannot perform add to, **Quote** record OR **FK record** with specified ID **NOT** found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/quote/{_id}/{association}/replace": {
+      "get": {
+        "summary": "Replace for Quote *",
+        "description": "Replace all of the child records in one of this **Quote** record's associations.\n\nOnly one of the query parameters, that matches the **association** path parameter, should be specified.\n\n(\\*) Note that this is a [Sails blueprint shortcut route](https://sailsjs.com/documentation/concepts/blueprints/blueprint-routes#?shortcut-blueprint-routes) (recommended for **development-mode only**)",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/replace",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/replace"
+        },
+        "tags": [
+          "Quote"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ModelPKParam-quote"
+          },
+          {
+            "in": "path",
+            "name": "association",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "stops",
+                "accessorials"
+              ]
+            },
+            "description": "The name of the association"
+          },
+          {
+            "in": "query",
+            "name": "stops",
+            "description": "**Quote** record's foreign key values to use as the replacement for this collection (**stops** association)",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "number",
+                "format": "double",
+                "description": "**Quote** record's foreign key values to use as the replacement for this collection (**stops** association)",
+                "uniqueItems": true
+              }
+            }
+          },
+          {
+            "in": "query",
+            "name": "accessorials",
+            "description": "**Quote** record's foreign key values to use as the replacement for this collection (**accessorials** association)",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "number",
+                "format": "double",
+                "description": "**Quote** record's foreign key values to use as the replacement for this collection (**accessorials** association)",
+                "uniqueItems": true
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with the newly updated **Quote** record as a JSON dictionary",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/quote"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Cannot replace, **Quote** record with specified ID **NOT** found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/quote/{_id}/{association}/remove/{childid}": {
+      "get": {
+        "summary": "Remove from for Quote *",
+        "description": "Remove a foreign record from one of this **Quote** record's collections.\n\n(\\*) Note that this is a [Sails blueprint shortcut route](https://sailsjs.com/documentation/concepts/blueprints/blueprint-routes#?shortcut-blueprint-routes) (recommended for **development-mode only**)",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/remove-from",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/remove-from"
+        },
+        "tags": [
+          "Quote"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ModelPKParam-quote"
+          },
+          {
+            "in": "path",
+            "name": "association",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "stops",
+                "accessorials"
+              ]
+            },
+            "description": "The name of the association"
+          },
+          {
+            "in": "path",
+            "name": "childid",
+            "required": true,
+            "schema": {
+              "oneOf": [
+                {
+                  "type": "number",
+                  "format": "double",
+                  "description": "**Quote** record's foreign key values to use as the replacement for this collection (**stops** association)",
+                  "uniqueItems": true
+                },
+                {
+                  "type": "number",
+                  "format": "double",
+                  "description": "**Quote** record's foreign key values to use as the replacement for this collection (**accessorials** association)",
+                  "uniqueItems": true
+                }
+              ]
+            },
+            "description": "The desired target association record's foreign key value"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with the newly updated **Quote** record as a JSON dictionary",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/quote"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Cannot perform remove from, **Quote** record OR **FK record** with specified ID **NOT** found"
           },
           "500": {
             "description": "Internal server error"
@@ -10771,7 +11082,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "id,createdAt,updatedAt,quoteNumber,name,service,transportMode,status,totalCost,totalProfit,expiryDate,totalMiles,company,contact,createdBy,updatedBy,isDeleted"
+              "example": "id,createdAt,updatedAt,quoteNumber,name,service,transportMode,status,totalCost,totalProfit,expiryDate,totalMiles,stops,accessorials,company,contact,createdBy,updatedBy,isDeleted"
             },
             "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
           },
@@ -10781,7 +11092,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "id,createdAt,updatedAt,quoteNumber,name,service,transportMode,status,totalCost,totalProfit,expiryDate,totalMiles,company,contact,createdBy,updatedBy,isDeleted"
+              "example": "id,createdAt,updatedAt,quoteNumber,name,service,transportMode,status,totalCost,totalProfit,expiryDate,totalMiles,stops,accessorials,company,contact,createdBy,updatedBy,isDeleted"
             },
             "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
           },
@@ -10791,7 +11102,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "false,company,contact,createdBy,updatedBy"
+              "example": "false,stops,accessorials,company,contact,createdBy,updatedBy"
             },
             "description": "If specified, overide the default automatic population process. Accepts a comma-separated list of attribute names for which to populate record values, or specify `false` to have no attributes populated."
           }
@@ -10884,7 +11195,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "id,createdAt,updatedAt,quoteNumber,name,service,transportMode,status,totalCost,totalProfit,expiryDate,totalMiles,company,contact,createdBy,updatedBy,isDeleted"
+              "example": "id,createdAt,updatedAt,quoteNumber,name,service,transportMode,status,totalCost,totalProfit,expiryDate,totalMiles,stops,accessorials,company,contact,createdBy,updatedBy,isDeleted"
             },
             "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
           },
@@ -10894,7 +11205,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "id,createdAt,updatedAt,quoteNumber,name,service,transportMode,status,totalCost,totalProfit,expiryDate,totalMiles,company,contact,createdBy,updatedBy,isDeleted"
+              "example": "id,createdAt,updatedAt,quoteNumber,name,service,transportMode,status,totalCost,totalProfit,expiryDate,totalMiles,stops,accessorials,company,contact,createdBy,updatedBy,isDeleted"
             },
             "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
           },
@@ -10904,7 +11215,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "false,company,contact,createdBy,updatedBy"
+              "example": "false,stops,accessorials,company,contact,createdBy,updatedBy"
             },
             "description": "If specified, overide the default automatic population process. Accepts a comma-separated list of attribute names for which to populate record values, or specify `false` to have no attributes populated."
           }
@@ -11011,7 +11322,221 @@
         }
       }
     },
+    "/quote/{_id}/{association}/{childid}": {
+      "put": {
+        "summary": "Add to for Quote",
+        "description": "Add a foreign record to one of this **Quote** record's collections.",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/add-to",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/add-to"
+        },
+        "tags": [
+          "Quote"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ModelPKParam-quote"
+          },
+          {
+            "in": "path",
+            "name": "association",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "stops",
+                "accessorials"
+              ]
+            },
+            "description": "The name of the association"
+          },
+          {
+            "in": "path",
+            "name": "childid",
+            "required": true,
+            "schema": {
+              "oneOf": [
+                {
+                  "type": "number",
+                  "format": "double",
+                  "description": "**Quote** record's foreign key values to use as the replacement for this collection (**stops** association)",
+                  "uniqueItems": true
+                },
+                {
+                  "type": "number",
+                  "format": "double",
+                  "description": "**Quote** record's foreign key values to use as the replacement for this collection (**accessorials** association)",
+                  "uniqueItems": true
+                }
+              ]
+            },
+            "description": "The desired target association record's foreign key value"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with the newly updated **Quote** record as a JSON dictionary",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/quote"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Cannot perform add to, **Quote** record OR **FK record** with specified ID **NOT** found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Remove from for Quote",
+        "description": "Remove a foreign record from one of this **Quote** record's collections.",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/remove-from",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/remove-from"
+        },
+        "tags": [
+          "Quote"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ModelPKParam-quote"
+          },
+          {
+            "in": "path",
+            "name": "association",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "stops",
+                "accessorials"
+              ]
+            },
+            "description": "The name of the association"
+          },
+          {
+            "in": "path",
+            "name": "childid",
+            "required": true,
+            "schema": {
+              "oneOf": [
+                {
+                  "type": "number",
+                  "format": "double",
+                  "description": "**Quote** record's foreign key values to use as the replacement for this collection (**stops** association)",
+                  "uniqueItems": true
+                },
+                {
+                  "type": "number",
+                  "format": "double",
+                  "description": "**Quote** record's foreign key values to use as the replacement for this collection (**accessorials** association)",
+                  "uniqueItems": true
+                }
+              ]
+            },
+            "description": "The desired target association record's foreign key value"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with the newly updated **Quote** record as a JSON dictionary",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/quote"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Cannot perform remove from, **Quote** record OR **FK record** with specified ID **NOT** found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
     "/quote/{_id}/{association}": {
+      "put": {
+        "summary": "Replace for Quote",
+        "description": "Replace all of the child records in one of this **Quote** record's associations.",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/replace",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/replace"
+        },
+        "tags": [
+          "Quote"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ModelPKParam-quote"
+          },
+          {
+            "in": "path",
+            "name": "association",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "stops",
+                "accessorials"
+              ]
+            },
+            "description": "The name of the association"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with the newly updated **Quote** record as a JSON dictionary",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/quote"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Cannot replace, **Quote** record with specified ID **NOT** found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "requestBody": {
+          "description": "The primary key values (usually IDs) of the child records to use as the new members of this collection",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "oneOf": [
+                    {
+                      "type": "number",
+                      "format": "double",
+                      "description": "**Quote** record's foreign key values to use as the replacement for this collection (**stops** association)",
+                      "uniqueItems": true
+                    },
+                    {
+                      "type": "number",
+                      "format": "double",
+                      "description": "**Quote** record's foreign key values to use as the replacement for this collection (**accessorials** association)",
+                      "uniqueItems": true
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
       "get": {
         "summary": "Populate association for Quote",
         "description": "Populate and return foreign record(s) for the given association of this **Quote** record.",
@@ -11033,6 +11558,8 @@
             "schema": {
               "type": "string",
               "enum": [
+                "stops",
+                "accessorials",
                 "company",
                 "contact",
                 "createdBy",
@@ -11059,7 +11586,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "id,createdAt,updatedAt,quoteNumber,name,service,transportMode,status,totalCost,totalProfit,expiryDate,totalMiles,company,contact,createdBy,updatedBy,isDeleted"
+              "example": "id,createdAt,updatedAt,quoteNumber,name,service,transportMode,status,totalCost,totalProfit,expiryDate,totalMiles,stops,accessorials,company,contact,createdBy,updatedBy,isDeleted"
             },
             "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
           },
@@ -11069,7 +11596,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "id,createdAt,updatedAt,quoteNumber,name,service,transportMode,status,totalCost,totalProfit,expiryDate,totalMiles,company,contact,createdBy,updatedBy,isDeleted"
+              "example": "id,createdAt,updatedAt,quoteNumber,name,service,transportMode,status,totalCost,totalProfit,expiryDate,totalMiles,stops,accessorials,company,contact,createdBy,updatedBy,isDeleted"
             },
             "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
           }
@@ -11083,6 +11610,12 @@
                   "type": "array",
                   "items": {
                     "oneOf": [
+                      {
+                        "$ref": "#/components/schemas/stop"
+                      },
+                      {
+                        "$ref": "#/components/schemas/accessorial"
+                      },
                       {
                         "$ref": "#/components/schemas/company"
                       },

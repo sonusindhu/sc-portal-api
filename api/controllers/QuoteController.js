@@ -70,11 +70,28 @@ module.exports = {
 
     payload.quoteNumber = `Q${uniqueId}${oldId}`;
 
-    const quote = await Quote.create(payload).fetch();
+    let quote = await Quote.create(payload).fetch();
+    const accessorials = await Accessorial.create({
+      quoteId: quote.id,
+    }).fetch();
+    const origin = await Stop.create({
+      quoteId: quote.id,
+      type: "Shipper",
+    }).fetch();
+    const desination = await Stop.create({
+      quoteId: quote.id,
+      type: "Consignee",
+    }).fetch();
+    const cargoDetail = await CargoDetail.create({ quoteId: quote.id }).fetch();
     return res.send({
       status: true,
       message: "Quote has been successfully created.",
-      result: quote,
+      result: {
+        ...quote,
+        accessorials: [accessorials],
+        stops: [origin, desination],
+        cargoDetail,
+      },
     });
   },
 
@@ -138,7 +155,7 @@ module.exports = {
       });
   },
 
-  findById: async (req, res) => {
+  getQuoteDetails: async (req, res) => {
     // Look up the user with this reset token.
     const quote = await Quote.findOne({ id: req.param("id") });
 
@@ -149,6 +166,30 @@ module.exports = {
         message: `Quote doesn't exist or deleted.`,
       });
     }
+
+    return res.send({
+      status: true,
+      message: "Quote has been fetched successfully.",
+      result: quote,
+    });
+  },
+
+  findById: async (req, res) => {
+    // Look up the user with this reset token.
+    let quote = await Quote.findOne({ id: req.param("id") })
+      .populate("stops")
+      .populate("accessorials");
+
+    // If no such user exists, or their token is expired, bail.
+    if (!quote) {
+      return res.send({
+        status: false,
+        message: `Quote doesn't exist or deleted.`,
+      });
+    }
+
+    const cargoDetail = await CargoDetail.findOne({ quoteId: req.param("id") });
+    quote.cargoDetail = cargoDetail || {};
 
     return res.send({
       status: true,
