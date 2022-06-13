@@ -111,40 +111,14 @@ module.exports = {
       });
     }
 
-    // Look up the user with this reset token.
-    const quoteByName = await Quote.findOne({
-      id: { "!=": data.id },
-      name: data.name,
-    });
-    // If no such user exists, or their token is expired, bail.
-    if (quoteByName) {
-      return res.send({
-        status: false,
-        message: `Quote name is already taken.`,
-      });
-    }
-
-    // Look up the user with this reset token.
-    const quoteByEmail = await Quote.findOne({
-      id: { "!=": data.id },
-      email: data.email,
-    });
-    // If no such user exists, or their token is expired, bail.
-    if (quoteByEmail) {
-      return res.send({
-        status: false,
-        message: `Quote email is already taken.`,
-      });
-    }
+    const cargoPayload = QuoteService.mapCargoPayload(data.cargoDetail);
+    await CargoDetail.update({ id: data.id }).set(cargoPayload);
 
     Quote.updateOne({ id: data.id })
       .set(payload)
       .exec(function (err, response) {
         if (err) {
           let message = "Form is not valid";
-          if (err.code == "E_UNIQUE") {
-            message = "Email is already exists";
-          }
           return res.send({ status: false, message, err });
         }
         return res.send({
