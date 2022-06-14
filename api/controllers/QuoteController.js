@@ -114,6 +114,15 @@ module.exports = {
     const cargoPayload = QuoteService.mapCargoPayload(data.cargoDetail);
     await CargoDetail.update({ id: data.id }).set(cargoPayload);
 
+    if (data.stops?.length > 0) {
+      for (let stop of data.stops) {
+        const stopPayload = QuoteService.mapStopPayload(stop);
+        if (stop.id) {
+          await Stop.update({ id: stop.id }).set(stopPayload);
+        }
+      }
+    }
+
     Quote.updateOne({ id: data.id })
       .set(payload)
       .exec(function (err, response) {
