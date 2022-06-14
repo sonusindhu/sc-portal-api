@@ -111,22 +111,51 @@ module.exports = {
       });
     }
 
-    const cargoPayload = QuoteService.mapCargoPayload(data.cargoDetail);
-    await CargoDetail.update({ id: data.id }).set(cargoPayload);
+    const cargoPayload = QuoteService.mapCargoPayload(
+      data.cargoDetail,
+      data.id
+    );
+    await CargoDetail.updateOne({ id: data.id }).set(cargoPayload);
 
-    Quote.updateOne({ id: data.id })
-      .set(payload)
-      .exec(function (err, response) {
-        if (err) {
-          let message = "Form is not valid";
-          return res.send({ status: false, message, err });
+    if (data.stops?.length > 0) {
+      for (let stop of data.stops) {
+        const stopPayload = QuoteService.mapStopPayload(stop, data.id);
+        if (stop.id) {
+          await Stop.updateOne({ id: stop.id }).set(stopPayload);
         }
-        return res.send({
-          status: true,
-          message: "Quote has been updated successfully.",
-          result: response,
-        });
-      });
+      }
+    }
+
+    if (data.accessorials?.length > 0) {
+      for (let accessorial of data.accessorials) {
+        const accPayload = QuoteService.mapAccPayload(accessorial, data.id);
+        if (accessorial.id) {
+          await Accessorial.updateOne({ id: stop.id }).set(accPayload);
+        } else {
+          await Accessorial.create(accPayload);
+        }
+      }
+    }
+
+    return res.send({
+      status: true,
+      message: "Quote has been updated successfully.",
+      result: response,
+    });
+
+    // Quote.updateOne({ id: data.id })
+    //   .set(payload)
+    //   .exec(function (err, response) {
+    //     if (err) {
+    //       let message = "Form is not valid";
+    //       return res.send({ status: false, message, err });
+    //     }
+    //     return res.send({
+    //       status: true,
+    //       message: "Quote has been updated successfully.",
+    //       result: response,
+    //     });
+    //   });
   },
 
   getQuoteDetails: async (req, res) => {
