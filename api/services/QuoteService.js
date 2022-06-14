@@ -3,6 +3,7 @@
 module.exports = {
   mapPayload: (quote) => {
     return {
+      id: quote.id,
       name: quote.name,
       service: quote.service,
       transportMode: quote.transportMode,
@@ -11,8 +12,9 @@ module.exports = {
       contact: quote.contactId,
     };
   },
-  mapCargoPayload: (cargo) => {
+  mapCargoPayload: (cargo, quoteId) => {
     return {
+      id: cargo.id,
       equipmentId: cargo.equipmentId,
       commodityId: cargo.commodityId,
       weight: cargo.weight,
@@ -26,7 +28,31 @@ module.exports = {
       status: cargo.status,
       comments: cargo.comments,
       cargoTypeId: cargo.cargoTypeId,
-      quoteId: cargo.quoteId,
+      quoteId,
+    };
+  },
+  mapStopPayload: (stop, quoteId) => {
+    return {
+      id: stop.id,
+      type: stop.type,
+      city: stop.city,
+      zipcode: stop.zipcode,
+      state: stop.state,
+      country: stop.country,
+      miles: stop.miles,
+      quoteId,
+    };
+  },
+  mapAccPayload: (accessorial, quoteId) => {
+    return {
+      id: accessorial.id,
+      name: accessorial.name,
+      quantity: accessorial.quantity,
+      rate: accessorial.rate,
+      totalRate: accessorial.rate * accessorial.quantity,
+      isIncludeInCharges: accessorial.isIncludeInCharges,
+      description: accessorial.description,
+      quoteId,
     };
   },
 };
