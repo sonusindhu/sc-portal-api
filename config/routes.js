@@ -37,6 +37,11 @@ module.exports.routes = {
   "POST /api/v1/auth/send-password": { action: "auth/sendpassword" },
   "POST /api/v1/auth/update-password": { action: "auth/updatepassword" },
 
+  // Common Routes
+  "GET /api/v1/app/common/getEquipments": { action: "common/getEquipments" },
+  "GET /api/v1/app/common/getCargos": { action: "common/getCargos" },
+  "GET /api/v1/app/common/getCommodities": { action: "common/getCommodities" },
+
   // Company Routes
   "POST /api/v1/app/company/create": { action: "company/create" },
   "POST /api/v1/app/company/update": { action: "company/update" },

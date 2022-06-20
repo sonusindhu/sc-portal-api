@@ -70,6 +70,9 @@
     },
     {
       "name": "Auth"
+    },
+    {
+      "name": "Common"
     }
   ],
   "components": {
@@ -1395,6 +1398,66 @@
         "summary": "/api/v1/auth/logout",
         "tags": [
           "Auth"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The requested resource"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/v1/app/common/getEquipments": {
+      "get": {
+        "summary": "/api/v1/app/common/getEquipments",
+        "tags": [
+          "Common"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The requested resource"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/v1/app/common/getCargos": {
+      "get": {
+        "summary": "/api/v1/app/common/getCargos",
+        "tags": [
+          "Common"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The requested resource"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/v1/app/common/getCommodities": {
+      "get": {
+        "summary": "/api/v1/app/common/getCommodities",
+        "tags": [
+          "Common"
         ],
         "parameters": [],
         "responses": {
