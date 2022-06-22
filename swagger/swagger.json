@@ -57,6 +57,10 @@
       "description": "Sails blueprint actions for the **Inventory** model"
     },
     {
+      "name": "Note",
+      "description": "Sails blueprint actions for the **Note** model"
+    },
+    {
       "name": "Quote",
       "description": "Sails blueprint actions for the **Quote** model"
     },
@@ -762,6 +766,91 @@
           }
         }
       },
+      "note": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/note-without-required-constraint"
+          }
+        ]
+      },
+      "note-without-required-constraint": {
+        "type": "object",
+        "description": "Sails ORM Model **Note**",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "uniqueItems": true,
+            "description": "Note Sails special attributes: autoIncrement"
+          },
+          "createdAt": {
+            "type": "number",
+            "format": "double"
+          },
+          "updatedAt": {
+            "type": "number",
+            "format": "double"
+          },
+          "type": {
+            "type": "string",
+            "maxLength": 10
+          },
+          "title": {
+            "type": "string",
+            "maxLength": 100
+          },
+          "message": {
+            "type": "string",
+            "maxLength": 5000
+          },
+          "isCritical": {
+            "type": "boolean",
+            "nullable": true,
+            "default": false
+          },
+          "quoteId": {
+            "description": "JSON dictionary representing the **quote** instance or FK when creating / updating / not populated",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/quote"
+              }
+            ]
+          },
+          "contactId": {
+            "description": "JSON dictionary representing the **contact** instance or FK when creating / updating / not populated",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/contact"
+              }
+            ]
+          },
+          "companyId": {
+            "description": "JSON dictionary representing the **company** instance or FK when creating / updating / not populated",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/company"
+              }
+            ]
+          },
+          "inventoryId": {
+            "description": "JSON dictionary representing the **inventory** instance or FK when creating / updating / not populated",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/inventory"
+              }
+            ]
+          },
+          "userId": {
+            "description": "JSON dictionary representing the **user** instance or FK when creating / updating / not populated",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/user"
+              }
+            ]
+          }
+        }
+      },
       "quote": {
         "type": "object",
         "allOf": [
@@ -1128,6 +1217,18 @@
           "description": "Note Sails special attributes: autoIncrement"
         },
         "description": "The desired **Equipment** record's primary key value"
+      },
+      "ModelPKParam-note": {
+        "in": "path",
+        "name": "_id",
+        "required": true,
+        "schema": {
+          "type": "integer",
+          "format": "int64",
+          "uniqueItems": true,
+          "description": "Note Sails special attributes: autoIncrement"
+        },
+        "description": "The desired **Note** record's primary key value"
       },
       "ModelPKParam-stop": {
         "in": "path",
@@ -2040,6 +2141,26 @@
     "/api/v1/app/quote/getCompanies": {
       "get": {
         "summary": "/api/v1/app/quote/getCompanies",
+        "tags": [
+          "Quote"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The requested resource"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/v1/app/quote/createNote": {
+      "post": {
+        "summary": "/api/v1/app/quote/createNote",
         "tags": [
           "Quote"
         ],
@@ -6565,6 +6686,514 @@
           },
           "404": {
             "description": "Cannot destroy, **Inventory** record with specified ID **NOT** found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/note/find": {
+      "get": {
+        "summary": "List Note (find where) *",
+        "description": "Find a list of **Note** records that match the specified criteria.\n\n(\\*) Note that this is a [Sails blueprint shortcut route](https://sailsjs.com/documentation/concepts/blueprints/blueprint-routes#?shortcut-blueprint-routes) (recommended for **development-mode only**)",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/find-where",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/find-where"
+        },
+        "tags": [
+          "Note"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/AttributeFilterParam"
+          },
+          {
+            "$ref": "#/components/parameters/WhereQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/LimitQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/SkipQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/SortQueryParam"
+          },
+          {
+            "in": "query",
+            "name": "select",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "id,createdAt,updatedAt,type,title,message,isCritical,quoteId,contactId,companyId,inventoryId,userId"
+            },
+            "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
+          },
+          {
+            "in": "query",
+            "name": "omit",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "id,createdAt,updatedAt,type,title,message,isCritical,quoteId,contactId,companyId,inventoryId,userId"
+            },
+            "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
+          },
+          {
+            "in": "query",
+            "name": "populate",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "false,quoteId,contactId,companyId,inventoryId,userId"
+            },
+            "description": "If specified, overide the default automatic population process. Accepts a comma-separated list of attribute names for which to populate record values, or specify `false` to have no attributes populated."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with a paged list of **Note** records that match the specified criteria",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/note"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/note/find/{_id}": {
+      "get": {
+        "summary": "Get Note (find one) *",
+        "description": "Look up the **Note** record with the specified ID.\n\n(\\*) Note that this is a [Sails blueprint shortcut route](https://sailsjs.com/documentation/concepts/blueprints/blueprint-routes#?shortcut-blueprint-routes) (recommended for **development-mode only**)",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/find-one",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/find-one"
+        },
+        "tags": [
+          "Note"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ModelPKParam-note"
+          },
+          {
+            "in": "query",
+            "name": "select",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "id,createdAt,updatedAt,type,title,message,isCritical,quoteId,contactId,companyId,inventoryId,userId"
+            },
+            "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
+          },
+          {
+            "in": "query",
+            "name": "omit",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "id,createdAt,updatedAt,type,title,message,isCritical,quoteId,contactId,companyId,inventoryId,userId"
+            },
+            "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
+          },
+          {
+            "in": "query",
+            "name": "populate",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "false,quoteId,contactId,companyId,inventoryId,userId"
+            },
+            "description": "If specified, overide the default automatic population process. Accepts a comma-separated list of attribute names for which to populate record values, or specify `false` to have no attributes populated."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with a single **Note** record as a JSON dictionary",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/note"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Response denoting **Note** record with specified ID **NOT** found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/note/create": {
+      "get": {
+        "summary": "Create Note *",
+        "description": "Create a new **Note** record.\n\n(\\*) Note that this is a [Sails blueprint shortcut route](https://sailsjs.com/documentation/concepts/blueprints/blueprint-routes#?shortcut-blueprint-routes) (recommended for **development-mode only**)",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/create",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/create"
+        },
+        "tags": [
+          "Note"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "id",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "uniqueItems": true,
+              "description": "Note Sails special attributes: autoIncrement"
+            },
+            "description": "Note Sails special attributes: autoIncrement"
+          },
+          {
+            "in": "query",
+            "name": "createdAt",
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "in": "query",
+            "name": "updatedAt",
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "in": "query",
+            "name": "type",
+            "schema": {
+              "type": "string",
+              "maxLength": 10
+            }
+          },
+          {
+            "in": "query",
+            "name": "title",
+            "schema": {
+              "type": "string",
+              "maxLength": 100
+            }
+          },
+          {
+            "in": "query",
+            "name": "message",
+            "schema": {
+              "type": "string",
+              "maxLength": 5000
+            }
+          },
+          {
+            "in": "query",
+            "name": "isCritical",
+            "schema": {
+              "type": "boolean",
+              "nullable": true,
+              "default": false
+            }
+          },
+          {
+            "in": "query",
+            "name": "quoteId",
+            "schema": {
+              "description": "JSON dictionary representing the **quote** instance or FK when creating / updating / not populated",
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/quote"
+                }
+              ]
+            },
+            "description": "JSON dictionary representing the **quote** instance or FK when creating / updating / not populated"
+          },
+          {
+            "in": "query",
+            "name": "contactId",
+            "schema": {
+              "description": "JSON dictionary representing the **contact** instance or FK when creating / updating / not populated",
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/contact"
+                }
+              ]
+            },
+            "description": "JSON dictionary representing the **contact** instance or FK when creating / updating / not populated"
+          },
+          {
+            "in": "query",
+            "name": "companyId",
+            "schema": {
+              "description": "JSON dictionary representing the **company** instance or FK when creating / updating / not populated",
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/company"
+                }
+              ]
+            },
+            "description": "JSON dictionary representing the **company** instance or FK when creating / updating / not populated"
+          },
+          {
+            "in": "query",
+            "name": "inventoryId",
+            "schema": {
+              "description": "JSON dictionary representing the **inventory** instance or FK when creating / updating / not populated",
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/inventory"
+                }
+              ]
+            },
+            "description": "JSON dictionary representing the **inventory** instance or FK when creating / updating / not populated"
+          },
+          {
+            "in": "query",
+            "name": "userId",
+            "schema": {
+              "description": "JSON dictionary representing the **user** instance or FK when creating / updating / not populated",
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/user"
+                }
+              ]
+            },
+            "description": "JSON dictionary representing the **user** instance or FK when creating / updating / not populated"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with a JSON dictionary representing the newly created **Note** instance",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/note"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation errors; details in JSON response"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/note/update/{_id}": {
+      "get": {
+        "summary": "Update Note *",
+        "description": "Update an existing **Note** record.\n\n(\\*) Note that this is a [Sails blueprint shortcut route](https://sailsjs.com/documentation/concepts/blueprints/blueprint-routes#?shortcut-blueprint-routes) (recommended for **development-mode only**)",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/update",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/update"
+        },
+        "tags": [
+          "Note"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ModelPKParam-note"
+          },
+          {
+            "in": "query",
+            "name": "id",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "uniqueItems": true,
+              "description": "Note Sails special attributes: autoIncrement"
+            },
+            "description": "Note Sails special attributes: autoIncrement"
+          },
+          {
+            "in": "query",
+            "name": "createdAt",
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "in": "query",
+            "name": "updatedAt",
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "in": "query",
+            "name": "type",
+            "schema": {
+              "type": "string",
+              "maxLength": 10
+            }
+          },
+          {
+            "in": "query",
+            "name": "title",
+            "schema": {
+              "type": "string",
+              "maxLength": 100
+            }
+          },
+          {
+            "in": "query",
+            "name": "message",
+            "schema": {
+              "type": "string",
+              "maxLength": 5000
+            }
+          },
+          {
+            "in": "query",
+            "name": "isCritical",
+            "schema": {
+              "type": "boolean",
+              "nullable": true,
+              "default": false
+            }
+          },
+          {
+            "in": "query",
+            "name": "quoteId",
+            "schema": {
+              "description": "JSON dictionary representing the **quote** instance or FK when creating / updating / not populated",
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/quote"
+                }
+              ]
+            },
+            "description": "JSON dictionary representing the **quote** instance or FK when creating / updating / not populated"
+          },
+          {
+            "in": "query",
+            "name": "contactId",
+            "schema": {
+              "description": "JSON dictionary representing the **contact** instance or FK when creating / updating / not populated",
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/contact"
+                }
+              ]
+            },
+            "description": "JSON dictionary representing the **contact** instance or FK when creating / updating / not populated"
+          },
+          {
+            "in": "query",
+            "name": "companyId",
+            "schema": {
+              "description": "JSON dictionary representing the **company** instance or FK when creating / updating / not populated",
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/company"
+                }
+              ]
+            },
+            "description": "JSON dictionary representing the **company** instance or FK when creating / updating / not populated"
+          },
+          {
+            "in": "query",
+            "name": "inventoryId",
+            "schema": {
+              "description": "JSON dictionary representing the **inventory** instance or FK when creating / updating / not populated",
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/inventory"
+                }
+              ]
+            },
+            "description": "JSON dictionary representing the **inventory** instance or FK when creating / updating / not populated"
+          },
+          {
+            "in": "query",
+            "name": "userId",
+            "schema": {
+              "description": "JSON dictionary representing the **user** instance or FK when creating / updating / not populated",
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/user"
+                }
+              ]
+            },
+            "description": "JSON dictionary representing the **user** instance or FK when creating / updating / not populated"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with the newly updated **Note** record as a JSON dictionary",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/note"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation errors; details in JSON response"
+          },
+          "404": {
+            "description": "Cannot update, **Note** record with specified ID **NOT** found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/note/destroy/{_id}": {
+      "get": {
+        "summary": "Delete Note (destroy) *",
+        "description": "Delete the **Note** record with the specified ID.\n\n(\\*) Note that this is a [Sails blueprint shortcut route](https://sailsjs.com/documentation/concepts/blueprints/blueprint-routes#?shortcut-blueprint-routes) (recommended for **development-mode only**)",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/destroy",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/destroy"
+        },
+        "tags": [
+          "Note"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ModelPKParam-note"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with a JSON dictionary representing the destroyed **Note** instance",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/note"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Cannot destroy, **Note** record with specified ID **NOT** found"
           },
           "500": {
             "description": "Internal server error"
@@ -11105,6 +11734,382 @@
           },
           "404": {
             "description": "Cannot populate, **Inventory** record with specified ID **NOT** found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/note": {
+      "get": {
+        "summary": "List Note (find where)",
+        "description": "Find a list of **Note** records that match the specified criteria.",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/find-where",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/find-where"
+        },
+        "tags": [
+          "Note"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/AttributeFilterParam"
+          },
+          {
+            "$ref": "#/components/parameters/WhereQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/LimitQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/SkipQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/SortQueryParam"
+          },
+          {
+            "in": "query",
+            "name": "select",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "id,createdAt,updatedAt,type,title,message,isCritical,quoteId,contactId,companyId,inventoryId,userId"
+            },
+            "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
+          },
+          {
+            "in": "query",
+            "name": "omit",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "id,createdAt,updatedAt,type,title,message,isCritical,quoteId,contactId,companyId,inventoryId,userId"
+            },
+            "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
+          },
+          {
+            "in": "query",
+            "name": "populate",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "false,quoteId,contactId,companyId,inventoryId,userId"
+            },
+            "description": "If specified, overide the default automatic population process. Accepts a comma-separated list of attribute names for which to populate record values, or specify `false` to have no attributes populated."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with a paged list of **Note** records that match the specified criteria",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/note"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create Note",
+        "description": "Create a new **Note** record.",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/create",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/create"
+        },
+        "tags": [
+          "Note"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Responds with a JSON dictionary representing the newly created **Note** instance",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/note"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation errors; details in JSON response"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "requestBody": {
+          "description": "JSON dictionary representing the Note instance to create.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/note"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/note/{_id}": {
+      "get": {
+        "summary": "Get Note (find one)",
+        "description": "Look up the **Note** record with the specified ID.",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/find-one",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/find-one"
+        },
+        "tags": [
+          "Note"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ModelPKParam-note"
+          },
+          {
+            "in": "query",
+            "name": "select",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "id,createdAt,updatedAt,type,title,message,isCritical,quoteId,contactId,companyId,inventoryId,userId"
+            },
+            "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
+          },
+          {
+            "in": "query",
+            "name": "omit",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "id,createdAt,updatedAt,type,title,message,isCritical,quoteId,contactId,companyId,inventoryId,userId"
+            },
+            "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
+          },
+          {
+            "in": "query",
+            "name": "populate",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "false,quoteId,contactId,companyId,inventoryId,userId"
+            },
+            "description": "If specified, overide the default automatic population process. Accepts a comma-separated list of attribute names for which to populate record values, or specify `false` to have no attributes populated."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with a single **Note** record as a JSON dictionary",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/note"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Response denoting **Note** record with specified ID **NOT** found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update Note",
+        "description": "Update an existing **Note** record.",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/update",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/update"
+        },
+        "tags": [
+          "Note"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ModelPKParam-note"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with the newly updated **Note** record as a JSON dictionary",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/note"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation errors; details in JSON response"
+          },
+          "404": {
+            "description": "Cannot update, **Note** record with specified ID **NOT** found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "requestBody": {
+          "description": "JSON dictionary representing the Note instance to update.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/note-without-required-constraint"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete Note (destroy)",
+        "description": "Delete the **Note** record with the specified ID.",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/destroy",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/destroy"
+        },
+        "tags": [
+          "Note"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ModelPKParam-note"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with a JSON dictionary representing the destroyed **Note** instance",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/note"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Cannot destroy, **Note** record with specified ID **NOT** found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/note/{_id}/{association}": {
+      "get": {
+        "summary": "Populate association for Note",
+        "description": "Populate and return foreign record(s) for the given association of this **Note** record.",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/populate-where",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/populate-where"
+        },
+        "tags": [
+          "Note"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ModelPKParam-note"
+          },
+          {
+            "in": "path",
+            "name": "association",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "quoteId",
+                "contactId",
+                "companyId",
+                "inventoryId",
+                "userId"
+              ]
+            },
+            "description": "The name of the association"
+          },
+          {
+            "$ref": "#/components/parameters/WhereQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/LimitQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/SkipQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/SortQueryParam"
+          },
+          {
+            "in": "query",
+            "name": "select",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "id,createdAt,updatedAt,type,title,message,isCritical,quoteId,contactId,companyId,inventoryId,userId"
+            },
+            "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
+          },
+          {
+            "in": "query",
+            "name": "omit",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "id,createdAt,updatedAt,type,title,message,isCritical,quoteId,contactId,companyId,inventoryId,userId"
+            },
+            "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with the list of associated records as JSON dictionaries",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "oneOf": [
+                      {
+                        "$ref": "#/components/schemas/quote"
+                      },
+                      {
+                        "$ref": "#/components/schemas/contact"
+                      },
+                      {
+                        "$ref": "#/components/schemas/company"
+                      },
+                      {
+                        "$ref": "#/components/schemas/inventory"
+                      },
+                      {
+                        "$ref": "#/components/schemas/user"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Cannot populate, **Note** record with specified ID **NOT** found"
           },
           "500": {
             "description": "Internal server error"

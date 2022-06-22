@@ -6,7 +6,7 @@
  */
 
 module.exports = {
-  tableName: "stops",
+  tableName: "notes",
   migrate: "alter",
 
   attributes: {
@@ -29,19 +29,15 @@ module.exports = {
     },
     quoteId: {
       model: "quote",
-      allowNull: true,
     },
     contactId: {
       model: "contact",
-      allowNull: true,
     },
     companyId: {
       model: "company",
-      allowNull: true,
     },
     inventoryId: {
       model: "inventory",
-      allowNull: true,
     },
     userId: {
       model: "user",
