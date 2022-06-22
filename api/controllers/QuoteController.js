@@ -234,6 +234,7 @@ module.exports = {
     const payload = {
       title: data.title,
       Note: data.message,
+      isCritical: data.isCritical,
       quoteId: data.quoteId,
       createdBy: req.token.id,
       companyId: quote.company,

@@ -22,7 +22,7 @@ module.exports = {
       type: "string",
       maxLength: 5000,
     },
-    markCritical: {
+    isCritical: {
       type: "boolean",
       defaultsTo: false,
       allowNull: true,
