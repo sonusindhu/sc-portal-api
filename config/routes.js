@@ -81,4 +81,5 @@ module.exports.routes = {
   "GET /api/v1/app/quote/getContactsByCompany/:id": {
     action: "quote/getContactsByCompany",
   },
+  "POST /api/v1/app/quote/createNote": { action: "quote/createNote" },
 };

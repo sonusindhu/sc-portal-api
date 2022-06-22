@@ -226,4 +226,25 @@ module.exports = {
       message: "Quote(s) have been deleted successfully.",
     });
   },
+
+  createNote: async (req, res) => {
+    const data = req.body;
+    let quote = await Quote.findOne({ id: data.quoteId });
+
+    const payload = {
+      title: data.title,
+      Note: data.message,
+      quoteId: data.quoteId,
+      createdBy: req.token.id,
+      companyId: quote.company,
+      contactId: quote.contact,
+    };
+
+    const note = await Note.create(payload).fetch();
+    return res.send({
+      status: true,
+      message: "Note has been successfully created.",
+      result: note,
+    });
+  },
 };
