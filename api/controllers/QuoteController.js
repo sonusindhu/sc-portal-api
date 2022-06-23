@@ -262,4 +262,27 @@ module.exports = {
       result: notes,
     });
   },
+
+  deleteNotes: async (req, res) => {
+    if (req.body && req.body.ids && req.body.ids.length) {
+      const ids = req.body.ids;
+      const payload = {
+        id: { in: ids },
+        quoteId: req.body.quoteId,
+        userId: req.token.id,
+      };
+      const notes = await Note.destroy(payload).fetch();
+
+      return res.send({
+        status: true,
+        message: "Note(s) have been deleted successfully.",
+        result: notes,
+      });
+    }
+
+    return res.send({
+      status: false,
+      message: "Errors while deleting the note(s).",
+    });
+  },
 };
