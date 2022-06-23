@@ -233,12 +233,13 @@ module.exports = {
 
     const payload = {
       title: data.title,
-      Note: data.message,
+      message: data.message,
       isCritical: data.isCritical,
       quoteId: data.quoteId,
       createdBy: req.token.id,
       companyId: quote.company,
       contactId: quote.contact,
+      type: "quote",
     };
 
     const note = await Note.create(payload).fetch();
@@ -246,6 +247,19 @@ module.exports = {
       status: true,
       message: "Note has been successfully created.",
       result: note,
+    });
+  },
+
+  notes: async (req, res) => {
+    let notes = await Note.find({ quoteId: req.param("id") }).sort([
+      {
+        id: "desc",
+      },
+    ]);
+    return res.send({
+      status: true,
+      message: "Notes has been fetched successfully.",
+      result: notes,
     });
   },
 };

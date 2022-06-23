@@ -21,6 +21,7 @@ module.exports = {
     message: {
       type: "string",
       maxLength: 5000,
+      columnType: "longtext",
     },
     isCritical: {
       type: "boolean",

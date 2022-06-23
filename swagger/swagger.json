@@ -2478,6 +2478,36 @@
         }
       }
     },
+    "/api/v1/app/quote/{_id}/notes": {
+      "post": {
+        "summary": "/api/v1/app/quote/{_id}/notes",
+        "tags": [
+          "Quote"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "_id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Route pattern variable `_id`"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The requested resource"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
     "/accessorial/find": {
       "get": {
         "summary": "List Accessorial (find where) *",
