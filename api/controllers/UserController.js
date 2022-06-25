@@ -3,7 +3,52 @@
 const AuthService = require("../services/AuthService");
 
 module.exports = {
-  updateUserPassword: (req, res) => {},
+  updateUserPassword: (req, res) => {
+    const { currentPassword, password, confirmPassword } = req.body;
+
+    if (password != confirmPassword) {
+      return res.send({
+        status: false,
+        message: "Password/confirm password doesn't matched.",
+      });
+    }
+
+    // Look up the user with this reset token.
+    const user = await User.findOne({ id: req.token.id });
+
+    // If no such user exists, or their token is expired, bail.
+    if (!user) {
+      return res.send({
+        status: false,
+        message: "User's token has been invalid/expired.",
+      });
+    }
+
+    User.comparePassword(password, user.password)
+      .then(() => {
+        // Hash the new password.
+        const hashed = await sails.helpers.passwords.hashPassword(password);
+
+        // Store the user's new password and clear their reset token so it can't be used again.
+        await User.updateOne({ id: req.token.id }).set({
+          password: hashed,
+          passwordResetToken: "",
+          passwordResetTokenExpiresAt: 0,
+        });
+
+        return res.send({
+          status: true,
+          message: "Password has been changed successfully.",
+        });
+      })
+      .catch((error) => {
+        return res.send({
+          status: false,
+          message: "Please enter a valid current password",
+        });
+      });
+
+  },
 
   updateProfile: async (req, res) => {
     const data = req.body;
