@@ -42,6 +42,10 @@ module.exports.routes = {
   "GET /api/v1/app/common/getCargos": { action: "common/getCargos" },
   "GET /api/v1/app/common/getCommodities": { action: "common/getCommodities" },
 
+  // Common Routes
+  "GET /api/v1/app/user/detail": { action: "user/getUserDetail" },
+  "POST /api/v1/app/user/update": { action: "user/updateProfile" },
+
   // Company Routes
   "POST /api/v1/app/company/create": { action: "company/create" },
   "POST /api/v1/app/company/update": { action: "company/update" },

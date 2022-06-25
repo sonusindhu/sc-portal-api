@@ -1105,6 +1105,30 @@
           "emailProofTokenExpiresAt": {
             "type": "number",
             "format": "double"
+          },
+          "userImage": {
+            "type": "string",
+            "maxLength": 255
+          },
+          "jobTitle": {
+            "type": "string",
+            "maxLength": 100
+          },
+          "department": {
+            "type": "string",
+            "maxLength": 100
+          },
+          "location": {
+            "type": "string",
+            "maxLength": 100
+          },
+          "phoneNumber": {
+            "type": "string",
+            "maxLength": 50
+          },
+          "extension": {
+            "type": "string",
+            "maxLength": 10
           }
         }
       }
@@ -1559,6 +1583,46 @@
         "summary": "/api/v1/app/common/getCommodities",
         "tags": [
           "Common"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The requested resource"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/v1/app/user/detail": {
+      "get": {
+        "summary": "/api/v1/app/user/detail",
+        "tags": [
+          "User"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The requested resource"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/v1/app/user/update": {
+      "post": {
+        "summary": "/api/v1/app/user/update",
+        "tags": [
+          "User"
         ],
         "parameters": [],
         "responses": {
@@ -8551,7 +8615,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "id,createdAt,updatedAt,email,password,firstName,lastName,fullName,isSuperAdmin,isAdmin,passwordResetToken,passwordResetTokenExpiresAt,emailProofToken,emailProofTokenExpiresAt"
+              "example": "id,createdAt,updatedAt,email,password,firstName,lastName,fullName,isSuperAdmin,isAdmin,passwordResetToken,passwordResetTokenExpiresAt,emailProofToken,emailProofTokenExpiresAt,userImage,jobTitle,department,location,phoneNumber,extension"
             },
             "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
           },
@@ -8561,7 +8625,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "id,createdAt,updatedAt,email,password,firstName,lastName,fullName,isSuperAdmin,isAdmin,passwordResetToken,passwordResetTokenExpiresAt,emailProofToken,emailProofTokenExpiresAt"
+              "example": "id,createdAt,updatedAt,email,password,firstName,lastName,fullName,isSuperAdmin,isAdmin,passwordResetToken,passwordResetTokenExpiresAt,emailProofToken,emailProofTokenExpiresAt,userImage,jobTitle,department,location,phoneNumber,extension"
             },
             "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
           }
@@ -8610,7 +8674,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "id,createdAt,updatedAt,email,password,firstName,lastName,fullName,isSuperAdmin,isAdmin,passwordResetToken,passwordResetTokenExpiresAt,emailProofToken,emailProofTokenExpiresAt"
+              "example": "id,createdAt,updatedAt,email,password,firstName,lastName,fullName,isSuperAdmin,isAdmin,passwordResetToken,passwordResetTokenExpiresAt,emailProofToken,emailProofTokenExpiresAt,userImage,jobTitle,department,location,phoneNumber,extension"
             },
             "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
           },
@@ -8620,7 +8684,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "id,createdAt,updatedAt,email,password,firstName,lastName,fullName,isSuperAdmin,isAdmin,passwordResetToken,passwordResetTokenExpiresAt,emailProofToken,emailProofTokenExpiresAt"
+              "example": "id,createdAt,updatedAt,email,password,firstName,lastName,fullName,isSuperAdmin,isAdmin,passwordResetToken,passwordResetTokenExpiresAt,emailProofToken,emailProofTokenExpiresAt,userImage,jobTitle,department,location,phoneNumber,extension"
             },
             "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
           }
@@ -8773,6 +8837,54 @@
               "type": "number",
               "format": "double"
             }
+          },
+          {
+            "in": "query",
+            "name": "userImage",
+            "schema": {
+              "type": "string",
+              "maxLength": 255
+            }
+          },
+          {
+            "in": "query",
+            "name": "jobTitle",
+            "schema": {
+              "type": "string",
+              "maxLength": 100
+            }
+          },
+          {
+            "in": "query",
+            "name": "department",
+            "schema": {
+              "type": "string",
+              "maxLength": 100
+            }
+          },
+          {
+            "in": "query",
+            "name": "location",
+            "schema": {
+              "type": "string",
+              "maxLength": 100
+            }
+          },
+          {
+            "in": "query",
+            "name": "phoneNumber",
+            "schema": {
+              "type": "string",
+              "maxLength": 50
+            }
+          },
+          {
+            "in": "query",
+            "name": "extension",
+            "schema": {
+              "type": "string",
+              "maxLength": 10
+            }
           }
         ],
         "responses": {
@@ -8924,6 +9036,54 @@
             "schema": {
               "type": "number",
               "format": "double"
+            }
+          },
+          {
+            "in": "query",
+            "name": "userImage",
+            "schema": {
+              "type": "string",
+              "maxLength": 255
+            }
+          },
+          {
+            "in": "query",
+            "name": "jobTitle",
+            "schema": {
+              "type": "string",
+              "maxLength": 100
+            }
+          },
+          {
+            "in": "query",
+            "name": "department",
+            "schema": {
+              "type": "string",
+              "maxLength": 100
+            }
+          },
+          {
+            "in": "query",
+            "name": "location",
+            "schema": {
+              "type": "string",
+              "maxLength": 100
+            }
+          },
+          {
+            "in": "query",
+            "name": "phoneNumber",
+            "schema": {
+              "type": "string",
+              "maxLength": 50
+            }
+          },
+          {
+            "in": "query",
+            "name": "extension",
+            "schema": {
+              "type": "string",
+              "maxLength": 10
             }
           }
         ],
@@ -13131,7 +13291,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "id,createdAt,updatedAt,email,password,firstName,lastName,fullName,isSuperAdmin,isAdmin,passwordResetToken,passwordResetTokenExpiresAt,emailProofToken,emailProofTokenExpiresAt"
+              "example": "id,createdAt,updatedAt,email,password,firstName,lastName,fullName,isSuperAdmin,isAdmin,passwordResetToken,passwordResetTokenExpiresAt,emailProofToken,emailProofTokenExpiresAt,userImage,jobTitle,department,location,phoneNumber,extension"
             },
             "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
           },
@@ -13141,7 +13301,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "id,createdAt,updatedAt,email,password,firstName,lastName,fullName,isSuperAdmin,isAdmin,passwordResetToken,passwordResetTokenExpiresAt,emailProofToken,emailProofTokenExpiresAt"
+              "example": "id,createdAt,updatedAt,email,password,firstName,lastName,fullName,isSuperAdmin,isAdmin,passwordResetToken,passwordResetTokenExpiresAt,emailProofToken,emailProofTokenExpiresAt,userImage,jobTitle,department,location,phoneNumber,extension"
             },
             "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
           }
@@ -13234,7 +13394,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "id,createdAt,updatedAt,email,password,firstName,lastName,fullName,isSuperAdmin,isAdmin,passwordResetToken,passwordResetTokenExpiresAt,emailProofToken,emailProofTokenExpiresAt"
+              "example": "id,createdAt,updatedAt,email,password,firstName,lastName,fullName,isSuperAdmin,isAdmin,passwordResetToken,passwordResetTokenExpiresAt,emailProofToken,emailProofTokenExpiresAt,userImage,jobTitle,department,location,phoneNumber,extension"
             },
             "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
           },
@@ -13244,7 +13404,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "id,createdAt,updatedAt,email,password,firstName,lastName,fullName,isSuperAdmin,isAdmin,passwordResetToken,passwordResetTokenExpiresAt,emailProofToken,emailProofTokenExpiresAt"
+              "example": "id,createdAt,updatedAt,email,password,firstName,lastName,fullName,isSuperAdmin,isAdmin,passwordResetToken,passwordResetTokenExpiresAt,emailProofToken,emailProofTokenExpiresAt,userImage,jobTitle,department,location,phoneNumber,extension"
             },
             "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
           }

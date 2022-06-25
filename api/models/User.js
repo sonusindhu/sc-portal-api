@@ -70,6 +70,31 @@ module.exports = {
       type: "number",
     },
 
+    userImage: {
+      type: "string",
+      maxLength: 255,
+    },
+    jobTitle: {
+      type: "string",
+      maxLength: 100,
+    },
+    department: {
+      type: "string",
+      maxLength: 100,
+    },
+    location: {
+      type: "string",
+      maxLength: 100,
+    },
+    phoneNumber: {
+      type: "string",
+      maxLength: 50,
+    },
+    extension: {
+      type: "string",
+      maxLength: 10,
+    },
+
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
     //  ║╣ ║║║╠╩╗║╣  ║║╚═╗
     //  ╚═╝╩ ╩╚═╝╚═╝═╩╝╚═╝
