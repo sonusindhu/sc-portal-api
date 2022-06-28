@@ -3,7 +3,7 @@
 const AuthService = require("../services/AuthService");
 
 module.exports = {
-  updateUserPassword: (req, res) => {
+  updateUserPassword: async (req, res) => {
     const { currentPassword, password, confirmPassword } = req.body;
 
     if (password != confirmPassword) {
@@ -25,7 +25,7 @@ module.exports = {
     }
 
     User.comparePassword(password, user.password)
-      .then(() => {
+      .then(async () => {
         // Hash the new password.
         const hashed = await sails.helpers.passwords.hashPassword(password);
 
@@ -47,7 +47,6 @@ module.exports = {
           message: "Please enter a valid current password",
         });
       });
-
   },
 
   updateProfile: async (req, res) => {
