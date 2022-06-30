@@ -45,6 +45,9 @@ module.exports.routes = {
   // Common Routes
   "GET /api/v1/app/user/detail": { action: "user/getUserDetail" },
   "POST /api/v1/app/user/update": { action: "user/updateProfile" },
+  "POST /api/v1/app/user/uploadProfileImage": {
+    action: "user/uploadProfileImage",
+  },
 
   // Company Routes
   "POST /api/v1/app/company/create": { action: "company/create" },

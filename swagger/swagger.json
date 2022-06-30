@@ -1638,6 +1638,26 @@
         }
       }
     },
+    "/api/v1/app/user/uploadProfileImage": {
+      "post": {
+        "summary": "/api/v1/app/user/uploadProfileImage",
+        "tags": [
+          "User"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The requested resource"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
     "/api/v1/app/company/create": {
       "post": {
         "summary": "Create Company",

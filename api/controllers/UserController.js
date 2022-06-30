@@ -1,6 +1,7 @@
 "use strict";
 
 const AuthService = require("../services/AuthService");
+const request = require("fs");
 
 module.exports = {
   updateUserPassword: async (req, res) => {
@@ -98,5 +99,58 @@ module.exports = {
       message: "User detail fetched successfully.",
       result: user,
     });
+  },
+
+  uploadProfileImage: async (req, res) => {
+    const data = req.body;
+    const user = await User.findOne({ id: req.token.id });
+    if (user) {
+      const base64Data = data.preview.replace(/^data:image\/png;base64,/, "");
+      const userImg = `user-${user.id}-${Date.now()}.png`;
+      request.writeFile(
+        `./assets/user-images/${userImg}`,
+        base64Data,
+        "base64",
+        async (err) => {
+          if (err) {
+            return res.send({
+              status: false,
+              message: "User image uploaded successfully.",
+              result: err,
+            });
+          }
+          const userPayload = {
+            userImage: userImg,
+          };
+          const userDetails = await User.updateOne({ id: user.id }).set(
+            userPayload
+          );
+
+          if (user.userImage) {
+            // path of your file
+            const path = `./assets/user-images/${user.userImage}`;
+            // fs.access will check if file is available or not
+            request.access(path, request.F_OK, (err) => {
+              console.log(err);
+              request.unlink(path, (err1) => {
+                console.log(err1);
+              });
+            });
+          }
+
+          return res.send({
+            status: true,
+            message: "User image uploaded successfully.",
+            result: { ...userPayload, id: user.id },
+          });
+        }
+      );
+    } else {
+      return res.send({
+        status: false,
+        message: "Uploading user image failed.",
+        result: user,
+      });
+    }
   },
 };
