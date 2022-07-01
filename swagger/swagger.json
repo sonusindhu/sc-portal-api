@@ -1326,109 +1326,9 @@
     }
   },
   "paths": {
-    "/api/v1/auth/login": {
-      "post": {
-        "summary": "/api/v1/auth/login",
-        "tags": [
-          "Auth"
-        ],
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "The requested resource"
-          },
-          "404": {
-            "description": "Resource not found"
-          },
-          "500": {
-            "description": "Internal server error"
-          }
-        }
-      }
-    },
     "/api/v1/auth/signup": {
       "post": {
         "summary": "/api/v1/auth/signup",
-        "tags": [
-          "Auth"
-        ],
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "The requested resource"
-          },
-          "404": {
-            "description": "Resource not found"
-          },
-          "500": {
-            "description": "Internal server error"
-          }
-        }
-      }
-    },
-    "/api/v1/user/update-password": {
-      "post": {
-        "summary": "/api/v1/user/update-password",
-        "tags": [
-          "User"
-        ],
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "The requested resource"
-          },
-          "404": {
-            "description": "Resource not found"
-          },
-          "500": {
-            "description": "Internal server error"
-          }
-        }
-      }
-    },
-    "/api/v1/user/update-profile": {
-      "post": {
-        "summary": "/api/v1/user/update-profile",
-        "tags": [
-          "User"
-        ],
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "The requested resource"
-          },
-          "404": {
-            "description": "Resource not found"
-          },
-          "500": {
-            "description": "Internal server error"
-          }
-        }
-      }
-    },
-    "/api/v1/auth/send-password": {
-      "post": {
-        "summary": "/api/v1/auth/send-password",
-        "tags": [
-          "Auth"
-        ],
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "The requested resource"
-          },
-          "404": {
-            "description": "Resource not found"
-          },
-          "500": {
-            "description": "Internal server error"
-          }
-        }
-      }
-    },
-    "/api/v1/auth/update-password": {
-      "post": {
-        "summary": "/api/v1/auth/update-password",
         "tags": [
           "Auth"
         ],
@@ -1538,6 +1438,86 @@
         }
       }
     },
+    "/api/v1/app/auth/login": {
+      "post": {
+        "summary": "/api/v1/app/auth/login",
+        "tags": [
+          "Auth"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The requested resource"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/v1/app/user/update-profile": {
+      "post": {
+        "summary": "/api/v1/app/user/update-profile",
+        "tags": [
+          "User"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The requested resource"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/v1/app/auth/send-password": {
+      "post": {
+        "summary": "/api/v1/app/auth/send-password",
+        "tags": [
+          "Auth"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The requested resource"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/v1/app/auth/update-password": {
+      "post": {
+        "summary": "/api/v1/app/auth/update-password",
+        "tags": [
+          "Auth"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The requested resource"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
     "/api/v1/app/common/getEquipments": {
       "get": {
         "summary": "/api/v1/app/common/getEquipments",
@@ -1621,6 +1601,26 @@
     "/api/v1/app/user/update": {
       "post": {
         "summary": "/api/v1/app/user/update",
+        "tags": [
+          "User"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The requested resource"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/v1/app/user/updatePassword": {
+      "post": {
+        "summary": "/api/v1/app/user/updatePassword",
         "tags": [
           "User"
         ],

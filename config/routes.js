@@ -29,13 +29,15 @@ module.exports.routes = {
   // Note that, in this app, these API endpoints may be accessed using the `Cloud.*()` methods
   // from the Parasails library, or by using those method names as the `action` in <ajax-form>.
   "/api/v1/auth/logout": { action: "auth/logout" },
-  "POST /api/v1/auth/login": { action: "auth/login" },
+  "POST /api/v1/app/auth/login": { action: "auth/login" },
   "POST /api/v1/auth/signup": { action: "auth/signup" },
-  "POST /api/v1/user/update-password": { action: "user/updateUserPassword" },
-  "POST /api/v1/user/update-profile": { action: "user/updateProfile" },
+  "POST /api/v1/app/user/update-password": {
+    action: "user/updateUserPassword",
+  },
+  "POST /api/v1/app/user/update-profile": { action: "user/updateProfile" },
 
-  "POST /api/v1/auth/send-password": { action: "auth/sendpassword" },
-  "POST /api/v1/auth/update-password": { action: "auth/updatepassword" },
+  "POST /api/v1/app/auth/send-password": { action: "auth/sendpassword" },
+  "POST /api/v1/app/auth/update-password": { action: "auth/updatepassword" },
 
   // Common Routes
   "GET /api/v1/app/common/getEquipments": { action: "common/getEquipments" },
@@ -45,6 +47,7 @@ module.exports.routes = {
   // Common Routes
   "GET /api/v1/app/user/detail": { action: "user/getUserDetail" },
   "POST /api/v1/app/user/update": { action: "user/updateProfile" },
+  "POST /api/v1/app/user/updatePassword": { action: "user/updatePassword" },
   "POST /api/v1/app/user/uploadProfileImage": {
     action: "user/uploadProfileImage",
   },
