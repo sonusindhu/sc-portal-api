@@ -93,4 +93,7 @@ module.exports.routes = {
   },
   "POST /api/v1/app/quote/createNote": { action: "quote/createNote" },
   "POST /api/v1/app/quote/:id/notes": { action: "quote/notes" },
+
+  "POST /api/v1/app/quote/createTask": { action: "quote/createTask" },
+  "POST /api/v1/app/quote/:id/tasks": { action: "quote/tasks" },
 };

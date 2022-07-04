@@ -285,4 +285,43 @@ module.exports = {
       message: "Errors while deleting the note(s).",
     });
   },
+
+  createTask: async (req, res) => {
+    const data = req.body;
+    const quote = await Quote.findOne({ id: data.quoteId });
+    const payload = {
+      subject: data.subject,
+      description: data.description,
+      priority: data.priority,
+      quoteId: data.quoteId,
+      assignedTo: data.assignedTo,
+      dueDateTime: data.dueDateTime,
+      reminderDateTime: data.reminderDateTime,
+      category: data.category,
+      status: data.status,
+      createdBy: req.token.id,
+      pointOfContact: data.pointOfContact,
+      companyId: quote.company,
+      type: "quote",
+    };
+    const task = await Task.create(payload).fetch();
+    return res.send({
+      status: true,
+      message: "Task has been successfully created.",
+      result: task,
+    });
+  },
+
+  tasks: async (req, res) => {
+    let tasks = await Task.find({ quoteId: req.param("id") }).sort([
+      {
+        id: "desc",
+      },
+    ]);
+    return res.send({
+      status: true,
+      message: "Tasks has been fetched successfully.",
+      result: tasks,
+    });
+  },
 };
