@@ -26,10 +26,6 @@ module.exports = {
     priority: {
       type: "string",
     },
-    dueDate: {
-      type: "ref",
-      columnType: "datetime",
-    },
     dueDateTime: {
       type: "ref",
       columnType: "datetime",

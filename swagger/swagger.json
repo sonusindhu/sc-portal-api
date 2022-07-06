@@ -69,6 +69,10 @@
       "description": "Sails blueprint actions for the **Stop** model"
     },
     {
+      "name": "Task",
+      "description": "Sails blueprint actions for the **Task** model"
+    },
+    {
       "name": "User",
       "description": "Sails blueprint actions for the **User** model"
     },
@@ -1030,6 +1034,115 @@
           }
         }
       },
+      "task": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/task-without-required-constraint"
+          }
+        ]
+      },
+      "task-without-required-constraint": {
+        "type": "object",
+        "description": "Sails ORM Model **Task**",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "uniqueItems": true,
+            "description": "Note Sails special attributes: autoIncrement"
+          },
+          "createdAt": {
+            "type": "number",
+            "format": "double"
+          },
+          "updatedAt": {
+            "type": "number",
+            "format": "double"
+          },
+          "type": {
+            "type": "string",
+            "maxLength": 10
+          },
+          "subject": {
+            "type": "string",
+            "maxLength": 100
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 5000
+          },
+          "priority": {
+            "type": "string"
+          },
+          "dueDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dueDateTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "reminderDateTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "category": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "assignedTo": {
+            "description": "JSON dictionary representing the **user** instance or FK when creating / updating / not populated",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/user"
+              }
+            ]
+          },
+          "pointOfContact": {
+            "description": "JSON dictionary representing the **contact** instance or FK when creating / updating / not populated",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/contact"
+              }
+            ]
+          },
+          "quoteId": {
+            "description": "JSON dictionary representing the **quote** instance or FK when creating / updating / not populated",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/quote"
+              }
+            ]
+          },
+          "companyId": {
+            "description": "JSON dictionary representing the **company** instance or FK when creating / updating / not populated",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/company"
+              }
+            ]
+          },
+          "inventoryId": {
+            "description": "JSON dictionary representing the **inventory** instance or FK when creating / updating / not populated",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/inventory"
+              }
+            ]
+          },
+          "userId": {
+            "description": "JSON dictionary representing the **user** instance or FK when creating / updating / not populated",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/user"
+              }
+            ]
+          }
+        }
+      },
       "user": {
         "type": "object",
         "allOf": [
@@ -1265,6 +1378,18 @@
           "description": "Note Sails special attributes: autoIncrement"
         },
         "description": "The desired **Stop** record's primary key value"
+      },
+      "ModelPKParam-task": {
+        "in": "path",
+        "name": "_id",
+        "required": true,
+        "schema": {
+          "type": "integer",
+          "format": "int64",
+          "uniqueItems": true,
+          "description": "Note Sails special attributes: autoIncrement"
+        },
+        "description": "The desired **Task** record's primary key value"
       },
       "ModelPKParam-user": {
         "in": "path",
@@ -2262,6 +2387,26 @@
         }
       }
     },
+    "/api/v1/app/quote/createTask": {
+      "post": {
+        "summary": "/api/v1/app/quote/createTask",
+        "tags": [
+          "Quote"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The requested resource"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
     "/api/v1/app/company/find/{_id}": {
       "get": {
         "summary": "/api/v1/app/company/find/{_id}",
@@ -2565,6 +2710,36 @@
     "/api/v1/app/quote/{_id}/notes": {
       "post": {
         "summary": "/api/v1/app/quote/{_id}/notes",
+        "tags": [
+          "Quote"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "_id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Route pattern variable `_id`"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The requested resource"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/v1/app/quote/{_id}/tasks": {
+      "post": {
+        "summary": "/api/v1/app/quote/{_id}/tasks",
         "tags": [
           "Quote"
         ],
@@ -8602,6 +8777,612 @@
         }
       }
     },
+    "/task/find": {
+      "get": {
+        "summary": "List Task (find where) *",
+        "description": "Find a list of **Task** records that match the specified criteria.\n\n(\\*) Note that this is a [Sails blueprint shortcut route](https://sailsjs.com/documentation/concepts/blueprints/blueprint-routes#?shortcut-blueprint-routes) (recommended for **development-mode only**)",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/find-where",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/find-where"
+        },
+        "tags": [
+          "Task"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/AttributeFilterParam"
+          },
+          {
+            "$ref": "#/components/parameters/WhereQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/LimitQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/SkipQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/SortQueryParam"
+          },
+          {
+            "in": "query",
+            "name": "select",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "id,createdAt,updatedAt,type,subject,description,priority,dueDate,dueDateTime,reminderDateTime,category,status,assignedTo,pointOfContact,quoteId,companyId,inventoryId,userId"
+            },
+            "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
+          },
+          {
+            "in": "query",
+            "name": "omit",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "id,createdAt,updatedAt,type,subject,description,priority,dueDate,dueDateTime,reminderDateTime,category,status,assignedTo,pointOfContact,quoteId,companyId,inventoryId,userId"
+            },
+            "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
+          },
+          {
+            "in": "query",
+            "name": "populate",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "false,assignedTo,pointOfContact,quoteId,companyId,inventoryId,userId"
+            },
+            "description": "If specified, overide the default automatic population process. Accepts a comma-separated list of attribute names for which to populate record values, or specify `false` to have no attributes populated."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with a paged list of **Task** records that match the specified criteria",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/task"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/task/find/{_id}": {
+      "get": {
+        "summary": "Get Task (find one) *",
+        "description": "Look up the **Task** record with the specified ID.\n\n(\\*) Note that this is a [Sails blueprint shortcut route](https://sailsjs.com/documentation/concepts/blueprints/blueprint-routes#?shortcut-blueprint-routes) (recommended for **development-mode only**)",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/find-one",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/find-one"
+        },
+        "tags": [
+          "Task"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ModelPKParam-task"
+          },
+          {
+            "in": "query",
+            "name": "select",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "id,createdAt,updatedAt,type,subject,description,priority,dueDate,dueDateTime,reminderDateTime,category,status,assignedTo,pointOfContact,quoteId,companyId,inventoryId,userId"
+            },
+            "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
+          },
+          {
+            "in": "query",
+            "name": "omit",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "id,createdAt,updatedAt,type,subject,description,priority,dueDate,dueDateTime,reminderDateTime,category,status,assignedTo,pointOfContact,quoteId,companyId,inventoryId,userId"
+            },
+            "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
+          },
+          {
+            "in": "query",
+            "name": "populate",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "false,assignedTo,pointOfContact,quoteId,companyId,inventoryId,userId"
+            },
+            "description": "If specified, overide the default automatic population process. Accepts a comma-separated list of attribute names for which to populate record values, or specify `false` to have no attributes populated."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with a single **Task** record as a JSON dictionary",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/task"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Response denoting **Task** record with specified ID **NOT** found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/task/create": {
+      "get": {
+        "summary": "Create Task *",
+        "description": "Create a new **Task** record.\n\n(\\*) Note that this is a [Sails blueprint shortcut route](https://sailsjs.com/documentation/concepts/blueprints/blueprint-routes#?shortcut-blueprint-routes) (recommended for **development-mode only**)",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/create",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/create"
+        },
+        "tags": [
+          "Task"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "id",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "uniqueItems": true,
+              "description": "Note Sails special attributes: autoIncrement"
+            },
+            "description": "Note Sails special attributes: autoIncrement"
+          },
+          {
+            "in": "query",
+            "name": "createdAt",
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "in": "query",
+            "name": "updatedAt",
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "in": "query",
+            "name": "type",
+            "schema": {
+              "type": "string",
+              "maxLength": 10
+            }
+          },
+          {
+            "in": "query",
+            "name": "subject",
+            "schema": {
+              "type": "string",
+              "maxLength": 100
+            }
+          },
+          {
+            "in": "query",
+            "name": "description",
+            "schema": {
+              "type": "string",
+              "maxLength": 5000
+            }
+          },
+          {
+            "in": "query",
+            "name": "priority",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "dueDate",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "in": "query",
+            "name": "dueDateTime",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "in": "query",
+            "name": "reminderDateTime",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "in": "query",
+            "name": "category",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "status",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "assignedTo",
+            "schema": {
+              "description": "JSON dictionary representing the **user** instance or FK when creating / updating / not populated",
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/user"
+                }
+              ]
+            },
+            "description": "JSON dictionary representing the **user** instance or FK when creating / updating / not populated"
+          },
+          {
+            "in": "query",
+            "name": "pointOfContact",
+            "schema": {
+              "description": "JSON dictionary representing the **contact** instance or FK when creating / updating / not populated",
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/contact"
+                }
+              ]
+            },
+            "description": "JSON dictionary representing the **contact** instance or FK when creating / updating / not populated"
+          },
+          {
+            "in": "query",
+            "name": "quoteId",
+            "schema": {
+              "description": "JSON dictionary representing the **quote** instance or FK when creating / updating / not populated",
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/quote"
+                }
+              ]
+            },
+            "description": "JSON dictionary representing the **quote** instance or FK when creating / updating / not populated"
+          },
+          {
+            "in": "query",
+            "name": "companyId",
+            "schema": {
+              "description": "JSON dictionary representing the **company** instance or FK when creating / updating / not populated",
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/company"
+                }
+              ]
+            },
+            "description": "JSON dictionary representing the **company** instance or FK when creating / updating / not populated"
+          },
+          {
+            "in": "query",
+            "name": "inventoryId",
+            "schema": {
+              "description": "JSON dictionary representing the **inventory** instance or FK when creating / updating / not populated",
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/inventory"
+                }
+              ]
+            },
+            "description": "JSON dictionary representing the **inventory** instance or FK when creating / updating / not populated"
+          },
+          {
+            "in": "query",
+            "name": "userId",
+            "schema": {
+              "description": "JSON dictionary representing the **user** instance or FK when creating / updating / not populated",
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/user"
+                }
+              ]
+            },
+            "description": "JSON dictionary representing the **user** instance or FK when creating / updating / not populated"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with a JSON dictionary representing the newly created **Task** instance",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/task"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation errors; details in JSON response"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/task/update/{_id}": {
+      "get": {
+        "summary": "Update Task *",
+        "description": "Update an existing **Task** record.\n\n(\\*) Note that this is a [Sails blueprint shortcut route](https://sailsjs.com/documentation/concepts/blueprints/blueprint-routes#?shortcut-blueprint-routes) (recommended for **development-mode only**)",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/update",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/update"
+        },
+        "tags": [
+          "Task"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ModelPKParam-task"
+          },
+          {
+            "in": "query",
+            "name": "id",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "uniqueItems": true,
+              "description": "Note Sails special attributes: autoIncrement"
+            },
+            "description": "Note Sails special attributes: autoIncrement"
+          },
+          {
+            "in": "query",
+            "name": "createdAt",
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "in": "query",
+            "name": "updatedAt",
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "in": "query",
+            "name": "type",
+            "schema": {
+              "type": "string",
+              "maxLength": 10
+            }
+          },
+          {
+            "in": "query",
+            "name": "subject",
+            "schema": {
+              "type": "string",
+              "maxLength": 100
+            }
+          },
+          {
+            "in": "query",
+            "name": "description",
+            "schema": {
+              "type": "string",
+              "maxLength": 5000
+            }
+          },
+          {
+            "in": "query",
+            "name": "priority",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "dueDate",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "in": "query",
+            "name": "dueDateTime",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "in": "query",
+            "name": "reminderDateTime",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "in": "query",
+            "name": "category",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "status",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "assignedTo",
+            "schema": {
+              "description": "JSON dictionary representing the **user** instance or FK when creating / updating / not populated",
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/user"
+                }
+              ]
+            },
+            "description": "JSON dictionary representing the **user** instance or FK when creating / updating / not populated"
+          },
+          {
+            "in": "query",
+            "name": "pointOfContact",
+            "schema": {
+              "description": "JSON dictionary representing the **contact** instance or FK when creating / updating / not populated",
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/contact"
+                }
+              ]
+            },
+            "description": "JSON dictionary representing the **contact** instance or FK when creating / updating / not populated"
+          },
+          {
+            "in": "query",
+            "name": "quoteId",
+            "schema": {
+              "description": "JSON dictionary representing the **quote** instance or FK when creating / updating / not populated",
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/quote"
+                }
+              ]
+            },
+            "description": "JSON dictionary representing the **quote** instance or FK when creating / updating / not populated"
+          },
+          {
+            "in": "query",
+            "name": "companyId",
+            "schema": {
+              "description": "JSON dictionary representing the **company** instance or FK when creating / updating / not populated",
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/company"
+                }
+              ]
+            },
+            "description": "JSON dictionary representing the **company** instance or FK when creating / updating / not populated"
+          },
+          {
+            "in": "query",
+            "name": "inventoryId",
+            "schema": {
+              "description": "JSON dictionary representing the **inventory** instance or FK when creating / updating / not populated",
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/inventory"
+                }
+              ]
+            },
+            "description": "JSON dictionary representing the **inventory** instance or FK when creating / updating / not populated"
+          },
+          {
+            "in": "query",
+            "name": "userId",
+            "schema": {
+              "description": "JSON dictionary representing the **user** instance or FK when creating / updating / not populated",
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/user"
+                }
+              ]
+            },
+            "description": "JSON dictionary representing the **user** instance or FK when creating / updating / not populated"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with the newly updated **Task** record as a JSON dictionary",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/task"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation errors; details in JSON response"
+          },
+          "404": {
+            "description": "Cannot update, **Task** record with specified ID **NOT** found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/task/destroy/{_id}": {
+      "get": {
+        "summary": "Delete Task (destroy) *",
+        "description": "Delete the **Task** record with the specified ID.\n\n(\\*) Note that this is a [Sails blueprint shortcut route](https://sailsjs.com/documentation/concepts/blueprints/blueprint-routes#?shortcut-blueprint-routes) (recommended for **development-mode only**)",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/destroy",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/destroy"
+        },
+        "tags": [
+          "Task"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ModelPKParam-task"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with a JSON dictionary representing the destroyed **Task** instance",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/task"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Cannot destroy, **Task** record with specified ID **NOT** found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
     "/user/find": {
       "get": {
         "summary": "List User (find where) *",
@@ -13271,6 +14052,383 @@
           },
           "404": {
             "description": "Cannot populate, **Stop** record with specified ID **NOT** found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/task": {
+      "get": {
+        "summary": "List Task (find where)",
+        "description": "Find a list of **Task** records that match the specified criteria.",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/find-where",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/find-where"
+        },
+        "tags": [
+          "Task"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/AttributeFilterParam"
+          },
+          {
+            "$ref": "#/components/parameters/WhereQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/LimitQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/SkipQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/SortQueryParam"
+          },
+          {
+            "in": "query",
+            "name": "select",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "id,createdAt,updatedAt,type,subject,description,priority,dueDate,dueDateTime,reminderDateTime,category,status,assignedTo,pointOfContact,quoteId,companyId,inventoryId,userId"
+            },
+            "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
+          },
+          {
+            "in": "query",
+            "name": "omit",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "id,createdAt,updatedAt,type,subject,description,priority,dueDate,dueDateTime,reminderDateTime,category,status,assignedTo,pointOfContact,quoteId,companyId,inventoryId,userId"
+            },
+            "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
+          },
+          {
+            "in": "query",
+            "name": "populate",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "false,assignedTo,pointOfContact,quoteId,companyId,inventoryId,userId"
+            },
+            "description": "If specified, overide the default automatic population process. Accepts a comma-separated list of attribute names for which to populate record values, or specify `false` to have no attributes populated."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with a paged list of **Task** records that match the specified criteria",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/task"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create Task",
+        "description": "Create a new **Task** record.",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/create",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/create"
+        },
+        "tags": [
+          "Task"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Responds with a JSON dictionary representing the newly created **Task** instance",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/task"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation errors; details in JSON response"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "requestBody": {
+          "description": "JSON dictionary representing the Task instance to create.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/task"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/task/{_id}": {
+      "get": {
+        "summary": "Get Task (find one)",
+        "description": "Look up the **Task** record with the specified ID.",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/find-one",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/find-one"
+        },
+        "tags": [
+          "Task"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ModelPKParam-task"
+          },
+          {
+            "in": "query",
+            "name": "select",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "id,createdAt,updatedAt,type,subject,description,priority,dueDate,dueDateTime,reminderDateTime,category,status,assignedTo,pointOfContact,quoteId,companyId,inventoryId,userId"
+            },
+            "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
+          },
+          {
+            "in": "query",
+            "name": "omit",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "id,createdAt,updatedAt,type,subject,description,priority,dueDate,dueDateTime,reminderDateTime,category,status,assignedTo,pointOfContact,quoteId,companyId,inventoryId,userId"
+            },
+            "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
+          },
+          {
+            "in": "query",
+            "name": "populate",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "false,assignedTo,pointOfContact,quoteId,companyId,inventoryId,userId"
+            },
+            "description": "If specified, overide the default automatic population process. Accepts a comma-separated list of attribute names for which to populate record values, or specify `false` to have no attributes populated."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with a single **Task** record as a JSON dictionary",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/task"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Response denoting **Task** record with specified ID **NOT** found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update Task",
+        "description": "Update an existing **Task** record.",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/update",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/update"
+        },
+        "tags": [
+          "Task"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ModelPKParam-task"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with the newly updated **Task** record as a JSON dictionary",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/task"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation errors; details in JSON response"
+          },
+          "404": {
+            "description": "Cannot update, **Task** record with specified ID **NOT** found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "requestBody": {
+          "description": "JSON dictionary representing the Task instance to update.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/task-without-required-constraint"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete Task (destroy)",
+        "description": "Delete the **Task** record with the specified ID.",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/destroy",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/destroy"
+        },
+        "tags": [
+          "Task"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ModelPKParam-task"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with a JSON dictionary representing the destroyed **Task** instance",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/task"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Cannot destroy, **Task** record with specified ID **NOT** found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/task/{_id}/{association}": {
+      "get": {
+        "summary": "Populate association for Task",
+        "description": "Populate and return foreign record(s) for the given association of this **Task** record.",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/populate-where",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/populate-where"
+        },
+        "tags": [
+          "Task"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ModelPKParam-task"
+          },
+          {
+            "in": "path",
+            "name": "association",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "assignedTo",
+                "pointOfContact",
+                "quoteId",
+                "companyId",
+                "inventoryId",
+                "userId"
+              ]
+            },
+            "description": "The name of the association"
+          },
+          {
+            "$ref": "#/components/parameters/WhereQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/LimitQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/SkipQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/SortQueryParam"
+          },
+          {
+            "in": "query",
+            "name": "select",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "id,createdAt,updatedAt,type,subject,description,priority,dueDate,dueDateTime,reminderDateTime,category,status,assignedTo,pointOfContact,quoteId,companyId,inventoryId,userId"
+            },
+            "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
+          },
+          {
+            "in": "query",
+            "name": "omit",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "id,createdAt,updatedAt,type,subject,description,priority,dueDate,dueDateTime,reminderDateTime,category,status,assignedTo,pointOfContact,quoteId,companyId,inventoryId,userId"
+            },
+            "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with the list of associated records as JSON dictionaries",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "oneOf": [
+                      {
+                        "$ref": "#/components/schemas/user"
+                      },
+                      {
+                        "$ref": "#/components/schemas/contact"
+                      },
+                      {
+                        "$ref": "#/components/schemas/quote"
+                      },
+                      {
+                        "$ref": "#/components/schemas/company"
+                      },
+                      {
+                        "$ref": "#/components/schemas/inventory"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Cannot populate, **Task** record with specified ID **NOT** found"
           },
           "500": {
             "description": "Internal server error"
