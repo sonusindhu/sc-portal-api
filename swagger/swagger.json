@@ -1075,10 +1075,6 @@
           "priority": {
             "type": "string"
           },
-          "dueDate": {
-            "type": "string",
-            "format": "date-time"
-          },
           "dueDateTime": {
             "type": "string",
             "format": "date-time"
@@ -8810,7 +8806,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "id,createdAt,updatedAt,type,subject,description,priority,dueDate,dueDateTime,reminderDateTime,category,status,assignedTo,pointOfContact,quoteId,companyId,inventoryId,userId"
+              "example": "id,createdAt,updatedAt,type,subject,description,priority,dueDateTime,reminderDateTime,category,status,assignedTo,pointOfContact,quoteId,companyId,inventoryId,userId"
             },
             "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
           },
@@ -8820,7 +8816,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "id,createdAt,updatedAt,type,subject,description,priority,dueDate,dueDateTime,reminderDateTime,category,status,assignedTo,pointOfContact,quoteId,companyId,inventoryId,userId"
+              "example": "id,createdAt,updatedAt,type,subject,description,priority,dueDateTime,reminderDateTime,category,status,assignedTo,pointOfContact,quoteId,companyId,inventoryId,userId"
             },
             "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
           },
@@ -8879,7 +8875,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "id,createdAt,updatedAt,type,subject,description,priority,dueDate,dueDateTime,reminderDateTime,category,status,assignedTo,pointOfContact,quoteId,companyId,inventoryId,userId"
+              "example": "id,createdAt,updatedAt,type,subject,description,priority,dueDateTime,reminderDateTime,category,status,assignedTo,pointOfContact,quoteId,companyId,inventoryId,userId"
             },
             "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
           },
@@ -8889,7 +8885,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "id,createdAt,updatedAt,type,subject,description,priority,dueDate,dueDateTime,reminderDateTime,category,status,assignedTo,pointOfContact,quoteId,companyId,inventoryId,userId"
+              "example": "id,createdAt,updatedAt,type,subject,description,priority,dueDateTime,reminderDateTime,category,status,assignedTo,pointOfContact,quoteId,companyId,inventoryId,userId"
             },
             "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
           },
@@ -8992,14 +8988,6 @@
             "name": "priority",
             "schema": {
               "type": "string"
-            }
-          },
-          {
-            "in": "query",
-            "name": "dueDate",
-            "schema": {
-              "type": "string",
-              "format": "date-time"
             }
           },
           {
@@ -9205,14 +9193,6 @@
             "name": "priority",
             "schema": {
               "type": "string"
-            }
-          },
-          {
-            "in": "query",
-            "name": "dueDate",
-            "schema": {
-              "type": "string",
-              "format": "date-time"
             }
           },
           {
@@ -14092,7 +14072,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "id,createdAt,updatedAt,type,subject,description,priority,dueDate,dueDateTime,reminderDateTime,category,status,assignedTo,pointOfContact,quoteId,companyId,inventoryId,userId"
+              "example": "id,createdAt,updatedAt,type,subject,description,priority,dueDateTime,reminderDateTime,category,status,assignedTo,pointOfContact,quoteId,companyId,inventoryId,userId"
             },
             "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
           },
@@ -14102,7 +14082,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "id,createdAt,updatedAt,type,subject,description,priority,dueDate,dueDateTime,reminderDateTime,category,status,assignedTo,pointOfContact,quoteId,companyId,inventoryId,userId"
+              "example": "id,createdAt,updatedAt,type,subject,description,priority,dueDateTime,reminderDateTime,category,status,assignedTo,pointOfContact,quoteId,companyId,inventoryId,userId"
             },
             "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
           },
@@ -14205,7 +14185,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "id,createdAt,updatedAt,type,subject,description,priority,dueDate,dueDateTime,reminderDateTime,category,status,assignedTo,pointOfContact,quoteId,companyId,inventoryId,userId"
+              "example": "id,createdAt,updatedAt,type,subject,description,priority,dueDateTime,reminderDateTime,category,status,assignedTo,pointOfContact,quoteId,companyId,inventoryId,userId"
             },
             "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
           },
@@ -14215,7 +14195,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "id,createdAt,updatedAt,type,subject,description,priority,dueDate,dueDateTime,reminderDateTime,category,status,assignedTo,pointOfContact,quoteId,companyId,inventoryId,userId"
+              "example": "id,createdAt,updatedAt,type,subject,description,priority,dueDateTime,reminderDateTime,category,status,assignedTo,pointOfContact,quoteId,companyId,inventoryId,userId"
             },
             "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
           },
@@ -14382,7 +14362,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "id,createdAt,updatedAt,type,subject,description,priority,dueDate,dueDateTime,reminderDateTime,category,status,assignedTo,pointOfContact,quoteId,companyId,inventoryId,userId"
+              "example": "id,createdAt,updatedAt,type,subject,description,priority,dueDateTime,reminderDateTime,category,status,assignedTo,pointOfContact,quoteId,companyId,inventoryId,userId"
             },
             "description": "The attributes to include in the result, specified as a comma-delimited list. By default, all attributes are selected. Not valid for plural (“collection”) association attributes."
           },
@@ -14392,7 +14372,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "id,createdAt,updatedAt,type,subject,description,priority,dueDate,dueDateTime,reminderDateTime,category,status,assignedTo,pointOfContact,quoteId,companyId,inventoryId,userId"
+              "example": "id,createdAt,updatedAt,type,subject,description,priority,dueDateTime,reminderDateTime,category,status,assignedTo,pointOfContact,quoteId,companyId,inventoryId,userId"
             },
             "description": "The attributes to exclude from the result, specified as a comma-delimited list. Cannot be used in conjuction with `select`. Not valid for plural (“collection”) association attributes."
           }
