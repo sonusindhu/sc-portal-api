@@ -15,26 +15,26 @@ module.exports.bootstrap = async function () {
   // For example:
   // ```
   // // Set up fake development data (or if we already have some, avast)
-  // if (await User.count() > 0) {
-  //   return;
-  // }
+  if (await User.count() == 0) {
+    await User.createEach([
+      {
+        email: "sonupnf@gmail.com",
+        fullName: "Sonu Sindhu",
+        firstName: "Sonu",
+        lastName: "Sindhu",
+        password: "sonu@123",
+      },
+      {
+        email: "info@sonusindhu.com",
+        fullName: "Sonu Sindhu",
+        firstName: "Sonu",
+        lastName: "Test",
+        password: "sonu@123",
+      },
+    ]);
+  }
   //
-  // await User.createEach([
-  //   {
-  //     email: "sonupnf@gmail.com",
-  //     fullName: "Sonu Sindhu",
-  //     firstName: "Sonu",
-  //     lastName: "Sindhu",
-  //     password: "sonu@123",
-  //   },
-  //   {
-  //     email: "info@sonusindhu.com",
-  //     fullName: "Sonu Sindhu",
-  //     firstName: "Sonu",
-  //     lastName: "Test",
-  //     password: "sonu@123",
-  //   },
-  // ]);
+  
   // await Company.createEach([
   //   {
   //     name: "Infosys",
