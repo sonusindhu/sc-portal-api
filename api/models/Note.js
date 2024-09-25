@@ -7,7 +7,7 @@
 
 module.exports = {
   tableName: "notes",
-  migrate: "alter",
+  migrate: "safe",
 
   attributes: {
     type: {

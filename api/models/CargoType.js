@@ -7,7 +7,7 @@
 
 module.exports = {
   tableName: "cargo_types",
-  migrate: "alter",
+  migrate: "safe",
 
   attributes: {
     name: {

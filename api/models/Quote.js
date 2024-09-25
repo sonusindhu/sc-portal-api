@@ -7,7 +7,7 @@
 
 module.exports = {
   tableName: "quotes",
-  migrate: "alter",
+  migrate: "safe",
 
   attributes: {
     quoteNumber: {
