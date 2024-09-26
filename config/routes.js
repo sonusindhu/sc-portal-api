@@ -96,4 +96,12 @@ module.exports.routes = {
 
   "POST /api/v1/app/quote/createTask": { action: "quote/createTask" },
   "POST /api/v1/app/quote/:id/tasks": { action: "quote/tasks" },
+
+
+  // Tasks Routes
+  "POST /api/v1/app/task/create": { action: "task/create" },
+  "POST /api/v1/app/task/:id": { action: "task/findById" },
+  "POST /api/v1/app/task/list": { action: "task/list" },
+  "DELETE /api/v1/app/task/delete/:id": { action: "task/delete" },
+  "POST /api/v1/app/task/deleteRange": { action: "task/deleteRange" },
 };
