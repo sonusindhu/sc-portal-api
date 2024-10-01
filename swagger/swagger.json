@@ -2598,6 +2598,92 @@
         }
       }
     },
+    "/api/v1/app/note/create": {
+      "post": {
+        "summary": "Create Note",
+        "description": "Create a new **Note** record.",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/create",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/create"
+        },
+        "tags": [
+          "Note"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Responds with a JSON dictionary representing the newly created **Note** instance",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/note"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation errors; details in JSON response"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "requestBody": {
+          "description": "JSON dictionary representing the Note instance to create.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/note"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/app/note/list": {
+      "post": {
+        "summary": "/api/v1/app/note/list",
+        "tags": [
+          "Note"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The requested resource"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/v1/app/note/deleteRange": {
+      "post": {
+        "summary": "/api/v1/app/note/deleteRange",
+        "tags": [
+          "Note"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The requested resource"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
     "/api/v1/app/company/find/{_id}": {
       "get": {
         "summary": "/api/v1/app/company/find/{_id}",
@@ -2928,11 +3014,71 @@
         }
       }
     },
+    "/api/v1/app/note/delete/{_id}": {
+      "delete": {
+        "summary": "/api/v1/app/note/delete/{_id}",
+        "tags": [
+          "Note"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "_id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Route pattern variable `_id`"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The requested resource"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
     "/api/v1/app/task/{_id}": {
       "post": {
         "summary": "/api/v1/app/task/{_id}",
         "tags": [
           "Task"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "_id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Route pattern variable `_id`"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The requested resource"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/v1/app/note/{_id}": {
+      "post": {
+        "summary": "/api/v1/app/note/{_id}",
+        "tags": [
+          "Note"
         ],
         "parameters": [
           {

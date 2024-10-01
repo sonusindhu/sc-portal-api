@@ -104,4 +104,11 @@ module.exports.routes = {
   "POST /api/v1/app/task/list": { action: "task/list" },
   "DELETE /api/v1/app/task/delete/:id": { action: "task/delete" },
   "POST /api/v1/app/task/deleteRange": { action: "task/deleteRange" },
+  
+  // Notes Routes
+  "POST /api/v1/app/note/create": { action: "note/create" },
+  "POST /api/v1/app/note/:id": { action: "note/findById" },
+  "POST /api/v1/app/note/list": { action: "note/list" },
+  "DELETE /api/v1/app/note/delete/:id": { action: "note/delete" },
+  "POST /api/v1/app/note/deleteRange": { action: "note/deleteRange" },
 };
