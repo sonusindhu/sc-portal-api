@@ -2684,6 +2684,92 @@
         }
       }
     },
+    "/api/v1/app/email/create": {
+      "post": {
+        "summary": "Create Email",
+        "description": "Create a new **Email** record.",
+        "externalDocs": {
+          "url": "https://sailsjs.com/documentation/reference/blueprint-api/create",
+          "description": "See https://sailsjs.com/documentation/reference/blueprint-api/create"
+        },
+        "tags": [
+          "Email"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Responds with a JSON dictionary representing the newly created **Email** instance",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/email"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation errors; details in JSON response"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "requestBody": {
+          "description": "JSON dictionary representing the Email instance to create.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/email"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/app/email/list": {
+      "post": {
+        "summary": "/api/v1/app/email/list",
+        "tags": [
+          "Email"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The requested resource"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/v1/app/email/deleteRange": {
+      "post": {
+        "summary": "/api/v1/app/email/deleteRange",
+        "tags": [
+          "Email"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The requested resource"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
     "/api/v1/app/company/find/{_id}": {
       "get": {
         "summary": "/api/v1/app/company/find/{_id}",
@@ -3044,6 +3130,36 @@
         }
       }
     },
+    "/api/v1/app/email/delete/{_id}": {
+      "delete": {
+        "summary": "/api/v1/app/email/delete/{_id}",
+        "tags": [
+          "Email"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "_id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Route pattern variable `_id`"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The requested resource"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
     "/api/v1/app/task/{_id}": {
       "post": {
         "summary": "/api/v1/app/task/{_id}",
@@ -3079,6 +3195,36 @@
         "summary": "/api/v1/app/note/{_id}",
         "tags": [
           "Note"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "_id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Route pattern variable `_id`"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The requested resource"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/v1/app/email/{_id}": {
+      "post": {
+        "summary": "/api/v1/app/email/{_id}",
+        "tags": [
+          "Email"
         ],
         "parameters": [
           {

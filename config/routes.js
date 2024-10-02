@@ -111,4 +111,11 @@ module.exports.routes = {
   "POST /api/v1/app/note/list": { action: "note/list" },
   "DELETE /api/v1/app/note/delete/:id": { action: "note/delete" },
   "POST /api/v1/app/note/deleteRange": { action: "note/deleteRange" },
+  
+  // Emails Routes
+  "POST /api/v1/app/email/create": { action: "email/create" },
+  "POST /api/v1/app/email/:id": { action: "email/findById" },
+  "POST /api/v1/app/email/list": { action: "email/list" },
+  "DELETE /api/v1/app/email/delete/:id": { action: "email/delete" },
+  "POST /api/v1/app/email/deleteRange": { action: "email/deleteRange" },
 };
