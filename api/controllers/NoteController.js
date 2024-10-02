@@ -53,7 +53,7 @@ module.exports = {
   create: async (req, res) => {
     const payload = req.body;
     if (payload.type == "quote") {
-      const quote = await Quote.findOne({ id: data.quoteId });
+      const quote = await Quote.findOne({ id: payload.quoteId });
       payload.companyId = quote.company;
     }
     payload.createdBy = req.token.id;
