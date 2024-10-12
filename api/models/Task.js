@@ -7,8 +7,6 @@
 
 module.exports = {
   tableName: "tasks",
-  migrate: "safe",
-
   attributes: {
     type: {
       type: "string",

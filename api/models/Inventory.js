@@ -9,8 +9,6 @@ const AuthService = require("../services/AuthService");
 
 module.exports = {
   tableName: "inventories",
-  migrate: "safe",
-
   attributes: {
     packageId: {
       type: "string",
