@@ -7,8 +7,6 @@
 
 module.exports = {
   tableName: "cargo_types",
-  migrate: "safe",
-
   attributes: {
     name: {
       type: "string",
